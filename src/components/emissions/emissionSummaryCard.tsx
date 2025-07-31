@@ -29,7 +29,7 @@ export function EmissionSummaryCard() {
       <Link to="/emissions">
         Utslipp {years.at(0)}-{years.at(-1)}:
       </Link>{" "}
-      {(result / 1_000_000).toFixed(2)}&nbsp;millioner&nbsp;tonn&nbsp;CO₂{" "}
+      {Math.round(result / 1_000_000)}&nbsp;millioner&nbsp;tonn&nbsp;CO₂{" "}
       <span title={baseline.toString()}>({reduction}% redusjon)</span>
     </div>
   );
