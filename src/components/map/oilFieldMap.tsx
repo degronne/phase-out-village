@@ -28,6 +28,7 @@ const view = new View(defaultViewport);
 const lightTileSource = new OSM();
 const darkTileSource = new StadiaMaps({
   layer: "alidade_smooth_dark",
+  apiKey: "5a2e5035-ad83-4002-a6e6-5f679b73240f",
 });
 
 const oilfieldLayer = new VectorLayer({
