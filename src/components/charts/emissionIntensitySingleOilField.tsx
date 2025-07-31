@@ -1,25 +1,26 @@
 import React from "react";
 import {
   Chart as ChartJS,
+  CategoryScale,
   LinearScale,
-  PointElement,
+  BarElement,
   Tooltip,
   Legend,
   Title,
 } from "chart.js";
-import { Scatter } from "react-chartjs-2";
-import annotationPlugin, { AnnotationOptions } from "chartjs-plugin-annotation";
+import { Bar } from "react-chartjs-2";
 
 ChartJS.register(
+  CategoryScale,
   LinearScale,
-  PointElement,
+  BarElement,
   Tooltip,
   Legend,
   Title,
-  annotationPlugin,
 );
 
 type DataPoint = {
+  field: string;
   productionOil?: number | null;
   productionGas?: number | null;
   emission?: number | null;
@@ -30,18 +31,17 @@ type Props = {
   dataPoint: DataPoint;
 };
 
-export function EmissionIntensityChartSingleField({ dataPoint }: Props) {
-  const totalProduction =
-    (dataPoint.productionOil ?? 0) + (dataPoint.productionGas ?? 0);
+export function EmissionIntensityBarChart({ dataPoint }: Props) {
   const emissionIntensity = dataPoint.emissionIntensity ?? 0;
+  const worldAverage = 17.5;
 
   const data = {
+    labels: [dataPoint.field, "Verdensgjennomsnitt"],
     datasets: [
       {
-        label: "Oljefelt",
-        data: [{ x: totalProduction, y: emissionIntensity }],
-        backgroundColor: "#3b82f6",
-        pointRadius: 6,
+        label: "Utslippsintensitet",
+        data: [emissionIntensity, worldAverage],
+        backgroundColor: ["#3b82f6", "orange"],
       },
     ],
   };
@@ -51,39 +51,20 @@ export function EmissionIntensityChartSingleField({ dataPoint }: Props) {
     plugins: {
       title: {
         display: true,
-        text: "Utslippsintensitet mot total produksjon",
+        text: "Utslippsintensitet: Oljefelt vs. Verdensgjennomsnitt",
+        padding: {
+          bottom: 20,
+        },
       },
       legend: {
         display: false,
-      },
-      annotation: {
-        annotations: {
-          avgBox: {
-            type: "box",
-            yMin: 15,
-            yMax: 20,
-            backgroundColor: "rgba(255, 165, 0, 0.2)",
-            borderColor: "orange",
-            borderWidth: 1,
-            label: {
-              content: "Verdensgjennomsnitt",
-              enabled: true,
-              position: "center",
-              backgroundColor: "orange",
-              color: "black",
-              font: {
-                weight: "bold",
-              },
-            },
-          } as any,
-        },
       },
     },
     scales: {
       x: {
         title: {
           display: true,
-          text: "Total produksjon (olje + gass)",
+          text: "Kilde",
         },
       },
       y: {
@@ -91,9 +72,10 @@ export function EmissionIntensityChartSingleField({ dataPoint }: Props) {
           display: true,
           text: "Utslippsintensitet",
         },
+        beginAtZero: true,
       },
     },
   };
 
-  return <Scatter data={data} options={options} />;
+  return <Bar data={data} options={options} />;
 }
