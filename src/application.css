@@ -259,3 +259,37 @@ td {
   max-width: 60ch;
   margin-bottom: 1em;
 }
+
+.emission-chart-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 1rem;
+
+  @media (width <= 600px) {
+    grid-template-columns: 1fr;
+    padding: 0.5rem;
+  }
+}
+
+.emission-total-projection,
+.stacked-emission-chart {
+  width: 100%;
+  max-width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.emission-total-projection canvas,
+.stacked-emission-chart canvas {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+@media (max-width: 600px) {
+  .emission-total-projection,
+  .stacked-emission-chart {
+    padding: 0.5rem;
+  }
+}

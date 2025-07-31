@@ -13,6 +13,7 @@ import { useSessionState } from "../../hooks/useSessionState";
 import { EmissionSummaryCard } from "../emissions/emissionSummaryCard";
 import { ProductionSummaryCard } from "../production/productionSummaryCard";
 import { useLocation, useNavigate } from "react-router-dom";
+import { EmissionRoute } from "../emissions/emissionRoute";
 
 function ApplicationRoutes() {
   return (
@@ -20,7 +21,7 @@ function ApplicationRoutes() {
       <Route path={"/"} element={<FrontPage />} />
       <Route path={"/phaseout"} element={<PhaseOutRoute />} />
       <Route path={"/map/*"} element={<MapRoute />} />
-      <Route path={"/emissions"} element={<FlatApplication />} />
+      <Route path={"/emissions"} element={<EmissionRoute />} />
       <Route path={"/production/*"} element={<ProductionRoute />} />
       <Route path={"*"} element={<h2>Not Found</h2>} />
     </Routes>
