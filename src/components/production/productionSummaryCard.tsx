@@ -26,7 +26,7 @@ export function ProductionSummaryCard() {
   const reduction = Math.round(((baseline - result) / baseline) * 100);
   return (
     <div>
-      <Link to="/production">Oljeproduksjon</Link> {years.at(0)}-{years.at(-1)}:{" "}
+      <Link to="/production">Produksjon</Link> {years.at(0)}-{years.at(-1)}:{" "}
       {result.toFixed(2)}{" "}
       <span title={baseline.toFixed(2)}>({reduction}% redusjon)</span>
     </div>

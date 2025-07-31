@@ -1,7 +1,12 @@
 import React, { useMemo } from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import {
+  Link,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { MapRoute } from "../map/mapRoute";
-import { FlatApplication } from "./flatApplication";
 import { generateCompleteData } from "../../utils/projections";
 import { data } from "../../generated/data";
 import { ApplicationContext } from "../../applicationContext";
@@ -12,7 +17,6 @@ import { PhaseOutSchedule, Year } from "../../data";
 import { useSessionState } from "../../hooks/useSessionState";
 import { EmissionSummaryCard } from "../emissions/emissionSummaryCard";
 import { ProductionSummaryCard } from "../production/productionSummaryCard";
-import { useLocation, useNavigate } from "react-router-dom";
 import { EmissionRoute } from "../emissions/emissionRoute";
 
 function ApplicationRoutes() {
@@ -62,8 +66,8 @@ export function Application() {
           </div>
         </div>
         <div>
-          <Link to="/map">Oljefelter</Link> avviklet:{" "}
-          {Object.keys(phaseOut).length}
+          {Object.keys(phaseOut).length} <Link to="/map">oljefelter</Link>{" "}
+          avviklet
           <div>
             <button
               onClick={() =>

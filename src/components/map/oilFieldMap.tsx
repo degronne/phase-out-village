@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Feature, Map, View } from "ol";
-import { OSM } from "ol/source";
+import { OSM, StadiaMaps } from "ol/source";
 import TileLayer from "ol/layer/Tile";
 import { useGeographic } from "ol/proj";
 
@@ -15,6 +15,7 @@ import { FeatureLike } from "ol/Feature";
 import { getCenter } from "ol/extent";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../../config";
+import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
 
 useGeographic();
 
@@ -24,22 +25,25 @@ const oilfieldSource = new VectorSource({
 });
 const defaultViewport = { center: [10, 65], zoom: 4 };
 const view = new View(defaultViewport);
-const map = new Map({
-  layers: [
-    new TileLayer({ source: new OSM() }),
-    new VectorLayer({
-      source: oilfieldSource,
-      style: (f) =>
-        new Style({
-          fill: new Fill({ color: "red" }),
-          text: new Text({
-            font: "9pt sans-serif",
-            text: f.getProperties()["fldName"],
-            //overflow: true,
-          }),
-        }),
+const lightTileSource = new OSM();
+const darkTileSource = new StadiaMaps({
+  layer: "alidade_smooth_dark",
+});
+
+const oilfieldLayer = new VectorLayer({
+  source: oilfieldSource,
+  style: (f) =>
+    new Style({
+      fill: new Fill({ color: "red" }),
+      text: new Text({
+        font: "9pt sans-serif",
+        text: f.getProperties()["fldName"],
+        //overflow: true,
+      }),
     }),
-  ],
+});
+const map = new Map({
+  layers: [new TileLayer({ source: darkTileSource }), oilfieldLayer],
   view,
 });
 
@@ -63,6 +67,16 @@ function focusStyle(f: FeatureLike) {
 export function OilFieldMap({ slug }: { slug?: Slugify<OilfieldName> }) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
+  const isDarkMode = usePrefersDarkMode();
+  const backgroundSource = useMemo(
+    () => (isDarkMode ? darkTileSource : lightTileSource),
+    [isDarkMode],
+  );
+  const layers = useMemo(
+    () => [new TileLayer({ source: backgroundSource }), oilfieldLayer],
+    [backgroundSource],
+  );
+  useEffect(() => map.setLayers(layers), [layers]);
   useEffect(() => {
     map.setTarget(mapRef.current!);
     map.on("click", (e) => {

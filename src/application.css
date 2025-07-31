@@ -3,12 +3,45 @@
   font-family: bureau-sans, helvetica, sans-serif;
 }
 
+a {
+  color: unset;
+}
+
 dialog {
   margin: revert;
 }
 
-:root {
+:root,
+dialog {
+  --skog: #133600;
+  --lime: #e0ffb2;
+  --gran: #347103;
   color-scheme: light dark;
+  background-color: var(--lime);
+  color: var(--skog);
+}
+
+button {
+  color: var(--skog);
+  background-color: var(--lime);
+  border-color: var(--skog);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    background-color: var(--gran);
+    color: var(--lime);
+  }
+  main,
+  dialog {
+    background-color: var(--skog);
+    color: var(--lime);
+  }
+  button {
+    color: var(--lime);
+    border-color: var(--lime);
+    background-color: var(--skog);
+  }
 }
 
 td {
@@ -31,24 +64,31 @@ td {
 
 #app header {
   display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  padding-inline: 1em;
+  grid-template-columns: 1fr 1fr;
+
+  @media (width > 550px) {
+    grid-template-columns: unset;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+  }
+
+  @media (width > 800px) {
+    padding-inline: 1em;
+  }
+
   > * {
     margin: 0.25em;
     padding: 0.1em 0.3em;
-    border: 1px solid #e0ffb2;
+    border: 1px solid var(--lime);
     border-radius: 0.25rem;
-    background-color: #133600;
-    color: #e0ffb2;
-    a {
-      color: #e0ffb2;
-    }
+    background-color: var(--skog);
+    color: var(--lime);
   }
 }
 
 #app footer {
-  background-color: #133600;
+  background-color: var(--skog);
+  border: 1px solid var(--lime);
 }
 
 #app main {
