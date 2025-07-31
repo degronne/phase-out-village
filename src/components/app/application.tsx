@@ -49,6 +49,7 @@ export function Application() {
   function reset() {
     setYear("2025");
     setPhaseOut({});
+    navigate("/");
   }
 
   return (
