@@ -65,18 +65,20 @@ function focusStyle(f: FeatureLike) {
 }
 
 export function OilFieldMap({ slug }: { slug?: Slugify<OilfieldName> }) {
-  const mapRef = useRef<HTMLDivElement | null>(null);
-  const navigate = useNavigate();
   const isDarkMode = usePrefersDarkMode();
-  const backgroundSource = useMemo(
-    () => (isDarkMode ? darkTileSource : lightTileSource),
+  const backgroundLayer = useMemo(
+    () =>
+      new TileLayer({ source: isDarkMode ? darkTileSource : lightTileSource }),
     [isDarkMode],
   );
   const layers = useMemo(
-    () => [new TileLayer({ source: backgroundSource }), oilfieldLayer],
-    [backgroundSource],
+    () => [backgroundLayer, oilfieldLayer],
+    [backgroundLayer],
   );
   useEffect(() => map.setLayers(layers), [layers]);
+
+  const mapRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
   useEffect(() => {
     map.setTarget(mapRef.current!);
     map.on("click", (e) => {
