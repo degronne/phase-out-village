@@ -22,11 +22,10 @@ export function FrontPage() {
             >
               en fjerdedel av Norges utslipp av klimagasser
             </a>
-            ? Fra 2025 til 2040 vil dette etter Sokkeldirektorats beregninger
-            stå for 10 zillioner tonn med CO2, samtidig som det planlegges å
-            bruke XX TWh med strøm årlig (gjennomsnitt) på å elektrifisere med
-            kraft fra land. (TODO: kvalitetssikre tallet). Og da regner vi ikke
-            med utslippene når olja og gassen brennes i utlandet som er cirka 50
+            ? Fra 2025 til 2040 vil oljenæringen slippe ut 170 millioner tonn
+            med CO2, samtidig som det planlegges å bruke 17 TWh med strøm årlig
+            på å elektrifisere med kraft fra land. Og da regner vi ikke med
+            utslippene når olja og gassen brennes i utlandet som er cirka 50
             ganger så mye.
           </p>
 
