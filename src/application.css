@@ -89,6 +89,10 @@ td {
 #app footer {
   background-color: var(--skog);
   border: 1px solid var(--lime);
+
+  img {
+    max-height: 7vh;
+  }
 }
 
 #app main {
