@@ -45,7 +45,7 @@ export function Application() {
   function proceed() {
     setYear((y) => {
       const year = parseInt(y);
-      const nextYear = year + 4 - (year % 4);
+      const nextYear = Math.min(year + 4 - (year % 4), 2040);
       return nextYear.toString() as Year;
     });
   }
@@ -64,7 +64,9 @@ export function Application() {
         <div>
           År: {year}
           <div>
-            <button onClick={proceed}>Neste</button>
+            <button onClick={proceed} disabled={year === "2040"}>
+              Neste
+            </button>
           </div>
           <div>
             <button onClick={reset}>Start på nytt</button>
