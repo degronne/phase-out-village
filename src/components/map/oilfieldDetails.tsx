@@ -84,6 +84,7 @@ function OilFieldTable({ field }: { field: string }) {
 
 export function OilfieldDetails({ slug }: { slug: Slugify<OilfieldName> }) {
   const name = oilfieldNames[slug];
+  if (!name) return null;
   return (
     <div>
       <h3>Detaljer for oljefelt: {name}</h3>
