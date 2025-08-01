@@ -136,6 +136,9 @@ export function calculateOilProduction(
       break;
     }
     current *= 0.9;
+    if (current < 0.2) {
+      current = 0;
+    }
     result.push([year, Math.round(current * 100) / 100, { estimate: true }]);
   }
   return result;
@@ -150,15 +153,16 @@ export function calculateEmissions(
     .map((y) => [y, dataset[y]?.emission!, undefined]);
 
   if (result.length == 0) return result;
-  const average = Math.round(computeAverage(result.toReversed().slice(0, 5)));
+  let average = Math.round(computeAverage(result.toReversed().slice(0, 5)));
 
   for (let y = parseInt(result.at(-1)![0]) + 1; y < 2040; y++) {
+    average *= 0.97;
     const year = y.toString() as Year;
     if (year === phaseOut) {
       result.push([year, 0, { estimate: true }]);
       break;
     }
-    result.push([year, average, { estimate: true }]);
+    result.push([year, Math.round(average), { estimate: true }]);
   }
   return result;
 }

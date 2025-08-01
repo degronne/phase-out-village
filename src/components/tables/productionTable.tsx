@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { useState } from "react";
 import { productionProjections } from "../../utils/projections";
 import { YearlyTotalGasProductionChart } from "../charts/yearlyTotalGasProduction";
-import { YearlyTotalProductionChart } from "../charts/yearlyOilAndGasProductionBarChart";
+import { YearlyTotalProductionChart } from "../production/yearlyOilAndGasProductionBarChart";
 import {
   calculateTotalYearlyGasProduction,
   calculateTotalYearlyOilProduction,
@@ -50,10 +50,7 @@ export function ProductionTable() {
       </nav>
       <YearlyTotalOilProductionChart />
       <YearlyTotalGasProductionChart data={totalGasProduction} />
-      <YearlyTotalProductionChart
-        oilData={totalOilProduction}
-        gasData={totalGasProduction}
-      />
+      <YearlyTotalProductionChart />
       <h2>Årlige produksjonstall</h2>
       <div className="production-view-toggle-button">
         <button
