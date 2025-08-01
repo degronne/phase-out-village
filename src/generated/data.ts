@@ -59,7 +59,7 @@ export const data: Record<
       emission: 182987,
       emissionIntensity: 6.88,
     },
-    "2015": { productionOil: 4.84, productionGas: 0.6 },
+    "2015": { productionOil: 4.84, productionGas: 0.6, emission: 179944 },
     "2016": {
       productionOil: 5.17,
       productionGas: 0.64,
@@ -122,7 +122,7 @@ export const data: Record<
       emission: 137027,
       emissionIntensity: 7.04,
     },
-    "2015": { productionOil: 3.19, productionGas: 0.11 },
+    "2015": { productionOil: 3.19, productionGas: 0.11, emission: 148250 },
     "2016": {
       productionOil: 3.19,
       productionGas: 0.11,
@@ -170,7 +170,7 @@ export const data: Record<
       emission: 169366,
       emissionIntensity: 39.27,
     },
-    "2015": { productionOil: 0.75, productionGas: 0.16 },
+    "2015": { productionOil: 0.75, productionGas: 0.16, emission: 165214 },
     "2016": {
       productionOil: 0.8,
       productionGas: 0.14,
@@ -228,7 +228,7 @@ export const data: Record<
       emission: 207359,
       emissionIntensity: 17.17,
     },
-    "2015": { productionOil: 1.82, productionGas: 0.02 },
+    "2015": { productionOil: 1.82, productionGas: 0.02, emission: 203040 },
     "2016": {
       productionOil: 1.35,
       productionGas: 0.01,
@@ -317,7 +317,7 @@ export const data: Record<
       emission: 769553,
       emissionIntensity: 15.21,
     },
-    "2015": { productionOil: 6.97, productionGas: 0.99 },
+    "2015": { productionOil: 6.97, productionGas: 0.99, emission: 757088 },
     "2016": {
       productionOil: 6.39,
       productionGas: 0.89,
@@ -380,7 +380,7 @@ export const data: Record<
       emission: 314826,
       emissionIntensity: 19.6,
     },
-    "2015": { productionOil: 2.61, productionGas: 0.42 },
+    "2015": { productionOil: 2.61, productionGas: 0.42, emission: 271539 },
     "2016": {
       productionOil: 2.71,
       productionGas: 0.43,
@@ -443,7 +443,7 @@ export const data: Record<
       emission: 133261,
       emissionIntensity: 2.11,
     },
-    "2015": { productionOil: 5.69, productionGas: 5.58 },
+    "2015": { productionOil: 5.69, productionGas: 5.58, emission: 130939 },
     "2016": {
       productionOil: 5.27,
       productionGas: 5.86,
@@ -500,7 +500,7 @@ export const data: Record<
     "2012": { productionOil: 7.11, emission: 227170, emissionIntensity: 5.2 },
     "2013": { productionOil: 5.5, emission: 193590, emissionIntensity: 5.76 },
     "2014": { productionOil: 5.1, emission: 239824, emissionIntensity: 7.67 },
-    "2015": { productionOil: 6.18 },
+    "2015": { productionOil: 6.18, emission: 216707 },
     "2016": { productionOil: 5.77, emission: 214892, emissionIntensity: 6.01 },
     "2017": { productionOil: 6.82, emission: 215865, emissionIntensity: 5.12 },
     "2018": { productionOil: 6.36, emission: 209575, emissionIntensity: 5.33 },
@@ -528,7 +528,7 @@ export const data: Record<
       emission: 980063,
       emissionIntensity: 14.5,
     },
-    "2015": { productionOil: 7.02, productionGas: 4.05 },
+    "2015": { productionOil: 7.02, productionGas: 4.05, emission: 989573 },
     "2016": {
       productionOil: 7.28,
       productionGas: 5.09,
@@ -591,7 +591,7 @@ export const data: Record<
       emission: 375730,
       emissionIntensity: 16.73,
     },
-    "2015": { productionOil: 3.09, productionGas: 0.77 },
+    "2015": { productionOil: 3.09, productionGas: 0.77, emission: 364557 },
     "2016": {
       productionOil: 3.43,
       productionGas: 0.8,
@@ -688,7 +688,7 @@ export const data: Record<
       emission: 308436,
       emissionIntensity: 6.56,
     },
-    "2015": { productionOil: 4.57, productionGas: 3.01 },
+    "2015": { productionOil: 4.57, productionGas: 3.01, emission: 261788 },
     "2016": {
       productionOil: 3.37,
       productionGas: 3.13,
@@ -759,7 +759,7 @@ export const data: Record<
       emission: 122713,
       emissionIntensity: 2.19,
     },
-    "2015": { productionOil: 2.88, productionGas: 8.34 },
+    "2015": { productionOil: 2.88, productionGas: 8.34, emission: 111771 },
     "2016": {
       productionOil: 2.95,
       productionGas: 9.73,
@@ -806,7 +806,7 @@ export const data: Record<
   "Martin Linge": {
     "2013": { emission: 592 },
     "2014": { emission: 6798 },
-    "2015": {},
+    "2015": { emission: 3695 },
     "2016": { emission: 48052 },
     "2017": { emission: 71965 },
     "2018": { emission: 28861 },
@@ -859,7 +859,7 @@ export const data: Record<
       emission: 105936,
       emissionIntensity: 9.87,
     },
-    "2015": { productionOil: 1.74, productionGas: 1.08 },
+    "2015": { productionOil: 1.74, productionGas: 1.08, emission: 103791 },
     "2016": {
       productionOil: 0.49,
       productionGas: 0.24,
@@ -907,7 +907,7 @@ export const data: Record<
       emission: 369134,
       emissionIntensity: 12.13,
     },
-    "2015": { productionOil: 2.54, productionGas: 2.01 },
+    "2015": { productionOil: 2.54, productionGas: 2.01, emission: 381002 },
     "2016": {
       productionOil: 1.9,
       productionGas: 1.73,
@@ -1014,7 +1014,7 @@ export const data: Record<
       emission: 1165492,
       emissionIntensity: 22.24,
     },
-    "2015": { productionOil: 6.53, productionGas: 3.7 },
+    "2015": { productionOil: 6.53, productionGas: 3.7, emission: 1173762 },
     "2016": { productionOil: 7.01, productionGas: 2.29 },
     "2017": {
       productionOil: 7.23,
@@ -1067,7 +1067,7 @@ export const data: Record<
       emission: 312536,
       emissionIntensity: 7.81,
     },
-    "2015": { productionOil: 3.96, productionGas: 3.98 },
+    "2015": { productionOil: 3.96, productionGas: 3.98, emission: 447733 },
     "2016": {
       productionOil: 3.18,
       productionGas: 4.05,
@@ -1149,7 +1149,7 @@ export const data: Record<
       emission: 878157,
       emissionIntensity: 15.43,
     },
-    "2015": { productionOil: 6.13, productionGas: 6.41 },
+    "2015": { productionOil: 6.13, productionGas: 6.41, emission: 874002 },
     "2016": {
       productionOil: 5.92,
       productionGas: 6.08,
@@ -1232,7 +1232,7 @@ export const data: Record<
       emission: 485807,
       emissionIntensity: 10.14,
     },
-    "2015": { productionOil: 8.41 },
+    "2015": { productionOil: 8.41, emission: 475695 },
     "2016": {
       productionOil: 7.63,
       productionGas: 0.02,
@@ -1376,7 +1376,7 @@ export const data: Record<
       emission: 829229,
       emissionIntensity: 25.24,
     },
-    "2015": { productionOil: 3.98, productionGas: 2.46 },
+    "2015": { productionOil: 3.98, productionGas: 2.46, emission: 806756 },
     "2016": {
       productionOil: 4.38,
       productionGas: 2.75,
@@ -1461,7 +1461,7 @@ export const data: Record<
       emission: 743951,
       emissionIntensity: 3.11,
     },
-    "2015": { productionOil: 10.18, productionGas: 35.26 },
+    "2015": { productionOil: 10.18, productionGas: 35.26, emission: 727789 },
     "2016": {
       productionOil: 10.33,
       productionGas: 32.49,
@@ -1535,7 +1535,7 @@ export const data: Record<
     "2012": { productionOil: 1, emission: 195253, emissionIntensity: 31.36 },
     "2013": { productionOil: 1.02, emission: 183572, emissionIntensity: 28.92 },
     "2014": { productionOil: 1.2, emission: 209778, emissionIntensity: 28.37 },
-    "2015": { productionOil: 0.91 },
+    "2015": { productionOil: 0.91, emission: 196675 },
     "2016": { productionOil: 0.82, emission: 191005, emissionIntensity: 37.58 },
     "2017": { productionOil: 0.77, emission: 193991, emissionIntensity: 41.28 },
     "2018": { productionOil: 0.82, emission: 222428, emissionIntensity: 44.08 },
@@ -1593,7 +1593,7 @@ export const data: Record<
       emission: 48786,
       emissionIntensity: 3.01,
     },
-    "2015": { productionOil: 2.6, productionGas: 0.44 },
+    "2015": { productionOil: 2.6, productionGas: 0.44, emission: 98422 },
     "2016": {
       productionOil: 2.17,
       productionGas: 0.38,
@@ -1669,7 +1669,7 @@ export const data: Record<
       emission: 317209,
       emissionIntensity: 21.86,
     },
-    "2015": { productionOil: 2.31, productionGas: 1.33 },
+    "2015": { productionOil: 2.31, productionGas: 1.33, emission: 293520 },
     "2016": {
       productionOil: 2.84,
       productionGas: 2.39,
@@ -1759,7 +1759,7 @@ export const data: Record<
       emission: 1025033,
       emissionIntensity: 8.7,
     },
-    "2015": { productionOil: 8.03, productionGas: 11.44 },
+    "2015": { productionOil: 8.03, productionGas: 11.44, emission: 974211 },
     "2016": {
       productionOil: 7.74,
       productionGas: 12,

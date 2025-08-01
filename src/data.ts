@@ -75,6 +75,9 @@ export function estimatedOilProduction(
       break;
     }
     current *= 0.9;
+    if (current < 0.2) {
+      current = 0;
+    }
     result[year] = { value: current, estimate: true };
   }
   return result;
@@ -108,6 +111,9 @@ export function calculateGasProduction(
       break;
     }
     current *= 0.9;
+    if (current < 0.2) {
+      current = 0;
+    }
     result.push([year, Math.round(current * 100) / 100, { estimate: true }]);
   }
   return result;
