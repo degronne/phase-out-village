@@ -73,12 +73,12 @@ export function productionProjections(data: OilFieldDataset): Projection[] {
 
       if (projectedOil !== null) {
         projectedOil *= 1 - annualDeclineRate;
-        if (projectedOil < 0.01) projectedOil = 0;
+        if (projectedOil < 0.2) projectedOil = 0;
       }
 
       if (projectedGas !== null) {
         projectedGas *= 1 - annualDeclineRate;
-        if (projectedGas < 0.01) projectedGas = 0;
+        if (projectedGas < 0.2) projectedGas = 0;
       }
     }
   }

@@ -10,7 +10,6 @@ const result: Record<
     number,
     {
       productionOil?: number;
-      productionLiquidGas?: number;
       productionGas?: number;
       emission?: number;
       emissionIntensity?: number;
@@ -29,9 +28,14 @@ for (const [
   _2,
   emissionIntensity,
 ] of rows) {
+  const totalOilRaw =
+    (typeof productionOil === "number" ? productionOil : 0) +
+    (typeof productionLiquidGas === "number" ? productionLiquidGas : 0);
+
+  const totalOil = totalOilRaw ? parseFloat(totalOilRaw.toFixed(2)) : undefined;
+
   const dataPoint = {
-    productionOil,
-    productionLiquidGas,
+    productionOil: totalOil || undefined,
     productionGas,
     emission,
     emissionIntensity,
@@ -53,7 +57,7 @@ const compactJson = JSON.stringify(result, null, 2).replace(
 );
 
 console.log(
-  "export const data: Record<string, Record<string, { productionOil?: number; productionLiquidGas?: number; productionGas?: number; emission?: number; emissionIntensity?: number; }>> = " +
+  "export const data: Record<string, Record<string, { productionOil?: number; productionGas?: number; emission?: number; emissionIntensity?: number; }>> = " +
     compactJson +
     " as const",
 );
