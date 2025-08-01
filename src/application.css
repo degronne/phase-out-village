@@ -245,9 +245,10 @@ td {
   padding: 1.5rem;
 
   @media (width <= 600px) {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 1rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+    padding: 1em;
+    font-size: 90%;
   }
 
   .phaseout-checkboxes {
@@ -285,7 +286,6 @@ td {
   }
 
   .phaseout-total-production {
-    font-size: 1rem;
     margin-bottom: 1rem;
     display: flex;
     flex-direction: column;
@@ -334,6 +334,23 @@ td {
 @media (max-width: 600px) {
   .emission-total-projection,
   .stacked-emission-chart {
+    padding: 0.5rem;
+  }
+}
+
+.phaseout-emission-chart {
+  width: 100%;
+  max-width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.phaseout-emission-chart canvas {
+  width: 100% !important;
+}
+
+@media (max-width: 600px) {
+  .phaseout-emission-chart {
     padding: 0.5rem;
   }
 }
