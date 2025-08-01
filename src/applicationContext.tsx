@@ -5,7 +5,7 @@ import { OilfieldName, PhaseOutSchedule, Year } from "./data";
 
 export const ApplicationContext = React.createContext<{
   year: Year;
-  nextYear: () => void;
+  proceed: () => void;
   phaseOut: PhaseOutSchedule;
   setPhaseOut: Dispatch<SetStateAction<PhaseOutSchedule>>;
   fullData: OilFieldDataset;
@@ -23,7 +23,7 @@ export const ApplicationContext = React.createContext<{
   >;
 }>({
   year: "2025",
-  nextYear: () => {},
+  proceed: () => {},
   phaseOut: {},
   setPhaseOut: () => {},
   fullData: {},

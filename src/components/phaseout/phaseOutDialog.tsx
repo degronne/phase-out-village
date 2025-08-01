@@ -12,7 +12,7 @@ type Oilfield = {
 };
 
 export function PhaseOutDialog({ close }: { close: () => void }) {
-  const { year, nextYear, fullData, phaseOut, setPhaseOut } =
+  const { year, proceed, fullData, phaseOut, setPhaseOut } =
     useContext(ApplicationContext);
 
   const [draft, setDraft] = useState<PhaseOutSchedule>({});
@@ -24,7 +24,7 @@ export function PhaseOutDialog({ close }: { close: () => void }) {
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setPhaseOut((phaseOut) => ({ ...phaseOut, ...draft }));
-    nextYear();
+    proceed();
     close();
   }
 

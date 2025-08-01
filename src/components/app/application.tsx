@@ -42,8 +42,12 @@ export function Application() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  function nextYear() {
-    setYear((y) => (parseInt(y) + 1).toString() as Year);
+  function proceed() {
+    setYear((y) => {
+      const year = parseInt(y);
+      const nextYear = year + 4 - (year % 4);
+      return nextYear.toString() as Year;
+    });
   }
 
   function reset() {
@@ -54,13 +58,13 @@ export function Application() {
 
   return (
     <ApplicationContext
-      value={{ year, nextYear, fullData, data, phaseOut, setPhaseOut }}
+      value={{ year, proceed, fullData, data, phaseOut, setPhaseOut }}
     >
       <header>
         <div>
           År: {year}
           <div>
-            <button onClick={nextYear}>Neste</button>
+            <button onClick={proceed}>Neste</button>
           </div>
           <div>
             <button onClick={reset}>Start på nytt</button>
