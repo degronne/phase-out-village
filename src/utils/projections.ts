@@ -16,9 +16,25 @@ export function isStillProducing(
   return yearlyData[latestYear]?.[resourceKey] !== undefined;
 }
 
+function findLatestYear(dataset: OilFieldDataset): number {
+  let latestYear = 0;
+
+  for (const fieldData of Object.values(dataset)) {
+    for (const yearStr of Object.keys(fieldData)) {
+      const year = parseInt(yearStr);
+      if (!isNaN(year) && year > latestYear) {
+        latestYear = year;
+      }
+    }
+  }
+
+  return latestYear;
+}
+
 export function productionProjections(data: OilFieldDataset): Projection[] {
   const projections: Projection[] = [];
-  const projectionStart = 2023;
+  const projectionStart = findLatestYear(data) + 1;
+  console.log(projectionStart);
   const projectionEnd = 2040;
   const annualDeclineRate = 0.1;
 
