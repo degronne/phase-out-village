@@ -9,6 +9,7 @@ import {
   Title,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 
 ChartJS.register(
   CategoryScale,
@@ -32,16 +33,22 @@ type Props = {
 };
 
 export function EmissionIntensityBarChart({ dataPoint }: Props) {
+  const isSmallScreen = useIsSmallScreen();
   const emissionIntensity = dataPoint.emissionIntensity ?? 0;
   const worldAverage = 17.5;
 
   const data = {
-    labels: [dataPoint.field, "Verdensgjennomsnitt"],
+    labels: [dataPoint.field, "Verdens gj.snitt"],
     datasets: [
       {
         label: "Utslippsintensitet",
         data: [emissionIntensity, worldAverage],
         backgroundColor: ["#3b82f6", "orange"],
+        ...(isSmallScreen
+          ? {
+              barThickness: 12,
+            }
+          : {}),
       },
     ],
   };
@@ -51,7 +58,7 @@ export function EmissionIntensityBarChart({ dataPoint }: Props) {
     plugins: {
       title: {
         display: true,
-        text: "Utslippsintensitet: Oljefelt vs. Verdensgjennomsnitt",
+        text: "Hvor skitten er produksjonen?",
         padding: {
           bottom: 20,
         },
@@ -77,5 +84,11 @@ export function EmissionIntensityBarChart({ dataPoint }: Props) {
     },
   };
 
-  return <Bar data={data} options={options} />;
+  return (
+    <Bar
+      data={data}
+      options={options}
+      height={isSmallScreen ? 400 : undefined}
+    />
+  );
 }

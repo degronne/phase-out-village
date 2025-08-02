@@ -133,9 +133,11 @@ export function PhaseOutDialog({ close }: { close: () => void }) {
               Utslipp i {year}:{" "}
               {fullData[latestSelectedField]?.[year]?.emission ?? "0"} Tonn Co2
             </p>
-            {fieldForChart && (
-              <EmissionIntensityBarChart dataPoint={fieldForChart!} />
-            )}
+            <div className="phaseout-emission-chart">
+              {fieldForChart && (
+                <EmissionIntensityBarChart dataPoint={fieldForChart!} />
+              )}
+            </div>
           </div>
         )}
 
