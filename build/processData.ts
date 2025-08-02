@@ -24,8 +24,8 @@ for (const [
   productionOil,
   productionLiquidGas,
   productionGas,
+  _,
   emission,
-  _2,
   emissionIntensity,
 ] of rows) {
   const totalOilRaw =

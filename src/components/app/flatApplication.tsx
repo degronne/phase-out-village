@@ -18,7 +18,7 @@ import { PriceControls } from "../sliders/priceControlSliders";
 import { ShutdownControls } from "../controls/shutdownControls";
 import { YearlyEmissionChart } from "../charts/yearlyEmissionChart";
 import { EmissionIntensityChart } from "../charts/emissionIntensityYear";
-import { EmissionEfficiencyScatterChart } from "../charts/emissionEfficiencyScatter";
+import { EmissionEfficiencyScatterChart } from "../emissions/emissionEfficiencyScatter";
 import { exportDataSet } from "../../utils/excel";
 
 export function FlatApplication() {
@@ -90,7 +90,7 @@ export function FlatApplication() {
           <EmissionIntensityChart data={intensityData} />
         </div>
         <div className="emission-scatterChart">
-          <EmissionEfficiencyScatterChart data={intensityData} />
+          <EmissionEfficiencyScatterChart />
         </div>
       </div>
       {/*<ProductionTable /> */}

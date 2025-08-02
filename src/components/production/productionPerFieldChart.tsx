@@ -21,6 +21,7 @@ import {
   YearlyDataset,
 } from "../../data";
 import { isEstimated } from "../charts/isEstimated";
+import { Link } from "react-router-dom";
 
 ChartJS.register(
   CategoryScale,
@@ -115,71 +116,78 @@ export function ProductionPerFieldChart() {
   );
   return (
     <>
-      <Line
-        options={{
-          maintainAspectRatio: false,
-          plugins: {
-            title: { display: true, text: "Produksjon per oljefelt" },
-            legend: {
-              position: "top",
-              onClick: (_, legendItem, { chart }) =>
-                focusOnClicked(legendItem, chart, setVisibleField),
-            },
-            tooltip: {
-              callbacks: {
-                title: (context) => `${context[0].parsed.x}`,
-                label: (context) => {
-                  const {
-                    dataset: { label },
-                    parsed,
-                  } = context;
-                  const type = isEstimated(context) ? "Estimert" : "Målt";
-                  return `${label} – ${parsed.x}: ${parsed.y} BOE (${type})`;
+      <nav className="production-nav">
+        <Link to={"/production/"}>Din plan</Link>
+        <Link to={"/production/composition"}>Inndeling produksjon</Link>
+        <Link to={"/production/oilPerField"}>Produksjon per felt</Link>
+      </nav>
+      <div className="production-chart">
+        <Line
+          options={{
+            maintainAspectRatio: false,
+            plugins: {
+              title: { display: true, text: "Produksjon per oljefelt" },
+              legend: {
+                position: "top",
+                onClick: (_, legendItem, { chart }) =>
+                  focusOnClicked(legendItem, chart, setVisibleField),
+              },
+              tooltip: {
+                callbacks: {
+                  title: (context) => `${context[0].parsed.x}`,
+                  label: (context) => {
+                    const {
+                      dataset: { label },
+                      parsed,
+                    } = context;
+                    const type = isEstimated(context) ? "Estimert" : "Målt";
+                    return `${label} – ${parsed.x}: ${parsed.y} BOE (${type})`;
+                  },
                 },
               },
             },
-          },
-          scales: {
-            x: {
-              title: { display: true, text: "År" },
-              type: "linear" as const,
-              min: 2000,
-              max: 2040,
-              ticks: {
-                stepSize: 1,
-                callback: (value: number | string) => `${value}`,
+            scales: {
+              x: {
+                title: { display: true, text: "År" },
+                type: "linear" as const,
+                min: 2000,
+                max: 2040,
+                ticks: {
+                  stepSize: 1,
+                  callback: (value: number | string) => `${value}`,
+                },
+              },
+              y: {
+                title: { display: true, text: "Produksjon (BOE)" },
+                beginAtZero: true,
               },
             },
-            y: {
-              title: { display: true, text: "Produksjon (BOE)" },
-              beginAtZero: true,
-            },
-          },
-        }}
-        data={{
-          datasets: datasets.map(([label, data]) => ({
-            label,
-            data,
-            hidden: !!visibleField && label !== visibleField,
-            borderColor: colorFromLabel(label),
-            backgroundColor: colorFromLabel(label),
-            tension: 0.3,
-            spanGaps: true,
-            segment: {
-              borderDash: (ctx) => (isEstimated(ctx.p1) ? [5, 5] : undefined),
-            },
-            pointStyle: (ctx) => (isEstimated(ctx) ? "star" : "circle"),
-            pointRadius: (ctx) => (isEstimated(ctx) ? 5 : 4),
-            pointBackgroundColor: (_) => colorFromLabel(label),
-          })),
-        }}
-      />
-      {visibleField && (
-        <ProductionTable
-          field={visibleField}
-          dataseries={dataSeries[visibleField]}
+          }}
+          data={{
+            datasets: datasets.map(([label, data]) => ({
+              label,
+              data,
+              hidden: !!visibleField && label !== visibleField,
+              borderColor: colorFromLabel(label),
+              backgroundColor: colorFromLabel(label),
+              tension: 0.3,
+              spanGaps: true,
+              segment: {
+                borderDash: (ctx) => (isEstimated(ctx.p1) ? [5, 5] : undefined),
+              },
+              pointStyle: (ctx) => (isEstimated(ctx) ? "star" : "circle"),
+              pointRadius: (ctx) => (isEstimated(ctx) ? 5 : 4),
+              pointBackgroundColor: (_) => colorFromLabel(label),
+            })),
+          }}
         />
-      )}
+        {visibleField && (
+          <ProductionTable
+            field={visibleField}
+            dataseries={dataSeries[visibleField]}
+          />
+        )}
+      </div>
     </>
   );
 }

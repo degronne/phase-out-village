@@ -11,15 +11,10 @@ export function ProductionRoute() {
   return (
     <div>
       <Routes>
-        <Route path={"/"} element={<TotalProduction />} />
-        <Route path={"/old"} element={<ProductionTable />} />
-        <Route path={"/totalOil"} element={<YearlyTotalOilProductionChart />} />
+        <Route path={"/"} element={<ProductionReductionChart />} />
+        <Route path={"/composition"} element={<YearlyTotalProductionChart />} />
         <Route path={"/oilPerField"} element={<ProductionPerFieldChart />} />
       </Routes>
-      <div className="production-chart-container">
-        <ProductionReductionChart />
-        <YearlyTotalProductionChart />
-      </div>
     </div>
   );
 }
