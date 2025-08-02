@@ -2,6 +2,7 @@ import React, { useContext, useMemo } from "react";
 import { ApplicationContext } from "../../applicationContext";
 import { calculateEmissions } from "../../data";
 import { Line } from "react-chartjs-2";
+import { Link } from "react-router-dom";
 
 export function EmissionForAllFields() {
   const { data, phaseOut, year } = useContext(ApplicationContext);
@@ -46,6 +47,10 @@ export function EmissionForAllFields() {
 
   return (
     <div className="emission-total-projection">
+      <nav>
+        <Link to={"./"}>Linjediagram</Link>
+        <Link to={"/emissions/bar"}>Søylediagram</Link>
+      </nav>
       <Line
         key={`${year}-${Object.keys(phaseOut).join(",")}`}
         options={{

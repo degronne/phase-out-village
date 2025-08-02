@@ -2,6 +2,7 @@ import React, { useContext, useMemo } from "react";
 import { ApplicationContext } from "../../applicationContext";
 import { calculateEmissions } from "../../data";
 import { Bar } from "react-chartjs-2";
+import { Link } from "react-router-dom";
 
 export function EmissionStackedBArChart() {
   const { data, phaseOut } = useContext(ApplicationContext);
@@ -50,6 +51,10 @@ export function EmissionStackedBArChart() {
 
   return (
     <div className="stacked-emission-chart">
+      <nav>
+        <Link to={"/emissions/line"}>Linjediagram</Link>
+        <Link to={"./"}>Søylediagram</Link>
+      </nav>
       <Bar
         options={{
           responsive: true,

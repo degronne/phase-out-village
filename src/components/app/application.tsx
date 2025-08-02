@@ -25,7 +25,7 @@ function ApplicationRoutes() {
       <Route path={"/"} element={<FrontPage />} />
       <Route path={"/phaseout"} element={<PhaseOutRoute />} />
       <Route path={"/map/*"} element={<MapRoute />} />
-      <Route path={"/emissions"} element={<EmissionRoute />} />
+      <Route path={"/emissions/*"} element={<EmissionRoute />} />
       <Route path={"/production/*"} element={<ProductionRoute />} />
       <Route path={"*"} element={<h2>Not Found</h2>} />
     </Routes>
