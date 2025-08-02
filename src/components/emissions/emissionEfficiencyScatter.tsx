@@ -107,13 +107,13 @@ export function EmissionEfficiencyScatterChart() {
     },
     scales: {
       x: {
-        title: { display: true, text: "Antall millioner fat produsert" },
+        title: { display: true, text: "Millioner fat produsert" },
         beginAtZero: true,
         min: 0,
         max: 100,
       },
       y: {
-        title: { display: true, text: "Utslippsintensitet (kg CO₂e)" },
+        title: { display: true, text: "Utslippsintensitet (kg CO2e/BOE)" },
         beginAtZero: true,
         min: 0,
         max: 100,
