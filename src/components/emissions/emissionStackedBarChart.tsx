@@ -2,8 +2,9 @@ import React, { useContext, useMemo } from "react";
 import { ApplicationContext } from "../../applicationContext";
 import { calculateEmissions } from "../../data";
 import { Bar } from "react-chartjs-2";
+import { Link } from "react-router-dom";
 
-export function EmissionStackedBArChart() {
+export function EmissionStackedBarChart() {
   const { data, phaseOut } = useContext(ApplicationContext);
   const allFields = Object.keys(data);
 
@@ -48,77 +49,79 @@ export function EmissionStackedBArChart() {
     return Math.max(base - user, 0);
   });
 
+  const chartData = {
+    labels,
+    datasets: [
+      {
+        label: "Din plan",
+        data: userData,
+        backgroundColor: "#4a90e2",
+        stack: "stack1",
+      },
+      {
+        label: "Reduksjon",
+        data: reductionData,
+        backgroundColor: "rgba(200, 0, 0, 0.3)",
+        borderColor: "rgba(200, 0, 0, 0.8)",
+        borderWidth: 1,
+        stack: "stack1",
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: {
+      duration: 0,
+    },
+    plugins: {
+      title: {
+        display: true,
+        text: "Total årlig utslipp med reduksjon markert",
+        padding: { bottom: 20 },
+      },
+      legend: { display: true },
+      tooltip: {
+        callbacks: {
+          label: function (context: any) {
+            const value = context.parsed.y;
+            return `${context.dataset.label}: ${value.toLocaleString("nb-NO")} tonn`;
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        stacked: true,
+        title: { display: true, text: "År" },
+      },
+      y: {
+        stacked: true,
+        beginAtZero: true,
+        title: { display: true, text: "CO₂-utslipp (tonn)" },
+        ticks: {
+          callback: function (value: any) {
+            const n = Number(value);
+            return window.innerWidth < 600
+              ? `${(n / 1_000_000).toFixed(0)}M`
+              : n.toLocaleString("nb-NO");
+          },
+        },
+      },
+    },
+  };
+
   return (
-    <div className="stacked-emission-chart">
-      <Bar
-        options={{
-          responsive: true,
-          plugins: {
-            title: {
-              display: true,
-              text: "Total årlig utslipp med reduksjon markert",
-              padding: {
-                bottom: 20,
-              },
-            },
-            legend: { display: true },
-            tooltip: {
-              callbacks: {
-                label: function (context) {
-                  const value = context.parsed.y;
-                  return `${context.dataset.label}: ${value.toLocaleString(
-                    "nb-NO",
-                  )} tonn`;
-                },
-              },
-            },
-          },
-          scales: {
-            x: {
-              stacked: true,
-              title: {
-                display: true,
-                text: "År",
-              },
-            },
-            y: {
-              stacked: true,
-              beginAtZero: true,
-              title: {
-                display: true,
-                text: "CO₂-utslipp (tonn)",
-              },
-              ticks: {
-                callback: function (value) {
-                  const n = Number(value);
-                  return window.innerWidth < 600
-                    ? `${(n / 1_000_000).toFixed(0)}M`
-                    : n.toLocaleString("nb-NO");
-                },
-              },
-            },
-          },
-        }}
-        data={{
-          labels,
-          datasets: [
-            {
-              label: "Din plan",
-              data: userData,
-              backgroundColor: "#4a90e2",
-              stack: "stack1",
-            },
-            {
-              label: "Reduksjon",
-              data: reductionData,
-              backgroundColor: "rgba(200, 0, 0, 0.3)",
-              borderColor: "rgba(200, 0, 0, 0.8)",
-              borderWidth: 1,
-              stack: "stack1",
-            },
-          ],
-        }}
-      />
-    </div>
+    <>
+      <nav className="emission-nav">
+        <Link to={"/emissions/line"}>Linjediagram</Link>
+        <Link to={"./"}>Søylediagram</Link>
+        <Link to={"/emissions/intensity"}>Utslippsintensitet</Link>
+      </nav>
+      <div className="emission-chart">
+        <Bar options={options} data={chartData} />
+      </div>
+    </>
   );
 }

@@ -306,68 +306,49 @@ td {
 
 .emission-chart-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 2rem;
   padding: 1rem;
 
   @media (width <= 600px) {
-    grid-template-columns: 1fr;
     padding: 0.5rem;
   }
 }
 
-.emission-total-projection,
-.stacked-emission-chart {
-  width: 100%;
-  max-width: 100%;
+.emission-chart {
+  height: 400px;
+  position: relative;
   padding: 1rem;
-  box-sizing: border-box;
 }
 
-.emission-total-projection canvas,
-.stacked-emission-chart canvas {
+.emission-chart canvas {
   width: 100% !important;
   max-width: 100% !important;
   height: auto !important;
 }
 
 @media (max-width: 600px) {
-  .emission-total-projection,
-  .stacked-emission-chart {
+  .emission-chart {
+    height: 300px;
     padding: 0.5rem;
   }
 }
 
-.production-chart-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+.production-chart {
+  height: 400px;
+  position: relative;
   padding: 1rem;
-
-  @media (width <= 600px) {
-    grid-template-columns: 1fr;
-    padding: 0.5rem;
-  }
 }
 
-.production-total-projection,
-.stacked-production-chart {
-  width: 100%;
-  max-width: 100%;
-  padding: 1rem;
-  box-sizing: border-box;
-}
-
-.production-total-projection canvas,
-.stacked-production-chart canvas {
+.production-chart canvas {
   width: 100% !important;
   max-width: 100% !important;
   height: auto !important;
 }
 
 @media (max-width: 600px) {
-  .production-total-projection,
-  .stacked-production-chart {
+  .production-chart {
+    height: 300px;
     padding: 0.5rem;
   }
 }

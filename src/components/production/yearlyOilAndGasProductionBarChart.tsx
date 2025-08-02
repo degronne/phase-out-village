@@ -12,6 +12,7 @@ import {
 import { Bar } from "react-chartjs-2";
 import { ApplicationContext } from "../../applicationContext";
 import { calculateOilProduction, calculateGasProduction } from "../../data";
+import { Link } from "react-router-dom";
 
 ChartJS.register(
   CategoryScale,
@@ -99,7 +100,12 @@ export function YearlyTotalProductionChart() {
   };
 
   return (
-    <div className="stacked-production-chart">
+    <div className="production-chart">
+      <nav className="production-nav">
+        <Link to={"/production/"}>Din plan</Link>
+        <Link to={"/production/composition"}>Inndeling produksjon</Link>
+        <Link to={"/production/oilPerField"}>Produksjon per felt</Link>
+      </nav>
       <Bar data={chartData} options={options} />
     </div>
   );
