@@ -230,24 +230,17 @@ td {
 }
 
 .phaseout-dialog {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
   align-items: flex-start;
-  padding: 1.5rem;
-}
-
-.phaseout-dialog {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  align-items: flex-start;
-  padding: 1.5rem;
+  padding: 2.5rem 1.5rem 1.5rem 1.5rem;
 
   @media (width <= 600px) {
     grid-template-columns: 1fr 1fr;
     gap: 1em;
-    padding: 1em;
+    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
     font-size: 90%;
   }
 
@@ -297,6 +290,73 @@ td {
     text-decoration: line-through;
     cursor: not-allowed;
   }
+}
+
+.phaseout-emission-chart {
+  width: 100%;
+  max-width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.phaseout-emission-chart canvas {
+  width: 100% !important;
+}
+
+@media (max-width: 600px) {
+  .phaseout-emission-chart {
+    padding: 0.5rem;
+  }
+}
+
+.phaseout-dialog-header {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .phaseout-dialog-header {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
+.close-phaseout-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.close-phaseout-button:hover {
+  color: #000;
+}
+
+.phaseout-sort-wrapper {
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+}
+
+.phaseout-sort-dropdown {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.phaseout-sort-dropdown select {
+  font-size: 0.9rem;
+  padding: 0.2rem;
+  border-radius: 0.25rem;
+  border: 1px solid #ccc;
 }
 
 .welcome p {
@@ -349,23 +409,6 @@ td {
 @media (max-width: 600px) {
   .production-chart {
     height: 300px;
-    padding: 0.5rem;
-  }
-}
-
-.phaseout-emission-chart {
-  width: 100%;
-  max-width: 100%;
-  padding: 1rem;
-  box-sizing: border-box;
-}
-
-.phaseout-emission-chart canvas {
-  width: 100% !important;
-}
-
-@media (max-width: 600px) {
-  .phaseout-emission-chart {
     padding: 0.5rem;
   }
 }

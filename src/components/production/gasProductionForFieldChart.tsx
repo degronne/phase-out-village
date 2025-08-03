@@ -23,7 +23,7 @@ export function GasProductionForFieldChart({ field }: { field: string }) {
             callbacks: {
               label: function (context: any) {
                 const value = context.parsed.y;
-                return `Gass: ${value.toLocaleString("nb-NO")} millioner SM3`;
+                return `Gass: ${value.toLocaleString("nb-NO")} G SM3`;
               },
             },
           },
@@ -33,7 +33,7 @@ export function GasProductionForFieldChart({ field }: { field: string }) {
             beginAtZero: true,
             ticks: {
               callback: function (value: any) {
-                return `${value.toFixed(1)}M SM3`;
+                return `${value.toFixed(1)} G SM3`;
               },
             },
           },

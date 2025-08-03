@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,6 +10,7 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
+import { ApplicationContext } from "../../applicationContext";
 
 ChartJS.register(
   CategoryScale,
@@ -33,6 +34,7 @@ type Props = {
 };
 
 export function EmissionIntensityBarChart({ dataPoint }: Props) {
+  const { year } = useContext(ApplicationContext);
   const isSmallScreen = useIsSmallScreen();
   const emissionIntensity = dataPoint.emissionIntensity ?? 0;
   const worldAverage = 17.5;
@@ -58,7 +60,7 @@ export function EmissionIntensityBarChart({ dataPoint }: Props) {
     plugins: {
       title: {
         display: true,
-        text: "Hvor skitten er produksjonen?",
+        text: `Hvor skitten er produksjonen i ${year}?`,
         padding: {
           bottom: 20,
         },
@@ -68,18 +70,13 @@ export function EmissionIntensityBarChart({ dataPoint }: Props) {
       },
     },
     scales: {
-      x: {
-        title: {
-          display: true,
-          text: "Kilde",
-        },
-      },
       y: {
         title: {
           display: true,
-          text: "Utslippsintensitet",
+          text: "Kg CO2e per fat",
         },
         beginAtZero: true,
+        max: 60,
       },
     },
   };
