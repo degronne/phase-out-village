@@ -82,7 +82,7 @@ export function EmissionForAllFields() {
                 beginAtZero: true,
                 title: {
                   display: true,
-                  text: "CO₂-utslipp (tonn)",
+                  text: "Tonn Co2",
                 },
                 ticks: {
                   callback: function (value: any) {

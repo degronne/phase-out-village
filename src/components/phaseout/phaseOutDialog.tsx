@@ -2,6 +2,7 @@ import React, { FormEvent, useContext, useState } from "react";
 import { ApplicationContext } from "../../applicationContext";
 import { OilfieldName, PhaseOutSchedule } from "../../data";
 import { EmissionIntensityBarChart } from "../charts/emissionIntensitySingleOilField";
+import { useNavigate } from "react-router-dom";
 
 type Oilfield = {
   field: string;
@@ -11,11 +12,23 @@ type Oilfield = {
   emissionIntensity: number | null;
 };
 
-export function PhaseOutDialog({ close }: { close: () => void }) {
+type SortKey = "alphabetical" | "production" | "emission" | "emissionIntensity";
+
+export function PhaseOutDialog({
+  close,
+  from,
+}: {
+  close: () => void;
+  from: string;
+}) {
   const { year, proceed, fullData, phaseOut, setPhaseOut } =
     useContext(ApplicationContext);
 
   const [draft, setDraft] = useState<PhaseOutSchedule>({});
+  const [selectedOrder, setSelectedOrder] = useState<OilfieldName[]>([]);
+  const navigate = useNavigate();
+
+  const [sortKey, setSortKey] = useState<SortKey>("alphabetical");
 
   const [latestSelectedField, setLatestSelectedField] =
     useState<OilfieldName | null>(null);
@@ -28,30 +41,61 @@ export function PhaseOutDialog({ close }: { close: () => void }) {
     close();
   }
 
-  function toggle(field: OilfieldName, checked: boolean) {
-    if (!checked) {
-      setDraft((d) =>
-        Object.fromEntries(Object.entries(d).filter(([f, _]) => f !== field)),
-      );
-      if (latestSelectedField === field) {
-        setLatestSelectedField(null);
-      }
+  function updateLatestSelectedField(
+    removed: string,
+    selectedOrder: string[],
+  ): string | null {
+    const newOrder = selectedOrder.filter((f) => f !== removed);
+    return newOrder.at(-1) ?? null;
+  }
+
+  function setLatestFieldInfo(field: OilfieldName | null) {
+    setLatestSelectedField(field);
+
+    if (!field) {
+      setFieldForChart(null);
+      return;
+    }
+
+    const data = fullData[field]?.[year];
+    if (data) {
+      const fieldData: Oilfield = {
+        field,
+        productionOil: data.productionOil ?? null,
+        productionGas: data.productionGas ?? null,
+        emission: data.emission ?? null,
+        emissionIntensity: data.emissionIntensity ?? null,
+      };
+      setFieldForChart(fieldData);
     } else {
-      setDraft((d) => ({ ...d, [field]: year }));
-      setLatestSelectedField(field);
-      const data = fullData[field]?.[year];
-      if (data) {
-        const fieldData: Oilfield = {
-          field: field,
-          productionOil: data.productionOil ?? null,
-          productionGas: data.productionGas ?? null,
-          emission: data.emission ?? null,
-          emissionIntensity: data.emissionIntensity ?? null,
-        };
-        setFieldForChart(fieldData);
-      } else {
-        setFieldForChart(null);
-      }
+      setFieldForChart(null);
+    }
+  }
+
+  function removeField(field: OilfieldName) {
+    setDraft((d) =>
+      Object.fromEntries(Object.entries(d).filter(([f]) => f !== field)),
+    );
+
+    setSelectedOrder((prev) => {
+      const updated = prev.filter((f) => f !== field);
+      const fallback = updateLatestSelectedField(field, prev);
+      setLatestFieldInfo(fallback);
+      return updated;
+    });
+  }
+
+  function addField(field: OilfieldName) {
+    setDraft((d) => ({ ...d, [field]: year }));
+    setSelectedOrder((prev) => [...prev.filter((f) => f !== field), field]);
+    setLatestFieldInfo(field);
+  }
+
+  function toggle(field: OilfieldName, checked: boolean) {
+    if (checked) {
+      addField(field);
+    } else {
+      removeField(field);
     }
   }
 
@@ -71,6 +115,41 @@ export function PhaseOutDialog({ close }: { close: () => void }) {
     );
   }
 
+  const sortedFields = Object.keys(fullData).sort((a, b) => {
+    const aIsDisabled = a in phaseOut;
+    const bIsDisabled = b in phaseOut;
+
+    if (aIsDisabled && !bIsDisabled) return 1;
+    if (!aIsDisabled && bIsDisabled) return -1;
+
+    const aData = fullData[a]?.[year];
+    const bData = fullData[b]?.[year];
+
+    if (sortKey === "alphabetical") {
+      return a.localeCompare(b);
+    }
+
+    if (sortKey === "emission") {
+      const aE = aData?.emission ?? -Infinity;
+      const bE = bData?.emission ?? -Infinity;
+      return bE - aE;
+    }
+
+    if (sortKey === "production") {
+      const aProd = (aData?.productionOil ?? 0) + (aData?.productionGas ?? 0);
+      const bProd = (bData?.productionOil ?? 0) + (bData?.productionGas ?? 0);
+      return bProd - aProd;
+    }
+
+    if (sortKey === "emissionIntensity") {
+      const aEI = aData?.emissionIntensity ?? -Infinity;
+      const bEI = bData?.emissionIntensity ?? -Infinity;
+      return bEI - aEI;
+    }
+
+    return 0;
+  });
+
   const totalOilProduction = calculateTotal(
     draft,
     fullData,
@@ -87,10 +166,34 @@ export function PhaseOutDialog({ close }: { close: () => void }) {
 
   return (
     <div className="phaseout-dialog">
+      <div className="phaseout-dialog-header">
+        <button
+          type="button"
+          className="close-phaseout-button"
+          onClick={() => navigate(from)}
+        >
+          ✖
+        </button>
+        <div className="phaseout-sort-wrapper">
+          <label className="phaseout-sort-dropdown">
+            Sorter etter:{" "}
+            <select
+              value={sortKey}
+              onClick={(e) => e.stopPropagation()}
+              onChange={(e) => setSortKey(e.target.value as SortKey)}
+            >
+              <option value="alphabetical">Alfabetisk</option>
+              <option value="production">Total produksjon</option>
+              <option value="emission">Utslipp</option>
+              <option value="emissionIntensity">Utslippsintensitet</option>
+            </select>
+          </label>
+        </div>
+      </div>
       <form className="phaseout-checkboxes" onSubmit={handleSubmit}>
-        <h2 className="phaseout-header">Velg felter for avvikling i {year}</h2>
+        <h3 className="phaseout-header">Velg felter for avvikling i {year}</h3>
         <ul>
-          {Object.keys(fullData).map((k) => {
+          {sortedFields.map((k) => {
             const isDisabled = k in phaseOut;
             return (
               <li

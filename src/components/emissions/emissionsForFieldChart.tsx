@@ -23,13 +23,17 @@ export function EmissionsForFieldChart({ field }: { field: string }) {
             callbacks: {
               label: function (context: any) {
                 const value = context.parsed.y;
-                return `Utslipp: ${value.toLocaleString("nb-NO")}`;
+                return `Utslipp: ${value.toLocaleString("nb-NO")} tonn Co2`;
               },
             },
           },
         },
         scales: {
           y: {
+            title: {
+              display: true,
+              text: "Tonn Co2",
+            },
             beginAtZero: true,
             ticks: {
               callback: function (value: any) {
@@ -37,7 +41,6 @@ export function EmissionsForFieldChart({ field }: { field: string }) {
               },
             },
           },
-          x: {},
         },
       }}
       data={{
