@@ -1,11 +1,5 @@
 import React, { useMemo } from "react";
-import {
-  Link,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { MapRoute } from "../map/mapRoute";
 import { generateCompleteData } from "../../utils/projections";
 import { data } from "../../generated/data";
@@ -15,9 +9,8 @@ import { PhaseOutRoute } from "../phaseout/phaseOutRoute";
 import { ProductionRoute } from "../production/productionRoute";
 import { PhaseOutSchedule, Year } from "../../data";
 import { useSessionState } from "../../hooks/useSessionState";
-import { EmissionSummaryCard } from "../emissions/emissionSummaryCard";
-import { ProductionSummaryCard } from "../production/productionSummaryCard";
 import { EmissionRoute } from "../emissions/emissionRoute";
+import { ApplicationHeader } from "./applicationHeader";
 
 function ApplicationRoutes() {
   return (
@@ -40,7 +33,6 @@ export function Application() {
   );
   const fullData = useMemo(() => generateCompleteData(data), [data]);
   const navigate = useNavigate();
-  const location = useLocation();
 
   function proceed() {
     setYear((y) => {
@@ -60,34 +52,7 @@ export function Application() {
     <ApplicationContext
       value={{ year, proceed, fullData, data, phaseOut, setPhaseOut }}
     >
-      <header>
-        <div>
-          År: {year}
-          <div>
-            <button onClick={proceed} disabled={year === "2040"}>
-              Neste
-            </button>
-          </div>
-          <div>
-            <button onClick={reset}>Start på nytt</button>
-          </div>
-        </div>
-        <div>
-          {Object.keys(phaseOut).length} <Link to="/map">oljefelter</Link>{" "}
-          avviklet
-          <div>
-            <button
-              onClick={() =>
-                navigate("/phaseout", { state: { from: location } })
-              }
-            >
-              Velg felter for avvikling
-            </button>
-          </div>
-        </div>
-        <EmissionSummaryCard />
-        <ProductionSummaryCard />
-      </header>
+      <ApplicationHeader reset={reset} />
       <main>
         <ApplicationRoutes />
       </main>
