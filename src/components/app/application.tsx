@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { MapRoute } from "../map/mapRoute";
 import { generateCompleteData } from "../../utils/projections";
@@ -11,6 +11,8 @@ import { PhaseOutSchedule, Year } from "../../data";
 import { useSessionState } from "../../hooks/useSessionState";
 import { EmissionRoute } from "../emissions/emissionRoute";
 import { ApplicationHeader } from "./applicationHeader";
+import { ApplicationFooter } from "./applicationFooter";
+import { GameOverDialog } from "./gameOverDialog";
 
 function ApplicationRoutes() {
   return (
@@ -20,6 +22,7 @@ function ApplicationRoutes() {
       <Route path={"/map/*"} element={<MapRoute />} />
       <Route path={"/emissions/*"} element={<EmissionRoute />} />
       <Route path={"/production/*"} element={<ProductionRoute />} />
+      <Route path={"/summary"} element={<GameOverDialog />} />
       <Route path={"*"} element={<h2>Not Found</h2>} />
     </Routes>
   );
@@ -42,7 +45,11 @@ export function Application() {
     });
   }
 
-  function reset() {
+  useEffect(() => {
+    if (year === "2040") navigate("/summary");
+  }, [year]);
+
+  function restart() {
     setYear("2025");
     setPhaseOut({});
     navigate("/");
@@ -50,22 +57,21 @@ export function Application() {
 
   return (
     <ApplicationContext
-      value={{ year, proceed, fullData, data, phaseOut, setPhaseOut }}
+      value={{
+        year,
+        proceed,
+        restart,
+        fullData,
+        data,
+        phaseOut,
+        setPhaseOut,
+      }}
     >
-      <ApplicationHeader reset={reset} />
+      <ApplicationHeader />
       <main>
         <ApplicationRoutes />
       </main>
-      <footer>
-        <a href="https://mdg.no/politikk/utfasing">
-          <img
-            src={
-              "https://d1nizz91i54auc.cloudfront.net/_service/505811/display/img_version/8880781/t/1750686348/img_name/68683_505811_ba2eeb201a.png.webp"
-            }
-            alt={"MDG - det ER mulig"}
-          />
-        </a>
-      </footer>
+      <ApplicationFooter />
     </ApplicationContext>
   );
 }

@@ -1,14 +1,14 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { ProductionPerFieldChart } from "./productionPerFieldChart";
-import { ProductionReductionChart } from "./productionReductionChart";
+import { ProductionReductionRoute } from "./productionReductionRoute";
 import { YearlyTotalProductionChart } from "./yearlyOilAndGasProductionBarChart";
 
 export function ProductionRoute() {
   return (
     <div>
       <Routes>
-        <Route path={"/"} element={<ProductionReductionChart />} />
+        <Route path={"/"} element={<ProductionReductionRoute />} />
         <Route path={"/composition"} element={<YearlyTotalProductionChart />} />
         <Route path={"/oilPerField"} element={<ProductionPerFieldChart />} />
       </Routes>

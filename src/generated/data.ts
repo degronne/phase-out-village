@@ -1,15 +1,6 @@
-export const data: Record<
-  string,
-  Record<
-    string,
-    {
-      productionOil?: number;
-      productionGas?: number;
-      emission?: number;
-      emissionIntensity?: number;
-    }
-  >
-> = {
+import { OilFieldDataset } from "../types/types";
+
+export const data: OilFieldDataset = {
   "Aasta Hansteen": {
     "2018": { productionGas: 0.03, emission: 74384 },
     "2019": {

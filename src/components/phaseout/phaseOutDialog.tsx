@@ -217,7 +217,9 @@ export function PhaseOutDialog({
           })}
         </ul>
 
-        <button type="submit">Lagre</button>
+        <button type="submit" disabled={year === "2040"}>
+          Fase ut valgte felter i {year}
+        </button>
       </form>
       <div className="dialog-information-container">
         {latestSelectedField && fullData[latestSelectedField] && (

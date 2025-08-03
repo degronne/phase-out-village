@@ -1,21 +1,11 @@
 import fs from "fs";
+import { OilFieldDataset } from "../src/types/types";
 
 const data = JSON.parse(fs.readFileSync("tmp/data.json") as any);
 
-const [firstHeader, secondHeader, ...rows] = data as (number | string)[][];
+const [, , ...rows] = data as (number | string)[][];
 
-const result: Record<
-  string,
-  Record<
-    number,
-    {
-      productionOil?: number;
-      productionGas?: number;
-      emission?: number;
-      emissionIntensity?: number;
-    }
-  >
-> = {};
+const result: OilFieldDataset = {};
 
 for (const [
   field,
@@ -73,7 +63,8 @@ const compactJson = JSON.stringify(result, null, 2).replace(
 );
 
 console.log(
-  "export const data: Record<string, Record<string, { productionOil?: number; productionGas?: number; emission?: number; emissionIntensity?: number; }>> = " +
-    compactJson +
-    " as const",
+  `
+import { OilFieldDataset } from "../types/types";
+  
+export const data: OilFieldDataset = ${compactJson} as const`,
 );

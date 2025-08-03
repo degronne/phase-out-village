@@ -1,8 +1,8 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { EmissionForAllFields } from "./emissionsForAllFields";
-import { EmissionStackedBarChart } from "./emissionStackedBarChart";
 import { EmissionEfficiencyScatterChart } from "./emissionEfficiencyScatter";
+import { EmissionStackedBarRoute } from "./emissionStackedBarRoute";
 
 export function EmissionRoute() {
   return (
@@ -10,7 +10,7 @@ export function EmissionRoute() {
       <Routes>
         <Route path="/" element={<Navigate to="line" replace />} />
         <Route path="line" element={<EmissionForAllFields />} />
-        <Route path="bar" element={<EmissionStackedBarChart />} />
+        <Route path="bar" element={<EmissionStackedBarRoute />} />
         <Route path="intensity" element={<EmissionEfficiencyScatterChart />} />
       </Routes>
     </div>

@@ -25,6 +25,9 @@ button {
   color: var(--skog);
   background-color: var(--lime);
   border-color: var(--skog);
+  &:disabled {
+    color: revert;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -140,6 +143,23 @@ td {
   img {
     float: right;
     max-width: 25%;
+  }
+}
+
+.game-over {
+  .charts {
+    display: grid;
+    @media (width < 1000px) {
+      width: 90vw;
+    }
+
+    @media (width > 600px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    > div {
+      height: 250px;
+    }
   }
 }
 

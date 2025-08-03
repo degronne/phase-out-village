@@ -1,11 +1,14 @@
 import React, { useContext, useMemo } from "react";
-import { ApplicationContext } from "../../applicationContext";
-import { calculateEmissions } from "../../data";
+import { calculateEmissions, PhaseOutSchedule } from "../../data";
 import { Bar } from "react-chartjs-2";
-import { Link } from "react-router-dom";
+import { ApplicationContext } from "../../applicationContext";
 
-export function EmissionStackedBarChart() {
-  const { data, phaseOut } = useContext(ApplicationContext);
+export function EmissionStackedBarChart({
+  phaseOut,
+}: {
+  phaseOut: PhaseOutSchedule;
+}) {
+  const { data } = useContext(ApplicationContext);
   const allFields = Object.keys(data);
 
   function calculateTotal(plan: "baseline" | "user") {
@@ -112,16 +115,5 @@ export function EmissionStackedBarChart() {
     },
   };
 
-  return (
-    <>
-      <nav className="emission-nav">
-        <Link to={"/emissions/line"}>Linjediagram</Link>
-        <Link to={"./"}>Søylediagram</Link>
-        <Link to={"/emissions/intensity"}>Utslippsintensitet</Link>
-      </nav>
-      <div className="emission-chart">
-        <Bar options={options} data={chartData} />
-      </div>
-    </>
-  );
+  return <Bar options={options} data={chartData} />;
 }
