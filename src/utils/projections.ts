@@ -1,4 +1,4 @@
-import { EmissionIntensity, Projection } from "../types/interface";
+import { Projection } from "../types/interface";
 import { OilFieldDataset } from "../types/types";
 import { calculateAverage } from "./calculations";
 
@@ -139,34 +139,4 @@ export function generateCompleteData(data: OilFieldDataset): OilFieldDataset {
   }
 
   return combined;
-}
-
-export function extractEmissionIntensities(
-  data: OilFieldDataset,
-): EmissionIntensity[] {
-  const result: EmissionIntensity[] = [];
-
-  for (const [fieldName, yearlyData] of Object.entries(data)) {
-    for (const [yearStr, record] of Object.entries(yearlyData)) {
-      const year = parseInt(yearStr);
-      const {
-        productionOil = 0,
-        productionGas = 0,
-        emissionIntensity,
-      } = record;
-
-      if (emissionIntensity !== undefined) {
-        const totalProduction = productionOil + productionGas;
-
-        result.push({
-          fieldName,
-          year,
-          totalProduction: parseFloat(totalProduction.toFixed(2)),
-          emissionIntensity: parseFloat(emissionIntensity.toFixed(4)),
-        });
-      }
-    }
-  }
-
-  return result;
 }

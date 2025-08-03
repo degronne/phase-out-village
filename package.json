@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "data:download": "download -f - https://script.google.com/macros/s/AKfycbz92RtrJhgt9sl7QZIyfUPQBby-UIfaiH6H6KXTaJZtKEdw7DUNRMJ77H7wbCqSg8wVYg/exec > tmp/data.json",
+    "data:download": "download -f - https://script.google.com/macros/s/AKfycbxZtR2yZdYoQFquvl86qv870H9jkK5rOgFx9ZNN7QAtKjXCvo8rTDmxgii0zOo_GX8Y7g/exec > tmp/data.json",
     "data:process": "tsx build/processData.ts > src/generated/data.ts",
     "data": "npm run data:download && npm run data:process",
     "test": "tsc --noEmit && prettier --check .",

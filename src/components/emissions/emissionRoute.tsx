@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Link, Navigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { EmissionForAllFields } from "./emissionsForAllFields";
 import { EmissionStackedBarChart } from "./emissionStackedBarChart";
 import { EmissionEfficiencyScatterChart } from "./emissionEfficiencyScatter";
