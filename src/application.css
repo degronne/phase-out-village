@@ -112,6 +112,14 @@ td {
   .details {
     overflow-y: scroll;
     padding-bottom: 5em;
+    h1 {
+      width: 100%;
+      text-align: center;
+    }
+    ul {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   @media (width > 600px) {
