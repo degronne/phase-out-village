@@ -16,6 +16,7 @@ export function PhaseOutDialog({ close }: { close: () => void }) {
     useContext(ApplicationContext);
 
   const [draft, setDraft] = useState<PhaseOutSchedule>({});
+  const [selectedOrder, setSelectedOrder] = useState<OilfieldName[]>([]);
 
   const [latestSelectedField, setLatestSelectedField] =
     useState<OilfieldName | null>(null);
@@ -28,30 +29,61 @@ export function PhaseOutDialog({ close }: { close: () => void }) {
     close();
   }
 
-  function toggle(field: OilfieldName, checked: boolean) {
-    if (!checked) {
-      setDraft((d) =>
-        Object.fromEntries(Object.entries(d).filter(([f, _]) => f !== field)),
-      );
-      if (latestSelectedField === field) {
-        setLatestSelectedField(null);
-      }
+  function updateLatestSelectedField(
+    removed: string,
+    selectedOrder: string[],
+  ): string | null {
+    const newOrder = selectedOrder.filter((f) => f !== removed);
+    return newOrder.at(-1) ?? null;
+  }
+
+  function setLatestFieldInfo(field: OilfieldName | null) {
+    setLatestSelectedField(field);
+
+    if (!field) {
+      setFieldForChart(null);
+      return;
+    }
+
+    const data = fullData[field]?.[year];
+    if (data) {
+      const fieldData: Oilfield = {
+        field,
+        productionOil: data.productionOil ?? null,
+        productionGas: data.productionGas ?? null,
+        emission: data.emission ?? null,
+        emissionIntensity: data.emissionIntensity ?? null,
+      };
+      setFieldForChart(fieldData);
     } else {
-      setDraft((d) => ({ ...d, [field]: year }));
-      setLatestSelectedField(field);
-      const data = fullData[field]?.[year];
-      if (data) {
-        const fieldData: Oilfield = {
-          field: field,
-          productionOil: data.productionOil ?? null,
-          productionGas: data.productionGas ?? null,
-          emission: data.emission ?? null,
-          emissionIntensity: data.emissionIntensity ?? null,
-        };
-        setFieldForChart(fieldData);
-      } else {
-        setFieldForChart(null);
-      }
+      setFieldForChart(null);
+    }
+  }
+
+  function removeField(field: OilfieldName) {
+    setDraft((d) =>
+      Object.fromEntries(Object.entries(d).filter(([f]) => f !== field)),
+    );
+
+    setSelectedOrder((prev) => {
+      const updated = prev.filter((f) => f !== field);
+      const fallback = updateLatestSelectedField(field, prev);
+      setLatestFieldInfo(fallback);
+      return updated;
+    });
+  }
+
+  function addField(field: OilfieldName) {
+    setDraft((d) => ({ ...d, [field]: year }));
+    setSelectedOrder((prev) => [...prev.filter((f) => f !== field), field]);
+    setLatestFieldInfo(field);
+  }
+
+  function toggle(field: OilfieldName, checked: boolean) {
+    if (checked) {
+      addField(field);
+    } else {
+      removeField(field);
     }
   }
 
