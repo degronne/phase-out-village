@@ -194,20 +194,5 @@ td {
 }
 
 .production-chart {
-  height: 400px;
-  position: relative;
-  padding: 1rem;
-}
-
-.production-chart canvas {
-  width: 100% !important;
-  max-width: 100% !important;
-  height: auto !important;
-}
-
-@media (max-width: 600px) {
-  .production-chart {
-    height: 300px;
-    padding: 0.5rem;
-  }
+  height: min(80vh, 600px);
 }
