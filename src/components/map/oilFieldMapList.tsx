@@ -8,6 +8,7 @@ export function OilFieldMapList() {
   return (
     <div>
       <h1>Oljefelter</h1>
+      <ul>
       {oilfields.map((o) => (
         <li key={o}>
           <Link to={`/map/${o}`}>{oilfieldNames[o]}</Link>
@@ -15,6 +16,7 @@ export function OilFieldMapList() {
             ` (din plan: avvikles i ${phaseOut[oilfieldNames[o]]})`}
         </li>
       ))}
+      </ul>
     </div>
   );
 }
