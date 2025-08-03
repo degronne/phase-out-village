@@ -1,9 +1,6 @@
 import React from "react";
-import { ProductionTable } from "../tables/productionTable";
 import { Route, Routes } from "react-router-dom";
 import { ProductionPerFieldChart } from "./productionPerFieldChart";
-import { YearlyTotalOilProductionChart } from "./yearlyTotalOilProduction";
-import { TotalProduction } from "./totalProduction";
 import { ProductionReductionChart } from "./productionReductionChart";
 import { YearlyTotalProductionChart } from "./yearlyOilAndGasProductionBarChart";
 

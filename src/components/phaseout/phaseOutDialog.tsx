@@ -3,6 +3,7 @@ import { ApplicationContext } from "../../applicationContext";
 import { OilfieldName, PhaseOutSchedule } from "../../data";
 import { EmissionIntensityBarChart } from "../charts/emissionIntensitySingleOilField";
 import { useNavigate } from "react-router-dom";
+import "./phaseOut.css";
 
 type Oilfield = {
   field: string;
