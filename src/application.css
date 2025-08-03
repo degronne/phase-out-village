@@ -136,6 +136,11 @@ td {
 .welcome p {
   max-width: 60ch;
   margin-bottom: 1em;
+
+  img {
+    float: right;
+    max-width: 25%;
+  }
 }
 
 .emission-chart-container {
