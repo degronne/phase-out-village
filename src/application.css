@@ -52,7 +52,13 @@ td {
 }
 
 #app {
-  height: 100dvh;
+  height: 100vh;
+  @supports (height: 100svh) {
+    height: 100svh;
+  }
+  @supports (height: 100dvh) {
+    height: 100dvh;
+  }
   display: grid;
   grid-template-rows: auto 1fr auto;
 }
