@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
 import { ApplicationContext } from "../../applicationContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { EmissionSummaryCard } from "../emissions/emissionSummaryCard";
 import { ProductionSummaryCard } from "../production/productionSummaryCard";
 
 export function ApplicationHeader() {
   const { phaseOut, year, proceed, restart } = useContext(ApplicationContext);
   const navigate = useNavigate();
+  const location = useLocation();
   const gameEnded = year === "2040";
   return (
     <header>
