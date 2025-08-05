@@ -134,6 +134,9 @@ td {
   @media (width > 600px) {
     grid-template-rows: unset;
     grid-template-columns: 1fr 1fr;
+    dialog {
+      width: 42rem;
+    }
   }
 }
 
