@@ -26,15 +26,9 @@ The data is collected into a [publicly available spreadsheet](https://docs.googl
 As future production is secret and emission is tied to production, the following estimates are used for future values:
 
 - Future production is based on the average of the last five years with a projected depletion of 10% per year
-- Average emission intensity is set to the average of the last five years
-  - For selected oil fields, the total emission is set to be constant as the emissions mainly based on constant
-    factors
+- Average emission is set to the average of the last five years
 - For future electricity consumption, the future consumption uses the last known value scaled by production volume
-- The user can select whether to use the USD 80 as a future oil price, adjust the oil price by a yearly percentage
-  between -5% and +5% (official scenarios seem to be a bit above +2%) or set a price for each year
-- Revenue is estimated as a percentage of the market price of the production volume, based on past trends.
-  78% of the revenue is calculated as the tax revenue. We set an estimated dividend percentage for each oil field
-  based on historical values
+
 
 ## Features
 
@@ -47,10 +41,6 @@ As future production is secret and emission is tied to production, the following
 - Similarly to emissions and production, a graph of revenue for the baseline scenario and the user's planned scenario is
   displayed. The revenue is divided into fund contributions and direct budget contributions
 - When the user selects an oil field, the graphs are limited to that oil field
-
-## Inspirational idea
-
-![phase-out-village-sketch.png](phase-out-village-sketch.png)
 
 ## Technology
 
