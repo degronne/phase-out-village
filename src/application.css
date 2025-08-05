@@ -11,6 +11,10 @@ dialog {
   margin: revert;
 }
 
+&:disabled {
+  color: revert;
+}
+
 :root,
 dialog {
   --skog: #133600;
