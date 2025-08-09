@@ -1,8 +1,8 @@
 import { FeatureLike } from "ol/Feature";
 import { Fill, Stroke, Style, Text } from "ol/style";
 import { Point } from "ol/geom";
-import { containsCoordinate, createEmpty, extend, getCenter } from "ol/extent";
-import { Feature, Map, MapBrowserEvent } from "ol";
+import { createEmpty, extend, getCenter } from "ol/extent";
+import { Map, MapBrowserEvent } from "ol";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { OilfieldValues, slugify } from "../../data";
 import { aggregateOilFields } from "../../data/aggregateOilFields";
@@ -38,29 +38,37 @@ function simpleStripePattern(color: string) {
   return ctx.createPattern(canvas, "repeat");
 }
 
-function showFieldNameStyle(f: FeatureLike) {
+function showFieldNameStyle(f: FeatureLike, resolution: number) {
+  const zoom = Math.round(Math.log2(15643.03392804097 / resolution));
+  const fontSize = Math.max(12, Math.min(20, 8 + zoom));
+
   return new Style({
     text: new Text({
-      font: "9pt sans-serif",
+      font: `bold ${fontSize}px sans-serif`,
       text: oilfieldName(f),
       overflow: true,
       placement: "point",
-      fill: new Fill({ color: "black" }),
-      stroke: new Stroke({ color: "white", width: 2 }),
+      fill: new Fill({ color: "white" }),
+      stroke: new Stroke({ color: "black", width: 2 }),
+      offsetY: -5,
     }),
     geometry: new Point(getCenter(f.getGeometry()!.getExtent())),
   });
 }
 
-function showFieldNameIfAvailableStyle(f: FeatureLike) {
+function showFieldNameIfAvailableStyle(f: FeatureLike, resolution: number) {
+  const zoom = Math.round(Math.log2(15643.03392804097 / resolution));
+  const fontSize = Math.max(10, Math.min(16, 6 + zoom));
+
   return new Style({
     text: new Text({
-      font: "9pt sans-serif",
+      font: `${fontSize}px sans-serif`,
       text: oilfieldName(f),
       overflow: false,
       placement: "point",
-      fill: new Fill({ color: "black" }),
-      stroke: new Stroke({ color: "white", width: 2 }),
+      fill: new Fill({ color: "white" }),
+      stroke: new Stroke({ color: "black", width: 1.5 }),
+      offsetY: -5,
     }),
   });
 }
@@ -69,18 +77,22 @@ export function useOilfieldLayer(map: Map, slug: string | undefined) {
   const [selectedFieldNames, setSelectedFieldNames] = useState<Set<string>>(
     new Set(),
   );
-  const [hoverFeature, setHoverFeature] = useState<Feature | undefined>();
   const { phaseOut } = useContext(ApplicationContext);
 
   useEffect(() => {
-    oilfieldSource.once("featuresloadend", () => selectOilField());
+    // Define the handler with a stable reference for cleanup
+    function handleFeaturesLoadEnd() {
+      selectOilField();
+    }
+
+    oilfieldSource.once("featuresloadend", handleFeaturesLoadEnd);
     map.on("click", handleClick);
-    map.on("pointermove", handlePointerMove);
+
     return () => {
-      map.un("pointermove", handlePointerMove);
       map.un("click", handleClick);
+      oilfieldSource.un("featuresloadend", handleFeaturesLoadEnd);
     };
-  }, []);
+  }, [map, oilfieldSource, handleClick, selectOilField]);
 
   function selectOilField() {
     const view = map.getView()!;
@@ -99,11 +111,16 @@ export function useOilfieldLayer(map: Map, slug: string | undefined) {
       for (const feature of selectedFeatures) {
         extend(extent, feature.getGeometry()!.getExtent());
       }
-      view.fit(extent, { maxZoom: 9, padding: [5, 5, 5, 5], duration: 500 });
+      view.fit(extent, {
+        maxZoom: 12,
+        padding: [20, 20, 20, 20],
+        duration: 500,
+      });
     } else if (oilfieldSource.getFeatures().length > 0) {
       view.fit(oilfieldSource.getExtent(), {
         duration: 500,
-        padding: [10, 10, 10, 10],
+        padding: [30, 30, 30, 30],
+        maxZoom: 10,
       });
     }
     setSelectedFieldNames(selectedFields);
@@ -124,35 +141,15 @@ export function useOilfieldLayer(map: Map, slug: string | undefined) {
       : new Style({ fill: new Fill({ color: "red" }) });
   };
 
-  const oilfieldStyle = useMemo<(f: FeatureLike) => Style[]>(() => {
-    return (f: FeatureLike): Style[] => {
+  const oilfieldStyle = useMemo<
+    (f: FeatureLike, resolution: number) => Style[]
+  >(() => {
+    return (f: FeatureLike, resolution: number): Style[] => {
       return isSelected(f)
-        ? [selectedStyle(f), showFieldNameStyle(f)]
-        : [unselectedStyle(f), showFieldNameIfAvailableStyle(f)];
+        ? [selectedStyle(f), showFieldNameStyle(f, resolution)]
+        : [unselectedStyle(f), showFieldNameIfAvailableStyle(f, resolution)];
     };
   }, [selectedFieldNames, selectedStyle, unselectedStyle]);
-
-  function handlePointerMove(e: MapBrowserEvent) {
-    const feature = map.getFeaturesAtPixel(e.pixel, {
-      layerFilter: (l) => l.getSource() === oilfieldSource,
-    })[0];
-    setHoverFeature((old) => {
-      if (old == feature) return old;
-      if (!old || feature) return feature as Feature;
-      if (containsCoordinate(old.getGeometry()!.getExtent(), e.coordinate))
-        return old;
-      return undefined;
-    });
-  }
-
-  useEffect(() => {
-    hoverFeature?.setStyle((f) => [
-      new Style({ stroke: new Stroke({ color: "black" }) }),
-      showFieldNameStyle(f),
-      isSelected(f) ? selectedStyle(f) : unselectedStyle(f),
-    ]);
-    return () => hoverFeature?.setStyle(undefined);
-  }, [hoverFeature, unselectedStyle, selectedStyle]);
 
   const navigate = useNavigate();
 
@@ -161,7 +158,6 @@ export function useOilfieldLayer(map: Map, slug: string | undefined) {
       layerFilter: (l) => l.getSource() === oilfieldSource,
     });
     if (features.length === 1) {
-      setHoverFeature(undefined);
       navigate(
         `/map/${slugify(aggregateOilFields[oilfieldName(features[0])])}`,
       );
