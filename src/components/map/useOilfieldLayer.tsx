@@ -78,6 +78,70 @@ export function useOilfieldLayer(map: Map, slug: string | undefined) {
     new Set(),
   );
   const { phaseOut } = useContext(ApplicationContext);
+  const navigate = useNavigate();
+
+  const handleClick = useMemo(
+    () => (e: MapBrowserEvent) => {
+      const features = map.getFeaturesAtPixel(e.pixel, {
+        layerFilter: (l) => l.getSource() === oilfieldSource,
+      });
+      if (features.length === 1) {
+        navigate(
+          `/map/${slugify(aggregateOilFields[oilfieldName(features[0])])}`,
+        );
+      }
+    },
+    [map, navigate],
+  );
+
+  const selectOilField = useMemo(
+    () => () => {
+      const view = map.getView()!;
+      const field = OilfieldValues.find((s) => slugify(s) === slug);
+
+      if (!field) {
+        // If no field found, show all oilfields
+        if (oilfieldSource.getFeatures().length > 0) {
+          view.fit(oilfieldSource.getExtent(), {
+            duration: 500,
+            padding: [30, 30, 30, 30],
+            maxZoom: 10,
+          });
+        }
+        setSelectedFieldNames(new Set());
+        return;
+      }
+
+      const selectedFields = new Set(
+        Object.entries(aggregateOilFields)
+          .filter(([_, v]) => v === field)
+          .map(([k, _]) => k),
+      );
+      const selectedFeatures = oilfieldSource
+        .getFeatures()
+        .filter((f) => selectedFields.has(oilfieldName(f)));
+
+      if (selectedFeatures.length) {
+        const extent = createEmpty();
+        for (const feature of selectedFeatures) {
+          extend(extent, feature.getGeometry()!.getExtent());
+        }
+        view.fit(extent, {
+          maxZoom: 12,
+          padding: [20, 20, 20, 20],
+          duration: 500,
+        });
+      } else if (oilfieldSource.getFeatures().length > 0) {
+        view.fit(oilfieldSource.getExtent(), {
+          duration: 500,
+          padding: [30, 30, 30, 30],
+          maxZoom: 10,
+        });
+      }
+      setSelectedFieldNames(selectedFields);
+    },
+    [map, slug],
+  );
 
   useEffect(() => {
     // Define the handler with a stable reference for cleanup
@@ -94,42 +158,11 @@ export function useOilfieldLayer(map: Map, slug: string | undefined) {
     };
   }, [map, oilfieldSource, handleClick, selectOilField]);
 
-  function selectOilField() {
-    const view = map.getView()!;
-    const field = OilfieldValues.find((s) => slugify(s) === slug)!;
-    const selectedFields = new Set(
-      Object.entries(aggregateOilFields)
-        .filter(([_, v]) => v === field)
-        .map(([k, _]) => k),
-    );
-    const selectedFeatures = oilfieldSource
-      .getFeatures()
-      .filter((f) => selectedFields.has(oilfieldName(f)));
-
-    if (selectedFeatures.length) {
-      const extent = createEmpty();
-      for (const feature of selectedFeatures) {
-        extend(extent, feature.getGeometry()!.getExtent());
-      }
-      view.fit(extent, {
-        maxZoom: 12,
-        padding: [20, 20, 20, 20],
-        duration: 500,
-      });
-    } else if (oilfieldSource.getFeatures().length > 0) {
-      view.fit(oilfieldSource.getExtent(), {
-        duration: 500,
-        padding: [30, 30, 30, 30],
-        maxZoom: 10,
-      });
-    }
-    setSelectedFieldNames(selectedFields);
-  }
   function isSelected(f: FeatureLike) {
     return selectedFieldNames.has(oilfieldName(f));
   }
 
-  useEffect(() => selectOilField(), [slug]);
+  useEffect(() => selectOilField(), [selectOilField]);
   const selectedStyle = (f: FeatureLike) => {
     return phaseOut[aggregateOilFields[oilfieldName(f)]]
       ? new Style({ fill: new Fill({ color: simpleStripePattern("blue") }) })
@@ -150,19 +183,6 @@ export function useOilfieldLayer(map: Map, slug: string | undefined) {
         : [unselectedStyle(f), showFieldNameIfAvailableStyle(f, resolution)];
     };
   }, [selectedFieldNames, selectedStyle, unselectedStyle]);
-
-  const navigate = useNavigate();
-
-  function handleClick(e: MapBrowserEvent) {
-    const features = map.getFeaturesAtPixel(e.pixel, {
-      layerFilter: (l) => l.getSource() === oilfieldSource,
-    });
-    if (features.length === 1) {
-      navigate(
-        `/map/${slugify(aggregateOilFields[oilfieldName(features[0])])}`,
-      );
-    }
-  }
 
   const oilfieldLayer = useMemo(
     () => new VectorLayer({ source: oilfieldSource, style: oilfieldStyle }),
