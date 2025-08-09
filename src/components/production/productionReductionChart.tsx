@@ -83,23 +83,6 @@ export function ProductionReductionChart({
     return summed;
   }
 
-  function combineTimeSeries(
-    series1: { x: string; y: number }[],
-    series2: { x: string; y: number }[],
-  ): { x: string; y: number }[] {
-    const yearSet = new Set<string>();
-    series1.forEach((d) => yearSet.add(d.x));
-    series2.forEach((d) => yearSet.add(d.x));
-
-    const allYears = Array.from(yearSet).sort();
-
-    return allYears.map((year) => {
-      const y1 = series1.find((d) => d.x === year)?.y ?? 0;
-      const y2 = series2.find((d) => d.x === year)?.y ?? 0;
-      return { x: year, y: y1 + y2 };
-    });
-  }
-
   const userPlanOil = useMemo(
     () => calculateTotalOil("user"),
     [data, phaseOut],
@@ -110,9 +93,6 @@ export function ProductionReductionChart({
     [data, phaseOut],
   );
   const baseLineGas = useMemo(() => calculateTotalGas("baseline"), [data]);
-
-  const userPlan = combineTimeSeries(userPlanOil, userPlanGas);
-  const baseLine = combineTimeSeries(baseLineOil, baseLineGas);
 
   const textColor = usePrefersDarkMode() ? "#fff": "#000";
 
@@ -188,23 +168,10 @@ export function ProductionReductionChart({
             label: "Din plan (Olje)",
             data: userPlanOil,
             borderColor: "#4a90e2",
-            /* segment: {
-              borderDash: (ctx) => {
-                const point = ctx.p1 as { raw?: { x: number | string } };
-                const year = Number(point.raw?.x);
-                return year > 2022 ? [5, 5] : undefined;
-              },
-            },
-            pointStyle: (ctx) => {
-              const point = ctx.raw as { x: number | string };
-              return Number(point.x) > 2022 ? "star" : "circle";
-            }, */
             backgroundColor: usePrefersDarkMode()
             ? "#2A5D8F"
             : "#4DA3FF",
             stack: "userPlan"
-            //tension: 0.3,
-            //fill: true,
           },
           {
             label: "Din plan (Gass)",
@@ -219,23 +186,10 @@ export function ProductionReductionChart({
             label: "Referanse Olje (uten tiltak)",
             data: baseLineOil,
             borderColor: "orange",
-            /* segment: {
-              borderDash: (ctx) => {
-                const point = ctx.p1 as { raw?: { x: number | string } };
-                const year = Number(point.raw?.x);
-                return year > 2022 ? [5, 5] : undefined;
-              },
-            },
-            pointStyle: (ctx) => {
-              const point = ctx.raw as { x: number | string };
-              return Number(point.x) > 2022 ? "star" : "circle";
-            }, */
             backgroundColor: usePrefersDarkMode()
             ? "#8E44AD"
             : "#A569BD",
             stack: "reference"
-            /* tension: 0.3,
-            fill: true, */
           },
           {
             label: "Referanse Gass (uten tiltak)",
