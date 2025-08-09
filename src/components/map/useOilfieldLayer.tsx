@@ -4,7 +4,7 @@ import { Point } from "ol/geom";
 import { containsCoordinate, createEmpty, extend, getCenter } from "ol/extent";
 import { Feature, Map, MapBrowserEvent } from "ol";
 import { useContext, useEffect, useMemo, useState } from "react";
-import { OilfieldValues, slugify } from "../../data";
+import { OilfieldValues, slugify } from "../../data/data";
 import { aggregateOilFields } from "../../data/aggregateOilFields";
 import { useNavigate } from "react-router-dom";
 import VectorLayer from "ol/layer/Vector";

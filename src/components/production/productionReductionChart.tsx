@@ -1,19 +1,17 @@
 import { Line } from "react-chartjs-2";
-import React, { useContext, useMemo } from "react";
-import { ApplicationContext } from "../../applicationContext";
+import React, { useMemo } from "react";
 import {
   calculateGasProduction,
   calculateOilProduction,
   PhaseOutSchedule,
-} from "../../data";
+} from "../../data/data";
+import { data } from "../../generated/data";
 
 export function ProductionReductionChart({
   phaseOut,
 }: {
   phaseOut: PhaseOutSchedule;
 }) {
-  const { data } = useContext(ApplicationContext);
-
   const allFields = Object.keys(data);
 
   function calculateTotalOil(plan: "baseline" | "user") {

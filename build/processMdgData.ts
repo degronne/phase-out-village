@@ -1,5 +1,5 @@
 import fs from "fs";
-import { PhaseOutSchedule, Year } from "../src/data";
+import { PhaseOutSchedule, Year } from "../src/data/data";
 
 const data = JSON.parse(fs.readFileSync("tmp/dataMdg.json") as any);
 

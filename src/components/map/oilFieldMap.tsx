@@ -3,7 +3,7 @@ import { Map, View } from "ol";
 import { useGeographic } from "ol/proj";
 
 import "ol/ol.css";
-import { OilfieldName, Slugify } from "../../data";
+import { OilfieldName, Slugify } from "../../data/data";
 import { useOilfieldLayer } from "./useOilfieldLayer";
 import { useBackgroundLayer } from "./useBackgroundLayer";
 

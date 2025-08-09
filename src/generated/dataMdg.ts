@@ -1,4 +1,4 @@
-import { PhaseOutSchedule } from "../data";
+import { PhaseOutSchedule } from "../data/data";
 
 export const mdgPlan: PhaseOutSchedule = {
   "Aasta Hansteen": "2032",

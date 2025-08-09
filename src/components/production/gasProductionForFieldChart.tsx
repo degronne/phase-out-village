@@ -1,14 +1,13 @@
 import React, { useContext } from "react";
 import { ApplicationContext } from "../../applicationContext";
-import { calculateGasProduction } from "../../data";
+import { calculateGasProduction } from "../../data/data";
 import { Line } from "react-chartjs-2";
 import { isEstimated } from "../charts/isEstimated";
+import { data } from "../../generated/data";
 
 export function GasProductionForFieldChart({ field }: { field: string }) {
-  const { data, phaseOut } = useContext(ApplicationContext);
+  const { phaseOut } = useContext(ApplicationContext);
 
-  const userPlan = calculateGasProduction(data[field], phaseOut[field]);
-  const baseLine = calculateGasProduction(data[field], undefined);
   return (
     <Line
       options={{
@@ -41,11 +40,13 @@ export function GasProductionForFieldChart({ field }: { field: string }) {
         },
       }}
       data={{
-        labels: baseLine.map(([y, ..._]) => y),
+        labels: calculateGasProduction(data[field], undefined).map(
+          ([y, ..._]) => y,
+        ),
         datasets: [
           {
             label: "Din plan",
-            data: userPlan,
+            data: calculateGasProduction(data[field], phaseOut[field]),
             borderColor: "#4a90e2",
             segment: {
               borderDash: (ctx) => {
@@ -59,7 +60,7 @@ export function GasProductionForFieldChart({ field }: { field: string }) {
           },
           {
             label: "Referanse",
-            data: baseLine,
+            data: calculateGasProduction(data[field], undefined),
             borderColor: "orange",
             segment: {
               borderDash: (ctx) => (isEstimated(ctx.p1) ? [5, 5] : undefined),

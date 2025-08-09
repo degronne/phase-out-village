@@ -3,15 +3,15 @@ import {
   calculateOilProduction,
   computeSumForYears,
   yearsInRange,
-} from "../../data";
+} from "../../data/data";
 import { ApplicationContext } from "../../applicationContext";
-import { Link } from "react-router-dom";
+import { data, Link } from "react-router-dom";
 import { oilEquivalentToBarrel } from "../../data/calculations";
 
 export function ProductionSummaryCard() {
   const years = yearsInRange(2025, 2040);
 
-  const { data, phaseOut } = useContext(ApplicationContext);
+  const { phaseOut } = useContext(ApplicationContext);
 
   const yearSet = new Set(years);
   const result = Object.entries(data)

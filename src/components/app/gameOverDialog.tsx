@@ -1,14 +1,29 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import { Dialog } from "../ui/dialog";
 import { ProductionReductionChart } from "../production/productionReductionChart";
 import { ApplicationContext } from "../../applicationContext";
 import { mdgPlan } from "../../generated/dataMdg";
 import { EmissionStackedBarChart } from "../emissions/emissionStackedBarChart";
 import { useNavigate } from "react-router-dom";
+import { data } from "../../generated/data";
+import { calculateTotalEmissions } from "../../data/calculateTotalEmissions";
 
 export function GameOverDialog() {
   const { phaseOut, restart } = useContext(ApplicationContext);
   const navigate = useNavigate();
+  const allFields = Object.keys(data);
+  const userPlan = useMemo(
+    () => calculateTotalEmissions(allFields, data, phaseOut),
+    [data, phaseOut],
+  );
+  const mdg = useMemo(
+    () => calculateTotalEmissions(allFields, data, mdgPlan),
+    [data],
+  );
+  const baseline = useMemo(
+    () => calculateTotalEmissions(allFields, data, {}),
+    [data],
+  );
   return (
     <Dialog open={true}>
       <div className={"game-over"}>
@@ -19,7 +34,7 @@ export function GameOverDialog() {
             <ProductionReductionChart phaseOut={phaseOut} />
           </div>
           <div>
-            <EmissionStackedBarChart phaseOut={phaseOut} />
+            <EmissionStackedBarChart userPlan={userPlan} baseline={baseline} />
           </div>
         </div>
         <h3>MDG sin plan</h3>
@@ -28,7 +43,7 @@ export function GameOverDialog() {
             <ProductionReductionChart phaseOut={mdgPlan} />
           </div>
           <div>
-            <EmissionStackedBarChart phaseOut={mdgPlan} />
+            <EmissionStackedBarChart userPlan={mdg} baseline={baseline} />
           </div>
         </div>
         <div>

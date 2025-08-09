@@ -1,14 +1,13 @@
 import React, { useContext } from "react";
 import { ApplicationContext } from "../../applicationContext";
-import { calculateEmissions } from "../../data";
+import { calculateEmissions } from "../../data/data";
 import { Line } from "react-chartjs-2";
 import { isEstimated } from "../charts/isEstimated";
+import { data } from "../../generated/data";
 
 export function EmissionsForFieldChart({ field }: { field: string }) {
-  const { data, phaseOut } = useContext(ApplicationContext);
+  const { phaseOut } = useContext(ApplicationContext);
 
-  const userPlan = calculateEmissions(data[field], phaseOut[field]);
-  const baseLine = calculateEmissions(data[field], undefined);
   return (
     <Line
       options={{
@@ -44,11 +43,11 @@ export function EmissionsForFieldChart({ field }: { field: string }) {
         },
       }}
       data={{
-        labels: baseLine.map(([y]) => y),
+        labels: calculateEmissions(data[field], undefined).map(([y]) => y),
         datasets: [
           {
             label: "Din plan",
-            data: userPlan,
+            data: calculateEmissions(data[field], phaseOut[field]),
             borderColor: "#4a90e2",
             segment: {
               borderDash: (ctx) => (isEstimated(ctx.p1) ? [5, 5] : undefined),
@@ -60,7 +59,7 @@ export function EmissionsForFieldChart({ field }: { field: string }) {
           },
           {
             label: "Referanse",
-            data: baseLine,
+            data: calculateEmissions(data[field], undefined),
             borderColor: "orange",
             segment: {
               borderDash: (ctx) => (isEstimated(ctx.p1) ? [5, 5] : undefined),

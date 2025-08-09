@@ -10,7 +10,11 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { ApplicationContext } from "../../applicationContext";
-import { calculateGasProduction, calculateOilProduction } from "../../data";
+import {
+  calculateGasProduction,
+  calculateOilProduction,
+} from "../../data/data";
+import { data } from "../../generated/data";
 
 ChartJS.register(
   CategoryScale,
@@ -22,7 +26,7 @@ ChartJS.register(
 );
 
 export function YearlyTotalProductionChart() {
-  const { data, phaseOut } = useContext(ApplicationContext);
+  const { phaseOut } = useContext(ApplicationContext);
   const allFields = Object.keys(data);
 
   const oilData = useMemo(() => {

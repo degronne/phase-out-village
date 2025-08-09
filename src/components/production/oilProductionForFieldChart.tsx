@@ -1,26 +1,21 @@
 import React, { useContext } from "react";
 import { ApplicationContext } from "../../applicationContext";
-import { oilProduction } from "../../data";
+import { oilProduction, YearlyDataset } from "../../data/data";
 import { Line } from "react-chartjs-2";
 import { isEstimated } from "../charts/isEstimated";
+import { data } from "../../generated/data";
 
 export function OilProductionForFieldChart({ field }: { field: string }) {
-  const { data, phaseOut } = useContext(ApplicationContext);
+  const { phaseOut } = useContext(ApplicationContext);
 
-  const userPlan = Object.entries(
-    oilProduction(data[field], phaseOut, field),
-  ).map(([year, { value, estimate }]) => ({
-    x: year,
-    y: value,
-    estimate,
-  }));
-  const baseLine = Object.entries(oilProduction(data[field], {}, field)).map(
-    ([year, { value, estimate }]) => ({
+  function toDataset(yearlyDataset: YearlyDataset) {
+    return Object.entries(yearlyDataset).map(([year, { value, estimate }]) => ({
       x: year,
       y: value,
       estimate,
-    }),
-  );
+    }));
+  }
+
   return (
     <Line
       options={{
@@ -53,11 +48,13 @@ export function OilProductionForFieldChart({ field }: { field: string }) {
         },
       }}
       data={{
-        labels: baseLine.map(({ x }) => x),
+        labels: toDataset(oilProduction(data[field], {}, field)).map(
+          ({ x }) => x,
+        ),
         datasets: [
           {
             label: "Din plan",
-            data: userPlan,
+            data: toDataset(oilProduction(data[field], phaseOut, field)),
             borderColor: "#4a90e2",
             segment: {
               borderDash: (ctx) => (isEstimated(ctx.p1) ? [5, 5] : undefined),
@@ -69,7 +66,7 @@ export function OilProductionForFieldChart({ field }: { field: string }) {
           },
           {
             label: "Referanse",
-            data: baseLine,
+            data: toDataset(oilProduction(data[field], {}, field)),
             borderColor: "orange",
             segment: {
               borderDash: (ctx) => (isEstimated(ctx.p1) ? [5, 5] : undefined),

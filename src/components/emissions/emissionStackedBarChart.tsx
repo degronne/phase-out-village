@@ -1,51 +1,18 @@
-import React, { useContext, useMemo } from "react";
-import { calculateEmissions, PhaseOutSchedule } from "../../data";
+import React from "react";
+import { TimeSerieValue } from "../../data/data";
 import { Bar } from "react-chartjs-2";
-import { ApplicationContext } from "../../applicationContext";
 
 export function EmissionStackedBarChart({
-  phaseOut,
+  userPlan,
+  baseline,
 }: {
-  phaseOut: PhaseOutSchedule;
+  userPlan: TimeSerieValue[];
+  baseline: TimeSerieValue[];
 }) {
-  const { data } = useContext(ApplicationContext);
-  const allFields = Object.keys(data);
+  const labels = baseline.map(([d]) => d);
 
-  function calculateTotal(plan: "baseline" | "user") {
-    const allEmissions = allFields.map((field) =>
-      calculateEmissions(
-        data[field],
-        plan === "user" ? phaseOut[field] : undefined,
-      ),
-    );
-
-    const allYearsSet = new Set<string>();
-    allEmissions.forEach((series) => {
-      series.forEach(([year]) => allYearsSet.add(year));
-    });
-
-    const allYearsSorted = Array.from(allYearsSet).sort();
-
-    const summed = allYearsSorted.map((year) => {
-      let total = 0;
-      for (const series of allEmissions) {
-        const match = series.find(([y]) => y === year);
-        if (match) total += match[1] ?? 0;
-      }
-
-      return { x: year, y: total };
-    });
-
-    return summed;
-  }
-
-  const userPlan = useMemo(() => calculateTotal("user"), [data, phaseOut]);
-  const baseline = useMemo(() => calculateTotal("baseline"), [data]);
-
-  const labels = baseline.map((d) => d.x);
-
-  const userData = userPlan.map((d) => d.y);
-  const baselineData = baseline.map((d) => d.y);
+  const userData = userPlan.map(([, x]) => x);
+  const baselineData = baseline.map(([, x]) => x);
 
   const reductionData = baselineData.map((base, i) => {
     const user = userData[i] ?? 0;

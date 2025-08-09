@@ -10,7 +10,7 @@ import {
 } from "chart.js";
 import annotationPlugin from "chartjs-plugin-annotation";
 import { Scatter } from "react-chartjs-2";
-import { PhaseOutSchedule, Year } from "../../data";
+import { PhaseOutSchedule, Year } from "../../data/data";
 import { emissionIntensityPerField } from "../../data/emissionIntensityPerField";
 
 ChartJS.register(

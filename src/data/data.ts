@@ -1,4 +1,4 @@
-import { data } from "./generated/data";
+import { data } from "../generated/data";
 
 export type OilfieldName = keyof typeof data;
 export const OilfieldValues = Object.keys(data) as OilfieldName[];
@@ -87,7 +87,7 @@ export function oilProduction(
   value: Record<Year, { productionOil?: number }>,
   phaseOut: PhaseOutSchedule,
   key: string,
-) {
+): YearlyDataset {
   return {
     ...estimatedOilProduction(measuredOilProduction(value), phaseOut[key]),
     ...measuredOilProduction(value),
@@ -95,12 +95,12 @@ export function oilProduction(
 }
 
 export function calculateGasProduction(
-  dataset: Record<Year, { productionGas?: number }>,
+  data: Record<Year, { productionGas?: number }>,
   phaseOut: Year | undefined,
 ): TimeSerieValue[] {
   const result: TimeSerieValue[] = allYears
-    .filter((y) => dataset[y]?.productionGas)
-    .map((y) => [y, dataset[y]?.productionGas!, undefined]);
+    .filter((y) => data[y]?.productionGas)
+    .map((y) => [y, data[y]?.productionGas!, undefined]);
 
   if (result.length == 0) return result;
   let current = computeAverage(result.toReversed().slice(0, 5));
@@ -156,7 +156,7 @@ export function calculateEmissions(
   let average = Math.round(computeAverage(result.toReversed().slice(0, 5)));
 
   for (let y = parseInt(result.at(-1)![0]) + 1; y < 2040; y++) {
-    average *= 0.97;
+    average *= 0.97; // yearly decline of 3%
     const year = y.toString() as Year;
     if (year === phaseOut) {
       result.push([year, 0, { estimate: true }]);

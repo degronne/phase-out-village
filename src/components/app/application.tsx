@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { MapRoute } from "../map/mapRoute";
-import { data } from "../../generated/data";
 import { ApplicationContext } from "../../applicationContext";
 import { FrontPage } from "./frontPage";
 import { PhaseOutRoute } from "../phaseout/phaseOutRoute";
 import { ProductionRoute } from "../production/productionRoute";
-import { PhaseOutSchedule, Year } from "../../data";
+import { PhaseOutSchedule, Year } from "../../data/data";
 import { useSessionState } from "../../hooks/useSessionState";
 import { EmissionRoute } from "../emissions/emissionRoute";
 import { ApplicationHeader } from "./applicationHeader";
@@ -57,7 +56,7 @@ export function Application() {
 
   return (
     <ApplicationContext
-      value={{ year, proceed, restart, data, phaseOut, setPhaseOut }}
+      value={{ year, proceed, restart, phaseOut, setPhaseOut }}
     >
       <ApplicationHeader />
       <main>
