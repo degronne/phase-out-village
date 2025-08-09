@@ -67,13 +67,13 @@ export function YearlyTotalProductionChart() {
       {
         label: "Oljeproduksjon",
         data: oilValues,
-        backgroundColor: "rgba(255,99,132,0.6)",
+        backgroundColor: "rgba(54,162,235,0.6)",
         stack: "production",
       },
       {
         label: "Gassproduksjon",
         data: gasValues,
-        backgroundColor: "rgba(54,162,235,0.6)",
+        backgroundColor: "rgba(255,99,132,0.6)",
         stack: "production",
       },
     ],
@@ -81,6 +81,7 @@ export function YearlyTotalProductionChart() {
 
   const options: ChartOptions<"bar"> = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       title: { display: true, text: "Inndeling av olje og gass" },
       tooltip: { mode: "index", intersect: false },
@@ -91,6 +92,7 @@ export function YearlyTotalProductionChart() {
       x: {
         stacked: true,
         title: { display: true, text: "År" },
+        min: "2012",
       },
       y: {
         stacked: true,
@@ -106,7 +108,9 @@ export function YearlyTotalProductionChart() {
         <Link to={"/production/composition"}>Inndeling produksjon</Link>
         <Link to={"/production/oilPerField"}>Produksjon per felt</Link>
       </nav>
-      <Bar data={chartData} options={options} />
+      <div className="barchart">
+        <Bar data={chartData} options={options} />
+      </div>
     </div>
   );
 }
