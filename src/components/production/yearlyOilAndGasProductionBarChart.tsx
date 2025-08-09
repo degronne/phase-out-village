@@ -116,7 +116,7 @@ export function YearlyTotalProductionChart() {
         <Link to={"/production/composition"}>Inndeling produksjon</Link>
         <Link to={"/production/oilPerField"}>Produksjon per felt</Link>
       </nav>
-      <div className="barchart">
+      <div className="bar-chart">
         <Bar data={chartData} options={options} />
       </div>
     </div>

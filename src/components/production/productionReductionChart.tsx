@@ -1,4 +1,4 @@
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import React, { useContext, useMemo } from "react";
 import { ApplicationContext } from "../../applicationContext";
 import {
@@ -6,6 +6,7 @@ import {
   calculateOilProduction,
   PhaseOutSchedule,
 } from "../../data";
+import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
 
 export function ProductionReductionChart({
   phaseOut,
@@ -113,15 +114,19 @@ export function ProductionReductionChart({
   const userPlan = combineTimeSeries(userPlanOil, userPlanGas);
   const baseLine = combineTimeSeries(baseLineOil, baseLineGas);
 
+  const textColor = usePrefersDarkMode() ? "#fff": "#000";
+
   return (
-    <Line
+    <div className="bar-chart">
+    <Bar
       options={{
         maintainAspectRatio: false,
         plugins: {
-          legend: { display: true },
+          legend: { display: true, labels: {color: textColor} },
           title: {
             display: true,
             text: "Total produksjon fra alle felter",
+            color: textColor,
             padding: {
               bottom: 20,
             },
@@ -141,8 +146,10 @@ export function ProductionReductionChart({
             title: {
               display: true,
               text: "Millioner Sm3 o.e.",
+              color: textColor,
             },
             ticks: {
+              color: textColor,
               callback: function (value: any) {
                 const num = Number(value);
                 if (window.innerWidth < 600) {
@@ -159,10 +166,12 @@ export function ProductionReductionChart({
             title: {
               display: true,
               text: "År",
+              color: textColor,
             },
             min: 2014,
             max: 2040,
             ticks: {
+              color: textColor,
               stepSize: 2,
               callback: (tickValue) => {
                 return typeof tickValue === "number"
@@ -176,10 +185,10 @@ export function ProductionReductionChart({
       data={{
         datasets: [
           {
-            label: "Din plan",
-            data: userPlan,
+            label: "Din plan (Olje)",
+            data: userPlanOil,
             borderColor: "#4a90e2",
-            segment: {
+            /* segment: {
               borderDash: (ctx) => {
                 const point = ctx.p1 as { raw?: { x: number | string } };
                 const year = Number(point.raw?.x);
@@ -189,16 +198,28 @@ export function ProductionReductionChart({
             pointStyle: (ctx) => {
               const point = ctx.raw as { x: number | string };
               return Number(point.x) > 2022 ? "star" : "circle";
-            },
-            backgroundColor: "rgba(74, 144, 226, 0.2)",
-            tension: 0.3,
-            fill: true,
+            }, */
+            backgroundColor: usePrefersDarkMode()
+            ? "#2A5D8F"
+            : "#4DA3FF",
+            stack: "userPlan"
+            //tension: 0.3,
+            //fill: true,
           },
           {
-            label: "Referanse (uten tiltak)",
-            data: baseLine,
+            label: "Din plan (Gass)",
+            data: userPlanGas,
+            borderColor: "#E24A4A",
+            backgroundColor: usePrefersDarkMode()
+            ? "#D64545"
+            : "#FF3333",
+            stack: "userPlan"
+          },
+          {
+            label: "Referanse Olje (uten tiltak)",
+            data: baseLineOil,
             borderColor: "orange",
-            segment: {
+            /* segment: {
               borderDash: (ctx) => {
                 const point = ctx.p1 as { raw?: { x: number | string } };
                 const year = Number(point.raw?.x);
@@ -208,13 +229,26 @@ export function ProductionReductionChart({
             pointStyle: (ctx) => {
               const point = ctx.raw as { x: number | string };
               return Number(point.x) > 2022 ? "star" : "circle";
-            },
-            backgroundColor: "rgba(255, 165, 0, 0.2)",
-            tension: 0.3,
-            fill: true,
+            }, */
+            backgroundColor: usePrefersDarkMode()
+            ? "#8E44AD"
+            : "#A569BD",
+            stack: "reference"
+            /* tension: 0.3,
+            fill: true, */
           },
+          {
+            label: "Referanse Gass (uten tiltak)",
+            data: baseLineGas,
+            borderColor: "orange",
+            backgroundColor: usePrefersDarkMode()
+            ? "#E67E22"
+            : "#FF9933",
+            stack: "reference"
+          }
         ],
       }}
     />
+    </div>
   );
 }
