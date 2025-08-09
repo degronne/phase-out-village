@@ -205,8 +205,24 @@ td {
 
 .production-chart {
   height: min(80vh, 600px);
-}
-.barchart {
+  .barchart {
     width: 100%;
     height: 40rem;
   } 
+}
+
+@media (width < 600px) {
+  .production-chart {
+    .barchart {
+      width: 95%;
+      height: 60vh;
+    } 
+  }
+}
+@media (height < 600px) {
+  .production-chart {
+    .barchart {
+      height: 55vh;
+    }
+  }
+}
