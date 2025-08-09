@@ -13,6 +13,7 @@ import { Bar } from "react-chartjs-2";
 import { ApplicationContext } from "../../applicationContext";
 import { calculateOilProduction, calculateGasProduction } from "../../data";
 import { Link } from "react-router-dom";
+import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
 
 ChartJS.register(
   CategoryScale,
@@ -67,13 +68,17 @@ export function YearlyTotalProductionChart() {
       {
         label: "Oljeproduksjon",
         data: oilValues,
-        backgroundColor: "rgba(54,162,235,0.6)",
+        backgroundColor: usePrefersDarkMode()
+        ? "#2A5D8F"
+        : "#4DA3FF",
         stack: "production",
       },
       {
         label: "Gassproduksjon",
         data: gasValues,
-        backgroundColor: "rgba(255,99,132,0.6)",
+        backgroundColor: usePrefersDarkMode()
+        ? "#D64545"
+        : "#FF3333",
         stack: "production",
       },
     ],
