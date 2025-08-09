@@ -156,20 +156,18 @@ td {
   }
 }
 
-.game-over {
-  .charts {
-    display: grid;
-    @media (width < 1000px) {
-      width: 90vw;
-    }
+.charts {
+  display: grid;
+  @media (width < 1000px) {
+    width: 90vw;
+  }
 
-    @media (width > 600px) {
-      grid-template-columns: 1fr 1fr;
-    }
+  @media (width > 600px) {
+    grid-template-columns: 1fr 1fr;
+  }
 
-    > div {
-      height: 250px;
-    }
+  > div {
+    height: 250px;
   }
 }
 

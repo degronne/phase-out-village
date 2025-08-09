@@ -1,18 +1,16 @@
 import React, { useContext, useMemo } from "react";
 import {
-  Chart as ChartJS,
   BarElement,
   CategoryScale,
+  Chart as ChartJS,
+  Legend,
   LinearScale,
   Title,
   Tooltip,
-  Legend,
-  ChartOptions,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { ApplicationContext } from "../../applicationContext";
-import { calculateOilProduction, calculateGasProduction } from "../../data";
-import { Link } from "react-router-dom";
+import { calculateGasProduction, calculateOilProduction } from "../../data";
 
 ChartJS.register(
   CategoryScale,
@@ -61,52 +59,44 @@ export function YearlyTotalProductionChart() {
     return { years, oilValues, gasValues };
   }, [oilData, gasData]);
 
-  const chartData = {
-    labels: years,
-    datasets: [
-      {
-        label: "Oljeproduksjon",
-        data: oilValues,
-        backgroundColor: "rgba(255,99,132,0.6)",
-        stack: "production",
-      },
-      {
-        label: "Gassproduksjon",
-        data: gasValues,
-        backgroundColor: "rgba(54,162,235,0.6)",
-        stack: "production",
-      },
-    ],
-  };
-
-  const options: ChartOptions<"bar"> = {
-    responsive: true,
-    plugins: {
-      title: { display: true, text: "Inndeling av olje og gass" },
-      tooltip: { mode: "index", intersect: false },
-      legend: { position: "top" },
-    },
-    interaction: { mode: "index", intersect: false },
-    scales: {
-      x: {
-        stacked: true,
-        title: { display: true, text: "År" },
-      },
-      y: {
-        stacked: true,
-        title: { display: true, text: "Millioner. Sm3 o.e." },
-      },
-    },
-  };
-
   return (
-    <div className="production-chart">
-      <nav className="production-nav">
-        <Link to={"/production/"}>Din plan</Link>
-        <Link to={"/production/composition"}>Inndeling produksjon</Link>
-        <Link to={"/production/oilPerField"}>Produksjon per felt</Link>
-      </nav>
-      <Bar data={chartData} options={options} />
-    </div>
+    <Bar
+      options={{
+        responsive: true,
+        plugins: {
+          title: { display: true, text: "Inndeling av olje og gass" },
+          tooltip: { mode: "index", intersect: false },
+          legend: { position: "top" },
+        },
+        interaction: { mode: "index", intersect: false },
+        scales: {
+          x: {
+            stacked: true,
+            title: { display: true, text: "År" },
+          },
+          y: {
+            stacked: true,
+            title: { display: true, text: "Millioner. Sm3 o.e." },
+          },
+        },
+      }}
+      data={{
+        labels: years,
+        datasets: [
+          {
+            label: "Oljeproduksjon",
+            data: oilValues,
+            backgroundColor: "rgba(255,99,132,0.6)",
+            stack: "production",
+          },
+          {
+            label: "Gassproduksjon",
+            data: gasValues,
+            backgroundColor: "rgba(54,162,235,0.6)",
+            stack: "production",
+          },
+        ],
+      }}
+    />
   );
 }

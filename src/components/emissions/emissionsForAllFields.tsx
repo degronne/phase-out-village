@@ -4,7 +4,7 @@ import { calculateEmissions } from "../../data";
 import { Line } from "react-chartjs-2";
 import { Link } from "react-router-dom";
 
-export function EmissionForAllFields() {
+export function EmissionForAllFieldsPage() {
   const { data, phaseOut, year } = useContext(ApplicationContext);
 
   const allFields = Object.keys(data);

@@ -88,7 +88,7 @@ function ProductionTable({
   );
 }
 
-export function ProductionPerFieldChart() {
+export function ProductionPerFieldPage() {
   const [visibleField, setVisibleField] = useState<string | undefined>();
 
   const { data, phaseOut } = useContext(ApplicationContext);

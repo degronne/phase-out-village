@@ -1,9 +1,11 @@
 import React, { FormEvent, useContext, useState } from "react";
 import { ApplicationContext } from "../../applicationContext";
 import { OilfieldName, PhaseOutSchedule } from "../../data";
-import { EmissionIntensityBarChart } from "../charts/emissionIntensitySingleOilField";
+import { EmissionIntensityBarChart } from "../charts/emissionIntensityBarChart";
 import { useNavigate } from "react-router-dom";
 import "./phaseOut.css";
+import { mdgPlan } from "../../generated/dataMdg";
+import { fullData } from "../../data/projections";
 
 type Oilfield = {
   field: string;
@@ -22,7 +24,7 @@ export function PhaseOutDialog({
   close: () => void;
   from: string;
 }) {
-  const { year, proceed, fullData, phaseOut, setPhaseOut } =
+  const { year, proceed, phaseOut, setPhaseOut } =
     useContext(ApplicationContext);
 
   const [draft, setDraft] = useState<PhaseOutSchedule>({});
@@ -40,6 +42,23 @@ export function PhaseOutDialog({
     setPhaseOut((phaseOut) => ({ ...phaseOut, ...draft }));
     proceed();
     close();
+  }
+
+  function handleMdgPlanClick(e: FormEvent) {
+    e.preventDefault();
+    const period = [
+      year,
+      (parseInt(year) + 1).toString(),
+      (parseInt(year) + 2).toString(),
+      (parseInt(year) + 3).toString(),
+    ];
+
+    const fields = Object.fromEntries(
+      Object.entries(mdgPlan).filter(
+        ([_, year]) => year && period.includes(year),
+      ),
+    );
+    setDraft(fields);
   }
 
   function updateLatestSelectedField(
@@ -220,6 +239,7 @@ export function PhaseOutDialog({
         <button type="submit" disabled={year === "2040"}>
           Fase ut valgte felter i {year}
         </button>
+        <button onClick={handleMdgPlanClick}>Velg felter fra MDGs plan</button>
       </form>
       <div className="dialog-information-container">
         {latestSelectedField && fullData[latestSelectedField] && (
@@ -227,7 +247,7 @@ export function PhaseOutDialog({
             <h3>Sist valgt oljefelt: {latestSelectedField}</h3>
             <p>
               Oljeproduksjon i {year}:{" "}
-              {fullData[latestSelectedField]?.[year]?.productionOil ?? "0"} Sm3
+              {fullData[latestSelectedField]?.[year]?.productionOil ?? "0"} GSm3
               olje
             </p>
             <p>
@@ -237,7 +257,10 @@ export function PhaseOutDialog({
             </p>
             <p>
               Utslipp i {year}:{" "}
-              {fullData[latestSelectedField]?.[year]?.emission ?? "0"} Tonn Co2
+              {Math.round(
+                (fullData[latestSelectedField]?.[year]?.emission ?? 0) / 1000,
+              )}{" "}
+              tusen tonn Co2
             </p>
             <div className="phaseout-emission-chart">
               {fieldForChart && (
@@ -250,10 +273,10 @@ export function PhaseOutDialog({
         {Object.keys(draft).length > 0 && (
           <div className="phaseout-total-production">
             <strong>Produksjon som reduseres i {year}:</strong>
-            <p>{totalOilProduction} Sm3 olje</p>
+            <p>{totalOilProduction} GSm3 olje</p>
             <p>{totalGasProduction} GSm3 gass</p>
-            <strong>Utslipp som reduseres i {year}:</strong> {totalEmission}{" "}
-            Tonn Co2
+            <strong>Utslipp som reduseres i {year}:</strong>{" "}
+            {Math.round(totalEmission / 1_000)} tusen tonn Co2
           </div>
         )}
 

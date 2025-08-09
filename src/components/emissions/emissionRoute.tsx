@@ -1,17 +1,18 @@
 import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
-import { EmissionForAllFields } from "./emissionsForAllFields";
-import { EmissionEfficiencyScatterChart } from "./emissionEfficiencyScatter";
+import { Route, Routes } from "react-router-dom";
+import { EmissionForAllFieldsPage } from "./emissionsForAllFields";
+import { EmissionIntensityPage } from "./emissionIntensityPage";
 import { EmissionStackedBarRoute } from "./emissionStackedBarRoute";
+import { EmissionSummaryPage } from "./emissionSummaryPage";
 
 export function EmissionRoute() {
   return (
     <div className="emission-chart-container">
       <Routes>
-        <Route path="/" element={<Navigate to="line" replace />} />
-        <Route path="line" element={<EmissionForAllFields />} />
+        <Route path="/" element={<EmissionSummaryPage />} />
+        <Route path="line" element={<EmissionForAllFieldsPage />} />
         <Route path="bar" element={<EmissionStackedBarRoute />} />
-        <Route path="intensity" element={<EmissionEfficiencyScatterChart />} />
+        <Route path="intensity" element={<EmissionIntensityPage />} />
       </Routes>
     </div>
   );

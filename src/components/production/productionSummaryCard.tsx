@@ -6,8 +6,7 @@ import {
 } from "../../data";
 import { ApplicationContext } from "../../applicationContext";
 import { Link } from "react-router-dom";
-
-const oilEquivalentToBarrel = 6.2898;
+import { oilEquivalentToBarrel } from "../../data/calculations";
 
 export function ProductionSummaryCard() {
   const years = yearsInRange(2025, 2040);
@@ -32,7 +31,7 @@ export function ProductionSummaryCard() {
         Produksjon {years.at(0)}-{years.at(-1)}:
       </Link>{" "}
       {Math.round(result * oilEquivalentToBarrel)}&nbsp;millioner&nbsp;fat{" "}
-      <span title={baseline.toFixed(2)}>({reduction}% reduksjon)</span>
+      <span title={baseline.toFixed(2)}>(-{reduction}%)</span>
     </div>
   );
 }

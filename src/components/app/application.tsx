@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { MapRoute } from "../map/mapRoute";
-import { generateCompleteData } from "../../utils/projections";
 import { data } from "../../generated/data";
 import { ApplicationContext } from "../../applicationContext";
 import { FrontPage } from "./frontPage";
@@ -13,6 +12,7 @@ import { EmissionRoute } from "../emissions/emissionRoute";
 import { ApplicationHeader } from "./applicationHeader";
 import { ApplicationFooter } from "./applicationFooter";
 import { GameOverDialog } from "./gameOverDialog";
+import { PlanRoute } from "../plan/planRoute";
 
 function ApplicationRoutes() {
   return (
@@ -20,6 +20,7 @@ function ApplicationRoutes() {
       <Route path={"/"} element={<FrontPage />} />
       <Route path={"/phaseout"} element={<PhaseOutRoute />} />
       <Route path={"/map/*"} element={<MapRoute />} />
+      <Route path={"/plan/*"} element={<PlanRoute />} />
       <Route path={"/emissions/*"} element={<EmissionRoute />} />
       <Route path={"/production/*"} element={<ProductionRoute />} />
       <Route path={"/summary"} element={<GameOverDialog />} />
@@ -34,7 +35,6 @@ export function Application() {
     "phaseOutSchedule",
     {},
   );
-  const fullData = useMemo(() => generateCompleteData(data), [data]);
   const navigate = useNavigate();
 
   function proceed() {
@@ -57,15 +57,7 @@ export function Application() {
 
   return (
     <ApplicationContext
-      value={{
-        year,
-        proceed,
-        restart,
-        fullData,
-        data,
-        phaseOut,
-        setPhaseOut,
-      }}
+      value={{ year, proceed, restart, data, phaseOut, setPhaseOut }}
     >
       <ApplicationHeader />
       <main>

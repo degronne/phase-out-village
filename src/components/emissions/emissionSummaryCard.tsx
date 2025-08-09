@@ -30,7 +30,7 @@ export function EmissionSummaryCard() {
         Utslipp {years.at(0)}-{years.at(-1)}:
       </Link>{" "}
       {Math.round(result / 1_000_000)}&nbsp;millioner&nbsp;tonn&nbsp;CO₂{" "}
-      <span title={baseline.toString()}>({reduction}% reduksjon)</span>
+      <span title={baseline.toString()}> (-{reduction}%)</span>
     </div>
   );
 }

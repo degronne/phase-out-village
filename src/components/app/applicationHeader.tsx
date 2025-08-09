@@ -12,19 +12,7 @@ export function ApplicationHeader() {
   return (
     <header>
       <div>
-        År: {year}
-        <div>
-          <button onClick={proceed} disabled={gameEnded}>
-            Neste
-          </button>
-        </div>
-        <div>
-          <button onClick={restart}>Start på nytt</button>
-        </div>
-      </div>
-      <div>
-        {Object.keys(phaseOut).length} <Link to="/map">oljefelter</Link>{" "}
-        avviklet
+        Periode: {year}-{parseInt(year) + 3}
         <div>
           <button
             disabled={gameEnded}
@@ -32,6 +20,18 @@ export function ApplicationHeader() {
           >
             Velg felter for avvikling
           </button>
+        </div>
+        <div>
+          <button onClick={restart}>Start på nytt</button>
+        </div>
+      </div>
+      <div>
+        <strong>
+          <Link to={"/plan"}>Din plan:</Link>
+        </strong>
+        <div>
+          {Object.keys(phaseOut).length} <Link to="/map">oljefelter</Link>{" "}
+          avviklet
         </div>
       </div>
       <EmissionSummaryCard />

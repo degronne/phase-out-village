@@ -1,6 +1,7 @@
 import { Projection } from "../types/interface";
 import { OilFieldDataset } from "../types/types";
 import { calculateAverage } from "./calculations";
+import { data } from "../generated/data";
 
 export function isStillProducing(
   yearlyData: Record<
@@ -101,6 +102,8 @@ export function productionProjections(data: OilFieldDataset): Projection[] {
 
   return projections;
 }
+
+export const fullData = generateCompleteData(data);
 
 export function generateCompleteData(data: OilFieldDataset): OilFieldDataset {
   const projections = productionProjections(data);
