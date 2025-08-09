@@ -61,6 +61,7 @@ export function YearlyTotalProductionChart() {
 
     return { years, oilValues, gasValues };
   }, [oilData, gasData]);
+  const textColor = usePrefersDarkMode() ? "#fff" : "#000";
 
   const chartData = {
     labels: years,
@@ -88,20 +89,22 @@ export function YearlyTotalProductionChart() {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      title: { display: true, text: "Inndeling av olje og gass" },
+      title: { display: true, text: "Inndeling av olje og gass", color: textColor },
       tooltip: { mode: "index", intersect: false },
-      legend: { position: "top" },
+      legend: { position: "top", labels: { color: textColor } },
     },
     interaction: { mode: "index", intersect: false },
     scales: {
       x: {
         stacked: true,
-        title: { display: true, text: "År" },
+        title: { display: true, text: "År", color: textColor },
         min: "2012",
+        ticks: { color: textColor},
       },
       y: {
         stacked: true,
-        title: { display: true, text: "Millioner. Sm3 o.e." },
+        title: { display: true, text: "Millioner. Sm3 o.e.", color: textColor },
+        ticks: { color: textColor},
       },
     },
   };
