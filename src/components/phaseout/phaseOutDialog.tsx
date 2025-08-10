@@ -45,13 +45,15 @@ export function PhaseOutDialog({
     close();
   }
 
+  const periodEnd = (parseInt(year) + 3).toString();
+
   function handleMdgPlanClick(e: FormEvent) {
     e.preventDefault();
     const period = [
       year,
       (parseInt(year) + 1).toString(),
       (parseInt(year) + 2).toString(),
-      (parseInt(year) + 3).toString(),
+      periodEnd,
     ];
 
     const fields = fromEntries(
@@ -212,7 +214,9 @@ export function PhaseOutDialog({
         </div>
       </div>
       <form className="phaseout-checkboxes" onSubmit={handleSubmit}>
-        <h3 className="phaseout-header">Velg felter for avvikling i {year}</h3>
+        <h3 className="phaseout-header">
+          Velg felter for avvikling {year}-{periodEnd}
+        </h3>
         <ul>
           {sortedFields.map((k) => {
             const isDisabled = k in phaseOut;
@@ -273,17 +277,17 @@ export function PhaseOutDialog({
 
         {Object.keys(draft).length > 0 && (
           <div className="phaseout-total-production">
-            <strong>Produksjon som reduseres i {year}:</strong>
+            <strong>Produksjon som reduseres innen {periodEnd}:</strong>
             <p>{totalOilProduction} GSm3 olje</p>
             <p>{totalGasProduction} GSm3 gass</p>
-            <strong>Utslipp som reduseres i {year}:</strong>{" "}
+            <strong>Utslipp som reduseres innen {periodEnd}:</strong>{" "}
             {Math.round(totalEmission / 1_000)} tusen tonn Co2
           </div>
         )}
 
         {Object.keys(draft).length > 0 && (
           <div className="phaseout-fieldnames-selected">
-            <h4>Felter som avvikles i {year}:</h4>
+            <h4>Felter som avvikles innen {periodEnd}:</h4>
             <ul>
               {Object.keys(draft).map((k) => (
                 <li key={k}>
