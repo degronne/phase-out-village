@@ -188,7 +188,7 @@ export function PhaseOutDialog({
   const totalEmission = calculateTotal(draft, fullData, year, "emission");
 
   return (
-    <div className="phaseout-dialog">
+    <form className="phaseout-dialog" onSubmit={handleSubmit}>
       <div className="phaseout-dialog-header">
         <button
           type="button"
@@ -213,7 +213,7 @@ export function PhaseOutDialog({
           </label>
         </div>
       </div>
-      <form className="phaseout-checkboxes" onSubmit={handleSubmit}>
+      <div className="phaseout-checkboxes">
         <h3 className="phaseout-header">
           Velg felter for avvikling {year}-{periodEnd}
         </h3>
@@ -240,12 +240,7 @@ export function PhaseOutDialog({
             );
           })}
         </ul>
-
-        <button type="submit" disabled={year === "2040"}>
-          Fase ut valgte felter i {year}
-        </button>
-        <button onClick={handleMdgPlanClick}>Velg felter fra MDGs plan</button>
-      </form>
+      </div>
       <div className="dialog-information-container">
         {latestSelectedField && fullData[latestSelectedField] && (
           <div className="phaseout-latest-oilfield">
@@ -298,6 +293,12 @@ export function PhaseOutDialog({
           </div>
         )}
       </div>
-    </div>
+      <div className={"button-row"}>
+        <button type="submit" disabled={year === "2040"}>
+          Fase ut valgte felter i {year}
+        </button>
+        <button onClick={handleMdgPlanClick}>Velg felter fra MDGs plan</button>
+      </div>
+    </form>
   );
 }

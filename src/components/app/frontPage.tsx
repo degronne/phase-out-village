@@ -54,9 +54,9 @@ export function FrontPage() {
             Har du det som skal til for å lage utfasingsplanen Norge trenger?
           </p>
 
-          <p>
+          <div className={"button-row"}>
             <button onClick={() => setOpen(false)}>Jeg er klar</button>
-          </p>
+          </div>
         </Dialog>
       </div>
     </>
