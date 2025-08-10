@@ -96,6 +96,27 @@ export function ProductionReductionChart({
 
   const textColor = usePrefersDarkMode() ? "#fff": "#000";
 
+  function createStipedPattern(color: string, background: string): CanvasPattern | string{
+    const stripes = document.createElement("canvas");
+    stripes.width = 10;
+    stripes.height = 10;
+    const ctx = stripes.getContext("2d");
+
+    if(!ctx) return color;
+
+    ctx.fillStyle = background;
+    ctx.fillRect(0, 0, stripes.width, stripes.height);
+
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, 10);
+    ctx.lineTo(10, 0);
+    ctx.stroke();
+
+    return ctx.createPattern(stripes, "repeat") as CanvasPattern;
+  }
+
   return (
     <div className="bar-chart">
     <Bar
@@ -187,8 +208,8 @@ export function ProductionReductionChart({
             data: baseLineOil,
             borderColor: "orange",
             backgroundColor: usePrefersDarkMode()
-            ? "#8E44AD"
-            : "#A569BD",
+            ? createStipedPattern("#2A5D8F", "transparent")
+            : createStipedPattern("#4DA3FF", "transparent"),
             stack: "reference"
           },
           {
@@ -196,8 +217,8 @@ export function ProductionReductionChart({
             data: baseLineGas,
             borderColor: "orange",
             backgroundColor: usePrefersDarkMode()
-            ? "#E67E22"
-            : "#FF9933",
+            ? createStipedPattern("#D64545", "transparent")
+            : createStipedPattern("#FF3333", "transparent"),
             stack: "reference"
           }
         ],
