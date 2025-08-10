@@ -122,6 +122,10 @@ td {
   height: 100%;
   grid-template-rows: 1fr 1fr;
 
+  .map-container {
+    height: 100%;
+  }
+
   .details {
     overflow-y: scroll;
     padding-bottom: 5em;
