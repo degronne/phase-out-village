@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { MapRoute } from "../map/mapRoute";
 import { ApplicationContext } from "../../applicationContext";
@@ -40,13 +40,10 @@ export function Application() {
     setYear((y) => {
       const year = parseInt(y);
       const nextYear = Math.min(year + 4 - (year % 4), 2040);
+      if (nextYear === 2040) navigate("/summary");
       return nextYear.toString() as Year;
     });
   }
-
-  useEffect(() => {
-    if (year === "2040") navigate("/summary");
-  }, [year]);
 
   function restart() {
     setYear("2025");

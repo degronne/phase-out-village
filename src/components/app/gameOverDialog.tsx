@@ -4,13 +4,14 @@ import { ProductionReductionChart } from "../production/productionReductionChart
 import { ApplicationContext } from "../../applicationContext";
 import { mdgPlan } from "../../generated/dataMdg";
 import { EmissionStackedBarChart } from "../emissions/emissionStackedBarChart";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { data } from "../../generated/data";
 import { calculateTotalEmissions } from "../../data/calculateTotalEmissions";
 
 export function GameOverDialog() {
   const { phaseOut, restart } = useContext(ApplicationContext);
   const navigate = useNavigate();
+  const location = useLocation();
   const allFields = Object.keys(data);
   const userPlan = useMemo(
     () => calculateTotalEmissions(allFields, data, phaseOut),
@@ -24,8 +25,10 @@ export function GameOverDialog() {
     () => calculateTotalEmissions(allFields, data, {}),
     [data],
   );
+  const from = location.state?.from?.pathname || "/map";
+
   return (
-    <Dialog open={true}>
+    <Dialog open={true} onClose={() => navigate(from)}>
       <div className={"game-over"}>
         <h2>Hvordan gikk det?</h2>
         <h3>Din plan</h3>
