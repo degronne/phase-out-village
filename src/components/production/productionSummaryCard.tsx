@@ -28,7 +28,7 @@ export function ProductionSummaryCard() {
   return (
     <div>
       <Link to="/production">
-        Produksjon {years.at(0)}-{years.at(-1)}:
+        Produksjon {years[0]}-{years[years.length - 1]}:
       </Link>{" "}
       {Math.round(result * oilEquivalentToBarrel)}&nbsp;millioner&nbsp;fat{" "}
       <span title={baseline.toFixed(2)}>(-{reduction}%)</span>

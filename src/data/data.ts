@@ -1,4 +1,5 @@
 import { data } from "../generated/data";
+import { fromEntries } from "./fromEntries";
 
 export type OilfieldName = keyof typeof data;
 export const OilfieldValues = Object.keys(data) as OilfieldName[];
@@ -16,7 +17,7 @@ export function slugify<T extends string>(name: T): Slugify<T> {
 export const oilfields = Object.keys(data).map((name) =>
   slugify(name),
 ) as Slugify<OilfieldName>[];
-export const oilfieldNames = Object.fromEntries(
+export const oilfieldNames = fromEntries(
   Object.keys(data).map((name) => [
     name.toLowerCase().replace(/\s+/g, "-"),
     name,
@@ -57,8 +58,8 @@ export function estimatedOilProduction(
   measured: YearlyDataset,
   phaseOut: Year | undefined,
 ): EstimatedYearlyDataset {
-  const values = allYears
-    .toReversed()
+  const values = [...allYears]
+    .reverse()
     .map((y) => [y, measured[y]?.value])
     .filter(([_, v]) => v)
     .slice(0, 5) as [Year, number][];
@@ -103,8 +104,8 @@ export function calculateGasProduction(
     .map((y) => [y, data[y]?.productionGas!, undefined]);
 
   if (result.length == 0) return result;
-  let current = computeAverage(result.toReversed().slice(0, 5));
-  for (let y = parseInt(result.at(-1)![0]) + 1; y < 2040; y++) {
+  let current = computeAverage([...result].reverse().slice(0, 5));
+  for (let y = parseInt(result[result.length - 1]![0]) + 1; y < 2040; y++) {
     const year = y.toString() as Year;
     if (year === phaseOut) {
       result.push([year, 0, { estimate: true }]);
@@ -128,8 +129,8 @@ export function calculateOilProduction(
     .map((y) => [y, dataset[y]?.productionOil!, undefined]);
 
   if (result.length == 0) return result;
-  let current = computeAverage(result.toReversed().slice(0, 5));
-  for (let y = parseInt(result.at(-1)![0]) + 1; y < 2040; y++) {
+  let current = computeAverage([...result].reverse().slice(0, 5));
+  for (let y = parseInt(result[result.length - 1]![0]) + 1; y < 2040; y++) {
     const year = y.toString() as Year;
     if (year === phaseOut) {
       result.push([year, 0, { estimate: true }]);
@@ -153,9 +154,9 @@ export function calculateEmissions(
     .map((y) => [y, dataset[y]?.emission!, undefined]);
 
   if (result.length == 0) return result;
-  let average = Math.round(computeAverage(result.toReversed().slice(0, 5)));
+  let average = Math.round(computeAverage([...result].reverse().slice(0, 5)));
 
-  for (let y = parseInt(result.at(-1)![0]) + 1; y < 2040; y++) {
+  for (let y = parseInt(result[result.length - 1]![0]) + 1; y < 2040; y++) {
     average *= 0.97; // yearly decline of 3%
     const year = y.toString() as Year;
     if (year === phaseOut) {

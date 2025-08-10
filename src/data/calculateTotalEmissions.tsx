@@ -14,10 +14,10 @@ export function calculateTotalEmissions(
   const emissionDataSeries = allFields.map((field) =>
     calculateEmissions(data[field], phaseOut[field]),
   );
-  const years = emissionDataSeries.flatMap((serie) =>
-    serie.map(([year]) => year),
-  );
-  const allYearsSet = [...new Set<Year>([...years])].toSorted();
+  const years = emissionDataSeries.reduce((acc, serie) => {
+    return acc.concat(serie.map(([year]) => year));
+  }, [] as Year[]);
+  const allYearsSet = [...new Set<Year>([...years])].sort();
 
   return allYearsSet.map((year) => [
     year,

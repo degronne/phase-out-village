@@ -13,6 +13,7 @@ import { ApplicationContext } from "../../applicationContext";
 import {
   calculateGasProduction,
   calculateOilProduction,
+  TimeSerieValue,
 } from "../../data/data";
 import { data } from "../../generated/data";
 
@@ -30,15 +31,15 @@ export function YearlyTotalProductionChart() {
   const allFields = Object.keys(data);
 
   const oilData = useMemo(() => {
-    return allFields.flatMap((field) =>
-      calculateOilProduction(data[field], phaseOut[field]),
-    );
+    return allFields.reduce((acc, field) => {
+      return acc.concat(calculateOilProduction(data[field], phaseOut[field]));
+    }, [] as TimeSerieValue[]);
   }, [data, phaseOut]);
 
   const gasData = useMemo(() => {
-    return allFields.flatMap((field) =>
-      calculateGasProduction(data[field], phaseOut[field]),
-    );
+    return allFields.reduce((acc, field) => {
+      return acc.concat(calculateGasProduction(data[field], phaseOut[field]));
+    }, [] as TimeSerieValue[]);
   }, [data, phaseOut]);
 
   const { years, oilValues, gasValues } = useMemo(() => {

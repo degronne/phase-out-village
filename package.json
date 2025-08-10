@@ -23,6 +23,7 @@
     "@types/node": "^24.0.10",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-legacy": "^7.2.1",
     "download-cli": "^1.0.1",
     "husky": "^9.1.7",
     "prettier": "^3.6.2",
@@ -39,5 +40,10 @@
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.7.0",
     "xlsx": "^0.18.5"
-  }
+  },
+  "browserslist": [
+    "defaults",
+    "last 2 iOS major versions",
+    "not dead"
+  ]
 }

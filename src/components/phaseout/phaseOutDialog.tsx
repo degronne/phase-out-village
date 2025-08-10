@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import "./phaseOut.css";
 import { mdgPlan } from "../../generated/dataMdg";
 import { fullData } from "../../data/projections";
+import { fromEntries } from "../../data/fromEntries";
 
 type Oilfield = {
   field: string;
@@ -53,7 +54,7 @@ export function PhaseOutDialog({
       (parseInt(year) + 3).toString(),
     ];
 
-    const fields = Object.fromEntries(
+    const fields = fromEntries(
       Object.entries(mdgPlan).filter(
         ([_, year]) => year && period.includes(year),
       ),
@@ -66,7 +67,7 @@ export function PhaseOutDialog({
     selectedOrder: string[],
   ): string | null {
     const newOrder = selectedOrder.filter((f) => f !== removed);
-    return newOrder.at(-1) ?? null;
+    return newOrder[newOrder.length - 1] ?? null;
   }
 
   function setLatestFieldInfo(field: OilfieldName | null) {
@@ -94,7 +95,7 @@ export function PhaseOutDialog({
 
   function removeField(field: OilfieldName) {
     setDraft((d) =>
-      Object.fromEntries(Object.entries(d).filter(([f]) => f !== field)),
+      fromEntries(Object.entries(d).filter(([f]) => f !== field)),
     );
 
     setSelectedOrder((prev) => {

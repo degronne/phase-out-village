@@ -30,14 +30,14 @@ export function OilFieldTable({ field }: { field: string }) {
   const emissions = calculateEmissions(data[field], phaseOut[field]);
   const years = [
     ...new Set([...gas.map(([y]) => y), ...emissions.map(([y]) => y)]),
-  ].toSorted();
+  ].sort();
 
   function handleExportClick() {
     const rows = years.map((year) => ({
       year,
-      productionOil: oil.find(([y]) => y === year)?.at(1) ?? null,
-      productionGas: gas.find(([y]) => y === year)?.at(1) ?? null,
-      emission: emissions.find(([y]) => y === year)?.at(1) ?? null,
+      productionOil: (oil.find(([y]) => y === year) || [])[1] ?? null,
+      productionGas: (gas.find(([y]) => y === year) || [])[1] ?? null,
+      emission: (emissions.find(([y]) => y === year) || [])[1] ?? null,
     }));
     const worksheet = XLSX.utils.json_to_sheet(rows);
     const workbook = XLSX.utils.book_new();
