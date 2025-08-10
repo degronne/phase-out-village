@@ -5,8 +5,9 @@ import {
   yearsInRange,
 } from "../../data/data";
 import { ApplicationContext } from "../../applicationContext";
-import { data, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { oilEquivalentToBarrel } from "../../data/calculations";
+import { data } from "../../generated/data";
 
 export function ProductionSummaryCard() {
   const years = yearsInRange(2025, 2040);
