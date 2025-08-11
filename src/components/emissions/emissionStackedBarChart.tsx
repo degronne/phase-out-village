@@ -23,7 +23,7 @@ export function EmissionStackedBarChart({
     labels,
     datasets: [
       {
-        label: "Din plan",
+        label: "Utfasingsplan",
         data: userData,
         backgroundColor: "#4a90e2",
         stack: "stack1",

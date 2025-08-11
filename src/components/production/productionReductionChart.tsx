@@ -174,7 +174,7 @@ export function ProductionReductionChart({
       data={{
         datasets: [
           {
-            label: "Din plan",
+            label: "Utfasingsplan",
             data: userPlan,
             borderColor: "#4a90e2",
             segment: {
