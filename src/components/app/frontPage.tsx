@@ -32,7 +32,7 @@ export function FrontPage() {
             />
             Klimautvalget 2050 har derfor anbefalt Norge å lage en «strategi for
             sluttfasen av norsk petroleumsvirksomhet», og{" "}
-            <a href={OLJEPLAN_LINK}>MDG har laget en slik plan</a>som faser ut
+            <a href={OLJEPLAN_LINK}>MDG har laget en slik plan</a> som faser ut
             feltene på norsk sokkel innen 2040. Vi starter naturlig nok med de
             feltene som slipper ut mest og produserer mins
           </p>
