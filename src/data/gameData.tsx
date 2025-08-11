@@ -9,23 +9,28 @@ import { data } from "../generated/data";
 import { calculateGameData } from "./calculateGameData";
 
 type DataValue = { value: number; estimate?: boolean };
-export type YearlyDataset = Partial<Record<Year, DataValue>>;
 
-type FieldData = {
-  fieldName: OilfieldName;
+export type FieldDataValues = {
   productionOil: DataValue | undefined;
   productionGas: DataValue | undefined;
   emission: DataValue | undefined;
   emissionIntensity: DataValue | undefined;
   totalProduction: DataValue | undefined;
 };
-export type DataField = keyof Omit<FieldData, "fieldName">;
+type FieldData = {
+  fieldName: OilfieldName;
+  data: FieldDataValues;
+};
+export type DataField = keyof FieldDataValues;
+
+export type DatasetForSingleField = Partial<Record<Year, FieldDataValues>>;
+export type DatasetForAllFields = Record<OilfieldName, DatasetForSingleField>;
 
 export type GameData = {
   allFields: OilfieldName[];
   gameYears: Year[];
   gamePeriods: { years: Year[] }[];
-  data: Record<DataField, Record<OilfieldName, YearlyDataset>>;
+  data: DatasetForAllFields;
 };
 
 export const gameData: GameData = calculateGameData(data);
@@ -39,24 +44,29 @@ export function fieldDataForYear(
   if (isPhasedOut(fieldName, phaseOut, year)) {
     return {
       fieldName,
-      emission: undefined,
-      productionOil: undefined,
-      productionGas: undefined,
-      totalProduction: undefined,
-      emissionIntensity: undefined,
+      data: {
+        emission: undefined,
+        productionOil: undefined,
+        productionGas: undefined,
+        totalProduction: undefined,
+        emissionIntensity: undefined,
+      },
     };
   }
   function getDataValue(field: DataField) {
-    return gameData.data[field][fieldName][year];
+    const dataForYear = gameData.data[fieldName][year];
+    return dataForYear ? dataForYear[field] : undefined;
   }
 
   return {
     fieldName,
-    productionOil: getDataValue("productionOil"),
-    productionGas: getDataValue("productionGas"),
-    totalProduction: getDataValue("totalProduction"),
-    emission: getDataValue("emission"),
-    emissionIntensity: getDataValue("emissionIntensity"),
+    data: {
+      productionOil: getDataValue("productionOil"),
+      productionGas: getDataValue("productionGas"),
+      totalProduction: getDataValue("totalProduction"),
+      emission: getDataValue("emission"),
+      emissionIntensity: getDataValue("emissionIntensity"),
+    },
   };
 }
 
@@ -89,13 +99,16 @@ export function totalProduction(
   Record<Year, Record<Exclude<DataField, "emissionIntensity">, number>>
 > {
   function sumSeries(
-    dataSeries: Record<OilfieldName, YearlyDataset>,
+    dataSeries: DatasetForAllFields,
+    dataField: DataField,
     year: Year,
   ) {
     return Object.entries(dataSeries)
-      .map(([name, v]) =>
-        isPhasedOut(name, phaseOut, year) ? 0 : v[year]?.value || 0,
-      )
+      .map(([name, v]) => {
+        if (isPhasedOut(name, phaseOut, year)) return 0;
+        const yearlyValues = v[year];
+        return (yearlyValues ? yearlyValues[dataField]?.value : 0) || 0;
+      })
       .reduce((a, b) => a + b, 0);
   }
 
@@ -103,10 +116,10 @@ export function totalProduction(
     years.map((year) => [
       year,
       {
-        productionOil: sumSeries(gameData.data.productionOil, year),
-        productionGas: sumSeries(gameData.data.productionGas, year),
-        totalProduction: sumSeries(gameData.data.totalProduction, year),
-        emission: sumSeries(gameData.data.emission, year),
+        productionOil: sumSeries(gameData.data, "productionOil", year),
+        productionGas: sumSeries(gameData.data, "productionGas", year),
+        totalProduction: sumSeries(gameData.data, "totalProduction", year),
+        emission: sumSeries(gameData.data, "emission", year),
       },
     ]),
   );
