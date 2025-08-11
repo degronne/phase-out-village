@@ -1,5 +1,5 @@
 import fs from "fs";
-import { OilfieldName, PhaseOutSchedule, Year } from "../src/data/data";
+import { OilfieldName } from "../src/data/types";
 
 const data = JSON.parse(
   fs.readFileSync("tmp/development.json") as any,
@@ -34,7 +34,7 @@ const compactJson = JSON.stringify(result, null, 2).replace(
       .join(" ")} }`,
 );
 
-console.log(`import { OilfieldName } from "../data/data";
+console.log(`import { OilfieldName } from "../data/types";
 
 export const development: Record<
   OilfieldName,

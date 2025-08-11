@@ -1,12 +1,12 @@
 import React, { FormEvent, useContext, useState } from "react";
 import { ApplicationContext } from "../../applicationContext";
-import { OilfieldName, PhaseOutSchedule } from "../../data/data";
 import { EmissionIntensityBarChart } from "../charts/emissionIntensityBarChart";
 import { useNavigate } from "react-router-dom";
 import "./phaseOut.css";
 import { mdgPlan } from "../../generated/dataMdg";
 import { fullData } from "../../data/projections";
 import { fromEntries } from "../../data/fromEntries";
+import { OilfieldName, PhaseOutSchedule } from "../../data/types";
 
 type Oilfield = {
   field: string;

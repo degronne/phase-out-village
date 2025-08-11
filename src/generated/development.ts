@@ -1,4 +1,4 @@
-import { OilfieldName } from "../data/data";
+import { OilfieldName } from "../data/types";
 
 export const development: Record<
   OilfieldName,

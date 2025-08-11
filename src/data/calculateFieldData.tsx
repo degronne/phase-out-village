@@ -1,7 +1,13 @@
-import { OilfieldName, Year, yearsInRange } from "./data";
-import { DataField, DatasetForSingleField, FieldDataValues } from "./gameData";
+import { yearsInRange } from "./data";
 import { calculateAverage, oilEquivalentToBarrel } from "./calculations";
 import { development } from "../generated/development";
+import {
+  DataField,
+  DatasetForSingleField,
+  FieldDataValues,
+  OilfieldName,
+  Year,
+} from "./types";
 
 export function calculateFieldData(
   field: OilfieldName,

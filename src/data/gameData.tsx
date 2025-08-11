@@ -1,37 +1,15 @@
+import { allYears, yearsInRange } from "./data";
+import { data } from "../generated/data";
+import { calculateGameData } from "./calculateGameData";
 import {
-  allYears,
+  DataField,
+  DatasetForAllFields,
+  FieldData,
+  GameData,
   OilfieldName,
   PhaseOutSchedule,
   Year,
-  yearsInRange,
-} from "./data";
-import { data } from "../generated/data";
-import { calculateGameData } from "./calculateGameData";
-
-type DataValue = { value: number; estimate?: boolean };
-
-export type FieldDataValues = {
-  productionOil: DataValue | undefined;
-  productionGas: DataValue | undefined;
-  emission: DataValue | undefined;
-  emissionIntensity: DataValue | undefined;
-  totalProduction: DataValue | undefined;
-};
-type FieldData = {
-  fieldName: OilfieldName;
-  data: FieldDataValues;
-};
-export type DataField = keyof FieldDataValues;
-
-export type DatasetForSingleField = Partial<Record<Year, FieldDataValues>>;
-export type DatasetForAllFields = Record<OilfieldName, DatasetForSingleField>;
-
-export type GameData = {
-  allFields: OilfieldName[];
-  gameYears: Year[];
-  gamePeriods: { years: Year[] }[];
-  data: DatasetForAllFields;
-};
+} from "./types";
 
 export const gameData: GameData = calculateGameData(data);
 console.log(gameData);

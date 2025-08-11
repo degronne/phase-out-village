@@ -6,10 +6,10 @@ import {
   calculateOilProduction,
   slugify,
   TimeSerieValue,
-  Year,
 } from "../../data/data";
 import * as XLSX from "xlsx";
 import { data } from "../../generated/data";
+import { Year } from "../../data/types";
 
 function TableCell({
   timeseries,
