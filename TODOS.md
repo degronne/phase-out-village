@@ -1,1 +1,4 @@
-- [] Make the text on the names in the maps easier to read (at the moment it's almost impossible)
+- [x] Make the text on the names in the maps easier to read (at the moment it's almost impossible)
+- [] More margin bottom under the "oljefelter avviklet" text
+- [] Flytte "fase ut valgte felter i <årstall>" i PhaseoutDialog til toppen i stedet for under
+- [] Inverse the "velg felter for avvikling" in dark mode

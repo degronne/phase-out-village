@@ -115,16 +115,20 @@ td {
 #app main:has(.oilfield-map) {
   overflow-y: hidden;
   height: 100%;
+  /* Safari-specific fixes */
+  -webkit-overflow-scrolling: touch;
 }
 
 .oilfield-map {
   display: grid;
   height: 100%;
   grid-template-rows: 1fr 1fr;
+  min-height: 0; /* Fix for Safari grid sizing issues */
 
   .details {
     overflow-y: scroll;
     padding-bottom: 5em;
+    min-height: 0; /* Fix for Safari grid sizing issues */
     h1 {
       width: 100%;
       text-align: center;
@@ -135,7 +139,20 @@ td {
     }
   }
 
-  @media (width > 600px) {
+  /* Ensure map container doesn't overflow its grid cell */
+  > div:first-child {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* Mobile layout - use both width and height to handle landscape orientation */
+  @media (max-width: 600px), (max-height: 600px) {
+    grid-template-rows: 50vh 50vh;
+    min-height: 100vh;
+  }
+
+  /* Desktop layout - only apply when both width and height are sufficient */
+  @media (min-width: 601px) and (min-height: 601px) {
     grid-template-rows: unset;
     grid-template-columns: 1fr 1fr;
   }

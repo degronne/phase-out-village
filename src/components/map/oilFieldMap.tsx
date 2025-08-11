@@ -26,5 +26,5 @@ export function OilFieldMap({ slug }: { slug?: Slugify<OilfieldName> }) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => map.setTarget(mapRef.current!), []);
 
-  return <div ref={mapRef}></div>;
+  return <div ref={mapRef} style={{ width: "100%", height: "100%" }}></div>;
 }
