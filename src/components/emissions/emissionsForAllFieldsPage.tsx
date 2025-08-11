@@ -1,15 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { EmissionForAllFieldsChart } from "./emissionsForAllFieldsChart";
-import { TimeSerieValue } from "../../data/data";
 
-export function EmissionForAllFieldsPage({
-  userPlan,
-  baseline,
-}: {
-  userPlan: TimeSerieValue[];
-  baseline: TimeSerieValue[];
-}) {
+export function EmissionForAllFieldsPage() {
   return (
     <>
       <nav className="emission-nav">
@@ -18,7 +11,7 @@ export function EmissionForAllFieldsPage({
         <Link to={"/emissions/intensity"}>Utslippsintensitet</Link>
       </nav>
       <div className="emission-chart">
-        <EmissionForAllFieldsChart userPlan={userPlan} baseline={baseline} />
+        <EmissionForAllFieldsChart />
       </div>
     </>
   );

@@ -7,7 +7,6 @@ import { data } from "../../generated/data";
 
 export function PlanSummary() {
   const { phaseOut } = useContext(ApplicationContext);
-  const allFields = Object.keys(data);
   return (
     <>
       <h2>Din plan</h2>
@@ -16,10 +15,7 @@ export function PlanSummary() {
           <ProductionReductionChart phaseOut={phaseOut} />
         </div>
         <div>
-          <EmissionStackedBarChart
-            userPlan={calculateTotalEmissions(allFields, data, phaseOut)}
-            baseline={calculateTotalEmissions(allFields, data, {})}
-          />
+          <EmissionStackedBarChart phaseOut={phaseOut} />
         </div>
       </div>
     </>

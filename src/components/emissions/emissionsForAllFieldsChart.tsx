@@ -1,15 +1,21 @@
-import React from "react";
-import { TimeSerieValue } from "../../data/data";
+import React, { useContext, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { toXYDataSeries } from "../../data/toXYDataSeries";
+import { ApplicationContext } from "../../applicationContext";
+import { data } from "../../generated/data";
+import { calculateTotalEmissions } from "../../data/calculateTotalEmissions";
 
-export function EmissionForAllFieldsChart({
-  userPlan,
-  baseline,
-}: {
-  userPlan: TimeSerieValue[];
-  baseline: TimeSerieValue[];
-}) {
+export function EmissionForAllFieldsChart() {
+  const { phaseOut } = useContext(ApplicationContext);
+  const allFields = Object.keys(data);
+  const userPlan = useMemo(
+    () => calculateTotalEmissions(allFields, data, phaseOut),
+    [data, phaseOut],
+  );
+  const baseline = useMemo(
+    () => calculateTotalEmissions(allFields, data, {}),
+    [data],
+  );
   return (
     <Line
       options={{

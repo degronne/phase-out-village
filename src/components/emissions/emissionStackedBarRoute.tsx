@@ -1,15 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { EmissionStackedBarChart } from "./emissionStackedBarChart";
 import { Link } from "react-router-dom";
-import { TimeSerieValue } from "../../data/data";
+import { ApplicationContext } from "../../applicationContext";
 
-export function EmissionStackedBarRoute({
-  userPlan,
-  baseline,
-}: {
-  userPlan: TimeSerieValue[];
-  baseline: TimeSerieValue[];
-}) {
+export function EmissionStackedBarRoute() {
+  const { phaseOut } = useContext(ApplicationContext);
   return (
     <>
       <nav className="emission-nav">
@@ -18,7 +13,7 @@ export function EmissionStackedBarRoute({
         <Link to={"/emissions/intensity"}>Utslippsintensitet</Link>
       </nav>
       <div className="emission-chart">
-        <EmissionStackedBarChart userPlan={userPlan} baseline={baseline} />
+        <EmissionStackedBarChart phaseOut={phaseOut} />
       </div>
     </>
   );

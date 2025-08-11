@@ -1,14 +1,23 @@
-import React from "react";
-import { TimeSerieValue } from "../../data/data";
+import React, { useMemo } from "react";
 import { Bar } from "react-chartjs-2";
+import { PhaseOutSchedule } from "../../data/types";
+import { data } from "../../generated/data";
+import { calculateTotalEmissions } from "../../data/calculateTotalEmissions";
 
 export function EmissionStackedBarChart({
-  userPlan,
-  baseline,
+  phaseOut,
 }: {
-  userPlan: TimeSerieValue[];
-  baseline: TimeSerieValue[];
+  phaseOut: PhaseOutSchedule;
 }) {
+  const allFields = Object.keys(data);
+  const userPlan = useMemo(
+    () => calculateTotalEmissions(allFields, data, phaseOut),
+    [data, phaseOut],
+  );
+  const baseline = useMemo(
+    () => calculateTotalEmissions(allFields, data, {}),
+    [data],
+  );
   const labels = baseline.map(([d]) => d);
 
   const userData = userPlan.map(([, x]) => x);
