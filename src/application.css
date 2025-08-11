@@ -144,7 +144,8 @@ dialog .button-row {
     }
     ul {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, 10rem);
+      justify-content: center;
     }
   }
 
