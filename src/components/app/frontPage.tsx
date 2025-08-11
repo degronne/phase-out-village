@@ -34,7 +34,7 @@ export function FrontPage() {
             sluttfasen av norsk petroleumsvirksomhet», og{" "}
             <a href={OLJEPLAN_LINK}>MDG har laget en slik plan</a> som faser ut
             feltene på norsk sokkel innen 2040. Vi starter naturlig nok med de
-            feltene som slipper ut mest og produserer mins
+            feltene som slipper ut mest og produserer minst.
           </p>
 
           <p>
