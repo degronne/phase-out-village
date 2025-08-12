@@ -208,3 +208,20 @@ td {
 .production-chart {
   height: min(80vh, 600px);
 }
+
+.data {
+  thead th {
+    position: sticky;
+    top: 0;
+    background-color: var(--lime);
+  }
+  tr th.rowHeader {
+    position: sticky;
+    left: 0;
+    background-color: var(--lime);
+    z-index: 1;
+  }
+  tr:nth-child(even) {
+    background-color: rgb(253, 252, 236);
+  }
+}

@@ -10,5 +10,3 @@ export type OilFieldDataset = Record<
     }
   >
 >;
-
-export type ShutdownMap = Record<string, number>;

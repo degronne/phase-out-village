@@ -52,19 +52,19 @@ export function OilFieldTable({ field }: { field: string }) {
       <div>
         <button onClick={handleExportClick}>Last ned som Excel</button>
       </div>
-      <table>
+      <table border={1}>
         <thead>
           <tr>
-            <td>År</td>
-            <td>Olje</td>
-            <td>Gass</td>
-            <td>Utslipp</td>
+            <th>År</th>
+            <th>Olje</th>
+            <th>Gass</th>
+            <th>Utslipp</th>
           </tr>
         </thead>
         <tbody>
           {years.map((y) => (
             <tr key={y}>
-              <td>{y}</td>
+              <th>{y}</th>
               <TableCell timeseries={oil} year={y} />
               <TableCell timeseries={gas} year={y} />
               <TableCell timeseries={emissions} year={y} />
