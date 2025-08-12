@@ -12,6 +12,7 @@ import { ApplicationHeader } from "./applicationHeader";
 import { ApplicationFooter } from "./applicationFooter";
 import { GameOverDialog } from "./gameOverDialog";
 import { PlanRoute } from "../plan/planRoute";
+import { TutorialRoute } from "./tutorialRoute";
 
 function ApplicationRoutes() {
   return (
@@ -22,6 +23,7 @@ function ApplicationRoutes() {
       <Route path={"/plan/*"} element={<PlanRoute />} />
       <Route path={"/emissions/*"} element={<EmissionRoute />} />
       <Route path={"/production/*"} element={<ProductionRoute />} />
+      <Route path={"/tutorial"} element={<TutorialRoute />} />
       <Route path={"/summary"} element={<GameOverDialog />} />
       <Route path={"*"} element={<h2>Not Found</h2>} />
     </Routes>

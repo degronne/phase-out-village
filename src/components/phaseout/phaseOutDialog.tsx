@@ -7,6 +7,7 @@ import "./phaseOut.css";
 import { mdgPlan } from "../../generated/dataMdg";
 import { fullData } from "../../data/projections";
 import { fromEntries } from "../../data/fromEntries";
+import { InfoTag } from "../ui/InfoTag";
 
 type Oilfield = {
   field: string;
@@ -248,19 +249,28 @@ export function PhaseOutDialog({
             <p>
               Oljeproduksjon i {year}:{" "}
               {fullData[latestSelectedField]?.[year]?.productionOil ?? "0"} GSm3
-              olje
+              olje{" "}
+              <InfoTag title="GSm3 = standard kubikkmeter ved standard trykk/temperatur. Brukes for å sammenligne volum.">
+                ?
+              </InfoTag>
             </p>
             <p>
               Gassproduksjon i {year}:{" "}
               {fullData[latestSelectedField]?.[year]?.productionGas ?? "0"} GSm3
-              gass
+              gass{" "}
+              <InfoTag title="GSm3 = standard kubikkmeter ved standard trykk/temperatur.">
+                ?
+              </InfoTag>
             </p>
             <p>
               Utslipp i {year}:{" "}
               {Math.round(
                 (fullData[latestSelectedField]?.[year]?.emission ?? 0) / 1000,
               )}{" "}
-              tusen tonn Co2
+              tusen tonn CO2e{" "}
+              <InfoTag title="CO2e = CO2-ekvivalenter (inkluderer andre klimagasser omregnet til CO2). ‘Tusen tonn’ betyr at tallet er delt på 1000.">
+                ?
+              </InfoTag>
             </p>
             <div className="phaseout-emission-chart">
               {fieldForChart && (
@@ -273,10 +283,23 @@ export function PhaseOutDialog({
         {Object.keys(draft).length > 0 && (
           <div className="phaseout-total-production">
             <strong>Produksjon som reduseres innen {periodEnd}:</strong>
-            <p>{totalOilProduction} GSm3 olje</p>
-            <p>{totalGasProduction} GSm3 gass</p>
+            <p>
+              {totalOilProduction} GSm3 olje{" "}
+              <InfoTag title="GSm3 = standard kubikkmeter. Viser volum ved standard forhold.">
+                ?
+              </InfoTag>
+            </p>
+            <p>
+              {totalGasProduction} GSm3 gass{" "}
+              <InfoTag title="GSm3 = standard kubikkmeter. Viser volum ved standard forhold.">
+                ?
+              </InfoTag>
+            </p>
             <strong>Utslipp som reduseres innen {periodEnd}:</strong>{" "}
-            {Math.round(totalEmission / 1_000)} tusen tonn Co2
+            {Math.round(totalEmission / 1_000)} tusen tonn CO2e{" "}
+            <InfoTag title="CO2e = CO2-ekvivalenter. ‘Tusen tonn’ = delt på 1000.">
+              ?
+            </InfoTag>
           </div>
         )}
 
