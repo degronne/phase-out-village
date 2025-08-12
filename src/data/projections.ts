@@ -1,7 +1,7 @@
 import { Projection } from "../types/interface";
-import { OilFieldDataset } from "../types/types";
 import { calculateAverage } from "./calculations";
 import { data } from "../generated/data";
+import { DataPoint, OilFieldDataset, Year } from "./types";
 
 export function isStillProducing(
   yearlyData: Record<
@@ -124,7 +124,7 @@ export function generateCompleteData(data: OilFieldDataset): OilFieldDataset {
       combined[oilFieldName] = {};
     }
 
-    combined[oilFieldName][year.toString()] = {
+    combined[oilFieldName][year.toString() as Year] = {
       productionOil:
         productionOil !== null
           ? parseFloat(productionOil.toFixed(2))

@@ -3,7 +3,7 @@ import { Line } from "react-chartjs-2";
 import { toXYDataSeries } from "../../data/toXYDataSeries";
 import { data } from "../../generated/data";
 import { calculateTotalEmissions } from "../../data/calculateTotalEmissions";
-import { PhaseOutSchedule } from "../../data/types";
+import { PhaseOutSchedule } from "../../data/gameData";
 
 export function EmissionForAllFieldsChart({
   phaseOut,

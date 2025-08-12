@@ -23,8 +23,8 @@ import { isEstimated } from "../charts/isEstimated";
 import { Link } from "react-router-dom";
 import { data } from "../../generated/data";
 import { fromEntries } from "../../data/fromEntries";
-import { OilfieldName } from "../../data/types";
 import { ProductionTable } from "./productionTable";
+import { OilfieldName } from "../../data/gameData";
 
 ChartJS.register(
   CategoryScale,

@@ -11,8 +11,9 @@ import { ApplicationHeader } from "./applicationHeader";
 import { ApplicationFooter } from "./applicationFooter";
 import { GameOverDialog } from "./gameOverDialog";
 import { PlanRoute } from "../plan/planRoute";
-import { PhaseOutSchedule, Year } from "../../data/types";
+import { Year } from "../../data/types";
 import { DataViewRoute } from "../dataView/dataViewRoute";
+import { PhaseOutSchedule } from "../../data/gameData";
 
 function ApplicationRoutes() {
   return (

@@ -6,7 +6,7 @@ import "./phaseOut.css";
 import { mdgPlan } from "../../generated/dataMdg";
 import { fullData } from "../../data/projections";
 import { fromEntries } from "../../data/fromEntries";
-import { OilfieldName, PhaseOutSchedule } from "../../data/types";
+import { OilfieldName, PhaseOutSchedule } from "../../data/gameData";
 
 type Oilfield = {
   field: string;

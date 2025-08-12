@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import { Link, Route, Routes, useParams } from "react-router-dom";
 import { oilfieldNames, slugify, Slugify } from "../../data/data";
-import { OilfieldName } from "../../data/types";
 import { data } from "../../generated/data";
 import { OilFieldTable } from "../map/oilFieldTable";
 import { DataFieldTable } from "./dataFieldTable";
 import * as XLSX from "xlsx";
 import { dataFieldToExcel, oilFieldToExcel } from "./exportToExcel";
 import { ApplicationContext } from "../../applicationContext";
+import { OilfieldName } from "../../data/gameData";
 
 function OilProductionTable() {
   return (

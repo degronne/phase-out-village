@@ -5,7 +5,7 @@ import {
   calculateOilProduction,
 } from "../../data/data";
 import { data } from "../../generated/data";
-import { PhaseOutSchedule } from "../../data/types";
+import { PhaseOutSchedule } from "../../data/gameData";
 
 export function ProductionReductionChart({
   phaseOut,

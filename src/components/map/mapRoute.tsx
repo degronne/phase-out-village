@@ -4,7 +4,7 @@ import React from "react";
 import { OilFieldMapList } from "./oilFieldMapList";
 import { OilfieldDetails } from "./oilfieldDetails";
 import { Slugify } from "../../data/data";
-import { OilfieldName } from "../../data/types";
+import { OilfieldName } from "../../data/gameData";
 
 export function MapRoute() {
   return (

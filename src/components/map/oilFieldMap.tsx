@@ -6,7 +6,7 @@ import "ol/ol.css";
 import { Slugify } from "../../data/data";
 import { useOilfieldLayer } from "./useOilfieldLayer";
 import { useBackgroundLayer } from "./useBackgroundLayer";
-import { OilfieldName } from "../../data/types";
+import { OilfieldName } from "../../data/gameData";
 
 useGeographic();
 

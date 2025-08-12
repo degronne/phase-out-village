@@ -1,6 +1,6 @@
-import { OilFieldDataset } from "../types/types";
 import { calculateEmissions, TimeSerieValue } from "./data";
-import { PhaseOutSchedule, Year } from "./types";
+import { OilFieldDataset, Year } from "./types";
+import { PhaseOutSchedule } from "./gameData";
 
 export function calculateTotalEmissions(
   allFields: string[],

@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Bar } from "react-chartjs-2";
 import { data } from "../../generated/data";
 import { calculateTotalEmissions } from "../../data/calculateTotalEmissions";
-import { PhaseOutSchedule } from "../../data/types";
+import { PhaseOutSchedule } from "../../data/gameData";
 
 export function EmissionStackedBarChart({
   phaseOut,

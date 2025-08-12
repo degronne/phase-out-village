@@ -5,8 +5,8 @@ import {
   yearsInRange,
 } from "../../data/data";
 import { fullData } from "../../data/projections";
-import { PhaseOutSchedule } from "../../data/types";
 import { data } from "../../generated/data";
+import { PhaseOutSchedule } from "../../data/gameData";
 
 export function dataFieldToExcel(
   dataField: "productionOil" | "productionGas" | "emission",
