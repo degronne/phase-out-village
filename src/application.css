@@ -224,4 +224,8 @@ td {
   tr:nth-child(even) {
     background-color: rgb(253, 252, 236);
   }
+  td.estimate {
+    font-style: italic;
+    color: red;
+  }
 }

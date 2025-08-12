@@ -13,6 +13,7 @@ import { GameOverDialog } from "./gameOverDialog";
 import { PlanRoute } from "../plan/planRoute";
 import { PhaseOutSchedule, Year } from "../../data/types";
 import { DataViewRoute } from "../dataView/dataViewRoute";
+import { NewDataViewRoute } from "../dataView/newDataViewRoute";
 
 function ApplicationRoutes() {
   return (
@@ -25,6 +26,7 @@ function ApplicationRoutes() {
       <Route path={"/production/*"} element={<ProductionRoute />} />
       <Route path={"/summary"} element={<GameOverDialog />} />
       <Route path={"/data/*"} element={<DataViewRoute />} />
+      <Route path={"/new/*"} element={<NewDataViewRoute />} />
       <Route path={"*"} element={<h2>Not Found</h2>} />
     </Routes>
   );

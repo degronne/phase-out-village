@@ -13,7 +13,7 @@ function DataTable({
   dataField: "productionOil" | "productionGas" | "emission";
 }) {
   function handleExportClick() {
-    const rows = yearsInRange(1990, 2040).map((year) => ({
+    const rows = yearsInRange(2000, 2040).map((year) => ({
       year,
       ...Object.fromEntries(
         Object.keys(fullData).map((field) => [
@@ -48,7 +48,7 @@ function DataTable({
           </tr>
         </thead>
         <tbody>
-          {yearsInRange(1990, 2040).map((year) => (
+          {yearsInRange(2000, 2040).map((year) => (
             <tr key={year}>
               <th className="rowHeader">{year}</th>
               {Object.keys(fullData).map((field) => (
