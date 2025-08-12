@@ -5,13 +5,13 @@ import { ApplicationContext } from "../../applicationContext";
 import { FrontPage } from "./frontPage";
 import { PhaseOutRoute } from "../phaseout/phaseOutRoute";
 import { ProductionRoute } from "../production/productionRoute";
-import { PhaseOutSchedule, Year } from "../../data/data";
 import { useSessionState } from "../../hooks/useSessionState";
 import { EmissionRoute } from "../emissions/emissionRoute";
 import { ApplicationHeader } from "./applicationHeader";
 import { ApplicationFooter } from "./applicationFooter";
 import { GameOverDialog } from "./gameOverDialog";
 import { PlanRoute } from "../plan/planRoute";
+import { PhaseOutSchedule, Year } from "../../data/types";
 
 function ApplicationRoutes() {
   return (

@@ -1,7 +1,8 @@
 import React from "react";
 import { EmissionStackedBarChart } from "./emissionStackedBarChart";
 import { Link } from "react-router-dom";
-import { PhaseOutSchedule } from "../../data/data";
+
+import { PhaseOutSchedule } from "../../data/types";
 
 export function EmissionStackedBarRoute({
   phaseOut,

@@ -1,4 +1,4 @@
-import { OilfieldName } from "./data";
+import { OilfieldName } from "./types";
 
 export const aggregateOilFields: Record<string, OilfieldName> = {
   "AASTA HANSTEEN": "Aasta Hansteen",

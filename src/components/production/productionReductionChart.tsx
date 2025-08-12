@@ -3,9 +3,9 @@ import React, { useMemo } from "react";
 import {
   calculateGasProduction,
   calculateOilProduction,
-  PhaseOutSchedule,
 } from "../../data/data";
 import { data } from "../../generated/data";
+import { PhaseOutSchedule } from "../../data/types";
 
 export function ProductionReductionChart({
   phaseOut,

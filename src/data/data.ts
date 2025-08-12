@@ -1,7 +1,7 @@
 import { data } from "../generated/data";
 import { fromEntries } from "./fromEntries";
+import { DataValue, OilfieldName, PhaseOutSchedule, Year } from "./types";
 
-export type OilfieldName = keyof typeof data;
 export const OilfieldValues = Object.keys(data) as OilfieldName[];
 export type Slugify<S extends string> =
   Lowercase<S> extends infer L extends string
@@ -23,10 +23,6 @@ export const oilfieldNames = fromEntries(
     name,
   ]),
 ) as Record<Slugify<OilfieldName>, OilfieldName>;
-type Digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
-export type Year = `19${Digit}${Digit}` | `20${Digit}${Digit}`;
-export type PhaseOutSchedule = Partial<Record<OilfieldName, Year>>;
-type DataValue = { value: number; estimate?: boolean };
 export type YearlyDataset = Partial<Record<Year, DataValue>>;
 type EstimatedYearlyDataset = Partial<
   Record<Year, DataValue & { estimate: true }>

@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { OilfieldName, oilfieldNames, Slugify } from "../../data/data";
+import { oilfieldNames, Slugify } from "../../data/data";
 import { OilProductionForFieldChart } from "../production/oilProductionForFieldChart";
 import { EmissionsForFieldChart } from "../emissions/emissionsForFieldChart";
 import { GasProductionForFieldChart } from "../production/gasProductionForFieldChart";
+import { OilfieldName } from "../../data/types";
 
 export function OilfieldDetails({ slug }: { slug: Slugify<OilfieldName> }) {
   const name = oilfieldNames[slug];

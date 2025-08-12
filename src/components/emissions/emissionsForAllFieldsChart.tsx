@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
-import { PhaseOutSchedule } from "../../data/data";
 import { Line } from "react-chartjs-2";
 import { toXYDataSeries } from "../../data/toXYDataSeries";
 import { data } from "../../generated/data";
 import { calculateTotalEmissions } from "../../data/calculateTotalEmissions";
+import { PhaseOutSchedule } from "../../data/types";
 
 export function EmissionForAllFieldsChart({
   phaseOut,

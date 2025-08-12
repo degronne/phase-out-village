@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { EmissionStackedBarChart } from "./emissionStackedBarChart";
 import { EmissionIntensityChart } from "./emissionIntensityChart";
-import { PhaseOutSchedule } from "../../data/data";
 import { ApplicationContext } from "../../applicationContext";
+import { PhaseOutSchedule } from "../../data/types";
 
 export function EmissionSummaryPage({
   phaseOut,

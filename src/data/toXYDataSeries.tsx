@@ -1,4 +1,5 @@
-import { TimeSerieValue, Year } from "./data";
+import { TimeSerieValue } from "./data";
+import { Year } from "./types";
 
 export function toXYDataSeries(allEmissions: TimeSerieValue[]): {
   x: Year;

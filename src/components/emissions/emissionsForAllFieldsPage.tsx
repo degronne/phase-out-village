@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { EmissionForAllFieldsChart } from "./emissionsForAllFieldsChart";
-import { PhaseOutSchedule } from "../../data/data";
+
+import { PhaseOutSchedule } from "../../data/types";
 
 export function EmissionForAllFieldsPage({
   phaseOut,
