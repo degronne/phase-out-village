@@ -1,5 +1,3 @@
-import { yearsInRange } from "./data";
-import { calculateAverage, oilEquivalentToBarrel } from "./calculations";
 import { development } from "../generated/development";
 import {
   DataField,
@@ -8,6 +6,7 @@ import {
   OilfieldName,
   Year,
 } from "./types";
+import { oilEquivalentToBarrel } from "./gameData";
 
 export function calculateFieldData(
   field: OilfieldName,
@@ -74,17 +73,14 @@ export function calculateFieldData(
   let currentOil = calculateAverage(data, "productionOil") || 0;
   let currentGas = calculateAverage(data, "productionGas") || 0;
   let currentEmission = calculateAverage(data, "emission") || 0;
-  for (const year of yearsInRange(
-    parseInt(years[years.length - 1]) + 1,
-    2040,
-  )) {
+  for (let year = parseInt(years[years.length - 1]); year <= 2040; year++) {
     currentOil = Math.round(currentOil * annualOilDevelopment * 100) / 100;
     if (currentOil < 0.2) currentOil = 0;
     currentGas = Math.round(currentGas * annualGasDevelopment * 100) / 100;
     if (currentGas < 0.2) currentGas = 0;
     if (currentGas === 0 && currentOil === 0) break;
     currentEmission = Math.round(currentEmission * annualEmissionDevelopment);
-    dataset[year] = createDataValues({
+    dataset[year.toString() as Year] = createDataValues({
       productionGas: { value: currentGas / 100, estimate: true },
       productionOil: { value: currentOil, estimate: true },
       emission: { value: currentEmission, estimate: true },
@@ -92,4 +88,23 @@ export function calculateFieldData(
   }
 
   return dataset;
+}
+
+export function calculateAverage(
+  yearlyData: Record<
+    string,
+    Partial<Record<Exclude<DataField, "totalProduction">, number>>
+  >,
+  resourceKey: Exclude<DataField, "totalProduction">,
+): number | null {
+  const values = Object.keys(yearlyData)
+    .map(Number)
+    .filter((year) => yearlyData[year]?.[resourceKey] !== undefined)
+    .sort((a, b) => b - a)
+    .map((year) => yearlyData[year]![resourceKey]!)
+    .slice(0, 5);
+
+  if (values.length === 0) return null;
+
+  return values.reduce((a, b) => a + b, 0) / values.length;
 }
