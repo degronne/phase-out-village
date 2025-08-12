@@ -1,17 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link, Route, Routes, useParams } from "react-router-dom";
-import {
-  calculateEmissions,
-  calculateGasProduction,
-  calculateOilProduction,
-  slugify,
-} from "../../data/data";
+import { slugify } from "../../data/data";
 import { data } from "../../generated/data";
 import { fullData } from "../../data/projections";
 import * as XLSX from "xlsx";
 import { gameData } from "../../data/gameData";
-import { ApplicationContext } from "../../applicationContext";
-import { OilFieldDataset } from "../../types/types";
 import { OilfieldName } from "../../data/types";
 
 function DataTable({
@@ -83,12 +76,12 @@ export function OilFieldTable({ field }: { field: OilfieldName }) {
   const dataset = gameData.data[field];
   if (!dataset) return <h2>Not found</h2>;
   function handleExportClick() {
-    const rows = gameData.gameYears.map((year) => ({
+    const rows = Object.entries(dataset).map(([year, fieldValues]) => ({
       year,
-      Olje: dataset[year]?.productionOil || undefined,
-      Gass: dataset[year]?.productionGas || undefined,
-      Utslipp: dataset[year]?.emission || undefined,
-      Utslippsintensitet: dataset[year]?.emissionIntensity || undefined,
+      Olje: fieldValues.productionOil?.value || undefined,
+      Gass: fieldValues.productionGas?.value || undefined,
+      Utslipp: fieldValues.emission?.value || undefined,
+      Utslippsintensitet: fieldValues.emissionIntensity?.value || undefined,
     }));
     const worksheet = XLSX.utils.json_to_sheet(rows);
     const workbook = XLSX.utils.book_new();
@@ -111,13 +104,13 @@ export function OilFieldTable({ field }: { field: OilfieldName }) {
           </tr>
         </thead>
         <tbody>
-          {gameData.gameYears.map((year) => (
+          {Object.entries(dataset).map(([year, fieldValues]) => (
             <tr key={year}>
               <th>{year}</th>
               {(["productionOil", "productionGas", "emission"] as const)
                 .map((dataField) => ({
                   dataField,
-                  data: dataset[year]?.[dataField] || undefined,
+                  data: fieldValues[dataField] || undefined,
                 }))
                 .map(({ dataField, data }) => (
                   <td

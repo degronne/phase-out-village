@@ -73,7 +73,7 @@ export function calculateFieldData(
   let currentOil = calculateAverage(data, "productionOil") || 0;
   let currentGas = calculateAverage(data, "productionGas") || 0;
   let currentEmission = calculateAverage(data, "emission") || 0;
-  for (let year = parseInt(years[years.length - 1]); year <= 2040; year++) {
+  for (let year = parseInt(years[years.length - 1]) + 1; year <= 2040; year++) {
     currentOil = Math.round(currentOil * annualOilDevelopment * 100) / 100;
     if (currentOil < 0.2) currentOil = 0;
     currentGas = Math.round(currentGas * annualGasDevelopment * 100) / 100;
@@ -81,8 +81,10 @@ export function calculateFieldData(
     if (currentGas === 0 && currentOil === 0) break;
     currentEmission = Math.round(currentEmission * annualEmissionDevelopment);
     dataset[year.toString() as Year] = createDataValues({
-      productionGas: { value: currentGas / 100, estimate: true },
-      productionOil: { value: currentOil, estimate: true },
+      productionGas:
+        currentGas !== 0 ? { value: currentGas, estimate: true } : undefined,
+      productionOil:
+        currentOil !== 0 ? { value: currentOil, estimate: true } : undefined,
       emission: { value: currentEmission, estimate: true },
     });
   }

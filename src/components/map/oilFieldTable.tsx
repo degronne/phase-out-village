@@ -20,7 +20,7 @@ function TableCell({
 }) {
   const row = timeseries.find(([y]) => y === year);
   if (!row) return <td></td>;
-  return <td style={{ fontStyle: row[2] && "italic" }}>{row[1]}</td>;
+  return <td style={{ color: row[2] && "red" }}>{row[1]}</td>;
 }
 
 export function OilFieldTable({ field }: { field: string }) {
