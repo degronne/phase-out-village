@@ -117,6 +117,15 @@ td {
   height: 100%;
 }
 
+dialog .button-row {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  button {
+    font-size: 1.25rem;
+  }
+}
+
 .oilfield-map {
   display: grid;
   height: 100%;

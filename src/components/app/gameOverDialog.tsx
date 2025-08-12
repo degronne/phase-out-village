@@ -34,11 +34,13 @@ export function GameOverDialog() {
             <EmissionStackedBarChart phaseOut={mdgPlan} />
           </div>
         </div>
-        <div>
-          <button onClick={() => navigate("/map")}>Se over din plan</button>
-        </div>
-        <div>
-          <button onClick={restart}>Prøv på nytt</button>
+        <div className="button-row">
+          <div>
+            <button onClick={() => navigate("/map")}>Se over din plan</button>
+          </div>
+          <div>
+            <button onClick={restart}>Prøv på nytt</button>
+          </div>
         </div>
       </div>
     </Dialog>
