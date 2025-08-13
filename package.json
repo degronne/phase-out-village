@@ -13,8 +13,7 @@
     "data": "npm run data:download && npm run data:process && npm run data:mdg && prettier --write src/generated",
     "test": "tsc --noEmit && prettier --check .",
     "prepare": "husky",
-    "build": "npm test && vite build",
-    "prettify": "prettier --write ."
+    "build": "npm test && vite build"
   },
   "keywords": [],
   "author": "",
