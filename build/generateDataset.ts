@@ -1,5 +1,5 @@
 import fs from "fs";
-import { OilFieldDataset } from "../src/types/types";
+import { OilFieldDataset } from "../src/data/types";
 
 const data = JSON.parse(fs.readFileSync("tmp/data.json") as any);
 
@@ -64,7 +64,7 @@ const compactJson = JSON.stringify(result, null, 2).replace(
 
 console.log(
   `
-import { OilFieldDataset } from "../types/types";
+import { OilFieldDataset } from "../data/types";
   
 export const data: OilFieldDataset = ${compactJson} as const`,
 );

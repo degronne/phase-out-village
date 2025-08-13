@@ -4,10 +4,10 @@ import {
   calculateGasProduction,
   calculateOilProduction,
   PhaseOutSchedule,
-  TimeSerieValue,
 } from "../../data/data";
 import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
 import { data } from "../../generated/data";
+import { PhaseOutSchedule } from "../../data/gameData";
 
 export function ProductionReductionChart({
   phaseOut,

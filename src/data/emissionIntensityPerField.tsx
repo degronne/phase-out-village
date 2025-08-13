@@ -1,6 +1,6 @@
-import { Year } from "./data";
 import { fullData } from "./projections";
 import { oilEquivalentToBarrel } from "./calculations";
+import { Year } from "./types";
 
 export function emissionIntensityPerField(year: Year): {
   fieldName: string;

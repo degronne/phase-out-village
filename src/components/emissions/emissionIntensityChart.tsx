@@ -10,8 +10,9 @@ import {
 } from "chart.js";
 import annotationPlugin from "chartjs-plugin-annotation";
 import { Scatter } from "react-chartjs-2";
-import { PhaseOutSchedule, Year } from "../../data/data";
 import { emissionIntensityPerField } from "../../data/emissionIntensityPerField";
+import { Year } from "../../data/types";
+import { PhaseOutSchedule } from "../../data/gameData";
 
 ChartJS.register(
   LinearScale,

@@ -1,7 +1,8 @@
 import { data } from "../generated/data";
 import { fromEntries } from "./fromEntries";
+import { DataValue, Year, YearlyDataSeries } from "./types";
+import { OilfieldName, PhaseOutSchedule } from "./gameData";
 
-export type OilfieldName = keyof typeof data;
 export const OilfieldValues = Object.keys(data) as OilfieldName[];
 export type Slugify<S extends string> =
   Lowercase<S> extends infer L extends string
@@ -23,10 +24,6 @@ export const oilfieldNames = fromEntries(
     name,
   ]),
 ) as Record<Slugify<OilfieldName>, OilfieldName>;
-type Digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
-export type Year = `19${Digit}${Digit}` | `20${Digit}${Digit}`;
-export type PhaseOutSchedule = Partial<Record<OilfieldName, Year>>;
-type DataValue = { value: number; estimate?: boolean };
 export type YearlyDataset = Partial<Record<Year, DataValue>>;
 type EstimatedYearlyDataset = Partial<
   Record<Year, DataValue & { estimate: true }>
@@ -42,9 +39,7 @@ export function yearsInRange(first: number, last: number) {
 
 export const allYears = yearsInRange(1900, 2099);
 
-export function measuredOilProduction(
-  data: Record<Year, { productionOil?: number }>,
-): YearlyDataset {
+export function measuredOilProduction(data: YearlyDataSeries): YearlyDataset {
   const result: YearlyDataset = {};
   for (let y = 1990; y < 2040; y++) {
     const year = y.toString() as Year;
@@ -85,7 +80,7 @@ export function estimatedOilProduction(
 }
 
 export function oilProduction(
-  value: Record<Year, { productionOil?: number }>,
+  value: YearlyDataSeries,
   phaseOut: PhaseOutSchedule,
   key: string,
 ): YearlyDataset {
@@ -96,7 +91,7 @@ export function oilProduction(
 }
 
 export function calculateGasProduction(
-  data: Record<Year, { productionGas?: number }>,
+  data: YearlyDataSeries,
   phaseOut: Year | undefined,
 ): TimeSerieValue[] {
   const result: TimeSerieValue[] = allYears
@@ -121,7 +116,7 @@ export function calculateGasProduction(
 }
 
 export function calculateOilProduction(
-  dataset: Record<Year, { productionOil?: number }>,
+  dataset: YearlyDataSeries,
   phaseOut: Year | undefined,
 ): TimeSerieValue[] {
   const result: TimeSerieValue[] = allYears
@@ -146,7 +141,7 @@ export function calculateOilProduction(
 }
 
 export function calculateEmissions(
-  dataset: Record<Year, { emission?: number }>,
+  dataset: YearlyDataSeries,
   phaseOut: Year | undefined,
 ): TimeSerieValue[] {
   const result: TimeSerieValue[] = allYears

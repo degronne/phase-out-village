@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
-import { PhaseOutSchedule, Year } from "./data/data";
+import { Year } from "./data/types";
+import { PhaseOutSchedule } from "./data/gameData";
 
 export const ApplicationContext = React.createContext<{
   year: Year;

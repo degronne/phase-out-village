@@ -6,10 +6,11 @@ import {
   calculateOilProduction,
   slugify,
   TimeSerieValue,
-  Year,
 } from "../../data/data";
 import * as XLSX from "xlsx";
 import { data } from "../../generated/data";
+import { Year } from "../../data/types";
+import { oilFieldToExcel } from "../dataView/exportToExcel";
 
 function TableCell({
   timeseries,
@@ -33,16 +34,12 @@ export function OilFieldTable({ field }: { field: string }) {
   ].sort();
 
   function handleExportClick() {
-    const rows = years.map((year) => ({
-      year,
-      productionOil: (oil.find(([y]) => y === year) || [])[1] ?? null,
-      productionGas: (gas.find(([y]) => y === year) || [])[1] ?? null,
-      emission: (emissions.find(([y]) => y === year) || [])[1] ?? null,
-    }));
-    const worksheet = XLSX.utils.json_to_sheet(rows);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, field);
-
+    XLSX.utils.book_append_sheet(
+      workbook,
+      XLSX.utils.json_to_sheet(oilFieldToExcel(field, phaseOut)),
+      field,
+    );
     XLSX.writeFile(workbook, `oil-field-data-${slugify(field)}.xlsx`);
   }
 
@@ -55,10 +52,10 @@ export function OilFieldTable({ field }: { field: string }) {
       <table>
         <thead>
           <tr>
-            <td>År</td>
-            <td>Olje</td>
-            <td>Gass</td>
-            <td>Utslipp</td>
+            <th>År</th>
+            <th>Olje</th>
+            <th>Gass</th>
+            <th>Utslipp</th>
           </tr>
         </thead>
         <tbody>

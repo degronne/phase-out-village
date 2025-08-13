@@ -1,30 +1,15 @@
-import React, { useContext, useMemo } from "react";
+import React, { useContext } from "react";
 import { Dialog } from "../ui/dialog";
 import { ProductionReductionChart } from "../production/productionReductionChart";
 import { ApplicationContext } from "../../applicationContext";
 import { mdgPlan } from "../../generated/dataMdg";
 import { EmissionStackedBarChart } from "../emissions/emissionStackedBarChart";
 import { useLocation, useNavigate } from "react-router-dom";
-import { data } from "../../generated/data";
-import { calculateTotalEmissions } from "../../data/calculateTotalEmissions";
 
 export function GameOverDialog() {
   const { phaseOut, restart } = useContext(ApplicationContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const allFields = Object.keys(data);
-  const userPlan = useMemo(
-    () => calculateTotalEmissions(allFields, data, phaseOut),
-    [data, phaseOut],
-  );
-  const mdg = useMemo(
-    () => calculateTotalEmissions(allFields, data, mdgPlan),
-    [data],
-  );
-  const baseline = useMemo(
-    () => calculateTotalEmissions(allFields, data, {}),
-    [data],
-  );
   const from = location.state?.from?.pathname || "/map";
 
   return (
@@ -37,7 +22,7 @@ export function GameOverDialog() {
             <ProductionReductionChart phaseOut={phaseOut} />
           </div>
           <div>
-            <EmissionStackedBarChart userPlan={userPlan} baseline={baseline} />
+            <EmissionStackedBarChart phaseOut={phaseOut} />
           </div>
         </div>
         <h3>MDG sin plan</h3>
@@ -46,7 +31,7 @@ export function GameOverDialog() {
             <ProductionReductionChart phaseOut={mdgPlan} />
           </div>
           <div>
-            <EmissionStackedBarChart userPlan={mdg} baseline={baseline} />
+            <EmissionStackedBarChart phaseOut={mdgPlan} />
           </div>
         </div>
         <div className="button-row">

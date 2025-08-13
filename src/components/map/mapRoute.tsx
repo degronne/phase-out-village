@@ -3,7 +3,8 @@ import { Route, Routes, useParams } from "react-router-dom";
 import React from "react";
 import { OilFieldMapList } from "./oilFieldMapList";
 import { OilfieldDetails } from "./oilfieldDetails";
-import { OilfieldName, Slugify } from "../../data/data";
+import { Slugify } from "../../data/data";
+import { OilfieldName } from "../../data/gameData";
 
 export function MapRoute() {
   return (

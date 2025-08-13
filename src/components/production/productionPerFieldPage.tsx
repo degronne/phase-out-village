@@ -17,13 +17,14 @@ import { ApplicationContext } from "../../applicationContext";
 import {
   estimatedOilProduction,
   measuredOilProduction,
-  OilfieldName,
   YearlyDataset,
 } from "../../data/data";
 import { isEstimated } from "../charts/isEstimated";
 import { Link } from "react-router-dom";
 import { data } from "../../generated/data";
 import { fromEntries } from "../../data/fromEntries";
+import { ProductionTable } from "./productionTable";
+import { OilfieldName } from "../../data/gameData";
 
 ChartJS.register(
   CategoryScale,
@@ -56,38 +57,6 @@ function focusOnClicked(
     setVisibleField(undefined);
   }
   chart.update();
-}
-
-function ProductionTable({
-  field,
-  dataseries,
-}: {
-  field: string;
-  dataseries: YearlyDataset;
-}) {
-  return (
-    <>
-      <p>Produksjon for {field}</p>
-      <table>
-        <thead>
-          <tr>
-            <th>År</th>
-            <th>Produksjon</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.entries(dataseries).map(([year, value]) => (
-            <tr>
-              <td>{year}</td>
-              <td className={value.estimate ? "projected" : ""}>
-                {value.value.toFixed(2)}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
-  );
 }
 
 export function ProductionPerFieldPage() {
