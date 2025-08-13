@@ -1,3 +1,5 @@
+export const oilEquivalentToBarrel = 6.2898;
+
 export function calculateAverage(
   yearlyData: Record<
     string,

@@ -19,9 +19,11 @@ import {
   measuredOilProduction,
   OilfieldName,
   YearlyDataset,
-} from "../../data";
+} from "../../data/data";
 import { isEstimated } from "../charts/isEstimated";
 import { Link } from "react-router-dom";
+import { data } from "../../generated/data";
+import { fromEntries } from "../../data/fromEntries";
 
 ChartJS.register(
   CategoryScale,
@@ -88,11 +90,11 @@ function ProductionTable({
   );
 }
 
-export function ProductionPerFieldChart() {
+export function ProductionPerFieldPage() {
   const [visibleField, setVisibleField] = useState<string | undefined>();
 
-  const { data, phaseOut } = useContext(ApplicationContext);
-  const dataSeries: Record<OilfieldName, YearlyDataset> = Object.fromEntries(
+  const { phaseOut } = useContext(ApplicationContext);
+  const dataSeries: Record<OilfieldName, YearlyDataset> = fromEntries(
     Object.entries(data).map(([key, value]) => [
       key,
       {
@@ -103,7 +105,7 @@ export function ProductionPerFieldChart() {
   );
 
   const datasets = Object.entries(
-    Object.fromEntries(
+    fromEntries(
       Object.entries(dataSeries).map(([key, value]) => [
         key,
         Object.entries(value).map(([year, { value, estimate }]) => ({

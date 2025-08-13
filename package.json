@@ -7,13 +7,14 @@
     "dev": "vite",
     "data:download": "download -f - https://script.google.com/macros/s/AKfycbxZtR2yZdYoQFquvl86qv870H9jkK5rOgFx9ZNN7QAtKjXCvo8rTDmxgii0zOo_GX8Y7g/exec > tmp/data.json",
     "data:process": "tsx build/processData.ts > src/generated/data.ts",
-    "data:mdg:download": "download -f - https://script.google.com/macros/s/AKfycbxZtR2yZdYoQFquvl86qv870H9jkK5rOgFx9ZNN7QAtKjXCvo8rTDmxgii0zOo_GX8Y7g/exec?sheet=MDG-plan > tmp/data:mdg.json",
+    "data:mdg:download": "download -f - https://script.google.com/macros/s/AKfycbxZtR2yZdYoQFquvl86qv870H9jkK5rOgFx9ZNN7QAtKjXCvo8rTDmxgii0zOo_GX8Y7g/exec?sheet=MDG-plan > tmp/dataMdg.json",
     "data:mdg:process": "tsx build/processMdgData.ts > src/generated/dataMdg.ts",
     "data:mdg": "npm run data:mdg:download && npm run data:mdg:process",
     "data": "npm run data:download && npm run data:process && npm run data:mdg && prettier --write src/generated",
     "test": "tsc --noEmit && prettier --check .",
     "prepare": "husky",
-    "build": "npm test && vite build"
+    "build": "npm test && vite build",
+    "prettify": "prettier --write ."
   },
   "keywords": [],
   "author": "",
@@ -23,6 +24,7 @@
     "@types/node": "^24.0.10",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-legacy": "^7.2.1",
     "download-cli": "^1.0.1",
     "husky": "^9.1.7",
     "prettier": "^3.6.2",
@@ -39,5 +41,10 @@
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.7.0",
     "xlsx": "^0.18.5"
-  }
+  },
+  "browserslist": [
+    "defaults",
+    "last 2 iOS major versions",
+    "not dead"
+  ]
 }

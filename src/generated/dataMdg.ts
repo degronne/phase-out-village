@@ -1,4 +1,4 @@
-import { PhaseOutSchedule } from "../data";
+import { PhaseOutSchedule } from "../data/data";
 
 export const mdgPlan: PhaseOutSchedule = {
   "Aasta Hansteen": "2032",
@@ -29,7 +29,7 @@ export const mdgPlan: PhaseOutSchedule = {
   Snøhvit: "2030",
   Statfjord: "2026",
   Troll: "2040",
-  Ula: "2024",
+  Ula: "2025",
   Valhall: "2040",
   Visund: "2034",
   Yggdrasil: "2040",

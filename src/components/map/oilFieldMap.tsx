@@ -3,7 +3,7 @@ import { Map, View } from "ol";
 import { useGeographic } from "ol/proj";
 
 import "ol/ol.css";
-import { OilfieldName, Slugify } from "../../data";
+import { OilfieldName, Slugify } from "../../data/data";
 import { useOilfieldLayer } from "./useOilfieldLayer";
 import { useBackgroundLayer } from "./useBackgroundLayer";
 
@@ -26,5 +26,5 @@ export function OilFieldMap({ slug }: { slug?: Slugify<OilfieldName> }) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => map.setTarget(mapRef.current!), []);
 
-  return <div ref={mapRef}></div>;
+  return <div className={"map-container"} ref={mapRef}></div>;
 }

@@ -1,96 +1,21 @@
-import { Bar } from "react-chartjs-2";
-import React, { useMemo } from "react";
+import React, { useContext } from "react";
+import { ApplicationContext } from "../../applicationContext";
 import {
   calculateGasProduction,
   calculateOilProduction,
-  PhaseOutSchedule,
 } from "../../data/data";
+import { Bar } from "react-chartjs-2";
 import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
 import { data } from "../../generated/data";
 
-export function ProductionReductionChart({
-  phaseOut,
-}: {
-  phaseOut: PhaseOutSchedule;
-}) {
-  const allFields = Object.keys(data);
+export function CombinedProductionForFieldChart({ field }: { field: string }) {
+  const { phaseOut } = useContext(ApplicationContext);
 
-  function calculateTotalOil(plan: "baseline" | "user") {
-    const allOilProduction = allFields.map((field) =>
-      calculateOilProduction(
-        data[field],
-        plan === "user" ? phaseOut[field] : undefined,
-      ),
-    );
+  const userPlanOil = calculateOilProduction(data[field], phaseOut[field]);
+  const baseLineOil = calculateOilProduction(data[field], undefined);
 
-    const allYearsSet = new Set<string>();
-    allOilProduction.forEach((series) => {
-      series.forEach(([year]) => {
-        allYearsSet.add(year);
-      });
-    });
-
-    const allYearsSorted = Array.from(allYearsSet).sort();
-
-    const summed = allYearsSorted.map((year) => {
-      let total = 0;
-      for (const series of allOilProduction) {
-        const match = series.find(([y]) => y === year);
-        if (match) total += match[1] ?? 0;
-      }
-
-      return {
-        x: year,
-        y: total,
-      };
-    });
-
-    return summed;
-  }
-
-  function calculateTotalGas(plan: "baseline" | "user") {
-    const allGasProduction = allFields.map((field) =>
-      calculateGasProduction(
-        data[field],
-        plan === "user" ? phaseOut[field] : undefined,
-      ),
-    );
-
-    const allYearsSet = new Set<string>();
-    allGasProduction.forEach((series) => {
-      series.forEach(([year]) => {
-        allYearsSet.add(year);
-      });
-    });
-
-    const allYearsSorted = Array.from(allYearsSet).sort();
-
-    const summed = allYearsSorted.map((year) => {
-      let total = 0;
-      for (const series of allGasProduction) {
-        const match = series.find(([y]) => y === year);
-        if (match) total += match[1] ?? 0;
-      }
-
-      return {
-        x: year,
-        y: total,
-      };
-    });
-
-    return summed;
-  }
-
-  const userPlanOil = useMemo(
-    () => calculateTotalOil("user"),
-    [data, phaseOut],
-  );
-  const baseLineOil = useMemo(() => calculateTotalOil("baseline"), [data]);
-  const userPlanGas = useMemo(
-    () => calculateTotalGas("user"),
-    [data, phaseOut],
-  );
-  const baseLineGas = useMemo(() => calculateTotalGas("baseline"), [data]);
+  const userPlanGas = calculateGasProduction(data[field], phaseOut[field]);
+  const baseLineGas = calculateGasProduction(data[field], undefined);
 
   const textColor = usePrefersDarkMode() ? "#fff" : "#000";
 
@@ -119,7 +44,13 @@ export function ProductionReductionChart({
   }
 
   return (
-    <div className="bar-chart">
+    <div
+      style={{
+        height: 290,
+        maxHeight: 300,
+        position: "relative",
+      }}
+    >
       <Bar
         options={{
           maintainAspectRatio: false,
@@ -127,7 +58,7 @@ export function ProductionReductionChart({
             legend: { display: true, labels: { color: textColor } },
             title: {
               display: true,
-              text: "Total produksjon fra alle felter",
+              text: `Total produksjon fra ${field}`,
               color: textColor,
               padding: {
                 bottom: 20,
@@ -153,13 +84,7 @@ export function ProductionReductionChart({
               ticks: {
                 color: textColor,
                 callback: function (value: any) {
-                  const num = Number(value);
-                  if (window.innerWidth < 600) {
-                    if (num >= 1_000_000)
-                      return `${(num / 1_000_000).toFixed(0)} M`;
-                    if (num >= 1_000) return `${(num / 1_000).toFixed(0)} K`;
-                  }
-                  return num.toLocaleString("nb-NO");
+                  return `${value.toFixed(1)}M SM3`;
                 },
               },
             },
@@ -187,14 +112,14 @@ export function ProductionReductionChart({
         data={{
           datasets: [
             {
-              label: "Utfasingsplan (Olje)",
+              label: "Din plan (Olje)",
               data: userPlanOil,
               borderColor: "#4a90e2",
               backgroundColor: usePrefersDarkMode() ? "#2A5D8F" : "#4DA3FF",
               stack: "userPlan",
             },
             {
-              label: "Utfasingsplan (Gass)",
+              label: "Din plan (Gass)",
               data: userPlanGas,
               borderColor: "#E24A4A",
               backgroundColor: usePrefersDarkMode() ? "#D64545" : "#FF3333",
@@ -204,18 +129,14 @@ export function ProductionReductionChart({
               label: "Referanse Olje (uten tiltak)",
               data: baseLineOil,
               borderColor: "orange",
-              backgroundColor: usePrefersDarkMode()
-                ? createStipedPattern("#2A5D8F", "transparent")
-                : createStipedPattern("#4DA3FF", "transparent"),
+              backgroundColor: usePrefersDarkMode() ? "#2A5D8F" : "#4DA3FF",
               stack: "reference",
             },
             {
               label: "Referanse Gass (uten tiltak)",
               data: baseLineGas,
               borderColor: "orange",
-              backgroundColor: usePrefersDarkMode()
-                ? createStipedPattern("#D64545", "transparent")
-                : createStipedPattern("#FF3333", "transparent"),
+              backgroundColor: usePrefersDarkMode() ? "#D64545" : "#FF3333",
               stack: "reference",
             },
           ],

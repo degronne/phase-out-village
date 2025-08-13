@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { oilfieldNames, oilfields } from "../../data";
+import { oilfieldNames, oilfields } from "../../data/data";
 import { ApplicationContext } from "../../applicationContext";
 
 export function OilFieldMapList() {

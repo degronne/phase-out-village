@@ -1,16 +1,28 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
-import { ProductionPerFieldChart } from "./productionPerFieldChart";
-import { ProductionReductionRoute } from "./productionReductionRoute";
-import { YearlyTotalProductionChart } from "./yearlyOilAndGasProductionBarChart";
+import { Link, Route, Routes } from "react-router-dom";
+import { ProductionPerFieldPage } from "./productionPerFieldPage";
+import { YearlyTotalProductionChart } from "./yearlyTotalProductionChart";
+import { ProductionSummaryPage } from "./productionSummaryPage";
 
 export function ProductionRoute() {
   return (
     <div>
       <Routes>
-        <Route path={"/"} element={<ProductionReductionRoute />} />
-        <Route path={"/composition"} element={<YearlyTotalProductionChart />} />
-        <Route path={"/oilPerField"} element={<ProductionPerFieldChart />} />
+        <Route path={"/"} element={<ProductionSummaryPage />} />
+        <Route
+          path={"/composition"}
+          element={
+            <div className="production-chart">
+              <nav className="production-nav">
+                <Link to={"/production/"}>Din plan</Link>
+                <Link to={"/production/composition"}>Inndeling produksjon</Link>
+                <Link to={"/production/oilPerField"}>Produksjon per felt</Link>
+              </nav>
+              <YearlyTotalProductionChart />
+            </div>
+          }
+        />
+        <Route path={"/oilPerField"} element={<ProductionPerFieldPage />} />
       </Routes>
     </div>
   );

@@ -29,7 +29,6 @@ As future production is secret and emission is tied to production, the following
 - Average emission is set to the average of the last five years
 - For future electricity consumption, the future consumption uses the last known value scaled by production volume
 
-
 ## Features
 
 - For each oil field, the user can select an phase out year between 2027 and 2040

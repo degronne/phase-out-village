@@ -1,9 +1,9 @@
 import React from "react";
-import { EmissionStackedBarChart } from "./emissionStackedBarChart";
 import { Link } from "react-router-dom";
+import { EmissionForAllFieldsChart } from "./emissionsForAllFieldsChart";
 import { TimeSerieValue } from "../../data/data";
 
-export function EmissionStackedBarRoute({
+export function EmissionForAllFieldsPage({
   userPlan,
   baseline,
 }: {
@@ -13,12 +13,12 @@ export function EmissionStackedBarRoute({
   return (
     <>
       <nav className="emission-nav">
-        <Link to={"/emissions/line"}>Linjediagram</Link>
-        <Link to={"./"}>Søylediagram</Link>
+        <Link to={"./"}>Linjediagram</Link>
+        <Link to={"/emissions/bar"}>Søylediagram</Link>
         <Link to={"/emissions/intensity"}>Utslippsintensitet</Link>
       </nav>
       <div className="emission-chart">
-        <EmissionStackedBarChart userPlan={userPlan} baseline={baseline} />
+        <EmissionForAllFieldsChart userPlan={userPlan} baseline={baseline} />
       </div>
     </>
   );
