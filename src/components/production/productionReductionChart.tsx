@@ -4,6 +4,7 @@ import {
   calculateGasProduction,
   calculateOilProduction,
   PhaseOutSchedule,
+  TimeSerieValue,
 } from "../../data/data";
 import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
 import { data } from "../../generated/data";
@@ -81,6 +82,18 @@ export function ProductionReductionChart({
     return summed;
   }
 
+  function calculateDifference(
+    baseline: { x: string; y: number }[],
+    userReduction: { x: string; y: number }[],
+  ): { x: string; y: number }[] {
+    const lookup = new Map(userReduction.map(({ x, y }) => [x, y]));
+
+    return baseline.map(({ x, y }) => ({
+      x,
+      y: y - (lookup.get(x) ?? 0),
+    }));
+  }
+
   const userPlanOil = useMemo(
     () => calculateTotalOil("user"),
     [data, phaseOut],
@@ -91,6 +104,15 @@ export function ProductionReductionChart({
     [data, phaseOut],
   );
   const baseLineGas = useMemo(() => calculateTotalGas("baseline"), [data]);
+
+  const resOil = useMemo(
+    () => calculateDifference(baseLineOil, userPlanOil),
+    [data],
+  );
+  const resGas = useMemo(
+    () => calculateDifference(baseLineGas, userPlanGas),
+    [data],
+  );
 
   const textColor = usePrefersDarkMode() ? "#fff" : "#000";
 
@@ -191,32 +213,36 @@ export function ProductionReductionChart({
               data: userPlanOil,
               borderColor: "#4a90e2",
               backgroundColor: usePrefersDarkMode() ? "#2A5D8F" : "#4DA3FF",
-              stack: "userPlan",
+              stack: "PLAN",
+              order: 1,
             },
             {
               label: "Utfasingsplan (Gass)",
               data: userPlanGas,
               borderColor: "#E24A4A",
               backgroundColor: usePrefersDarkMode() ? "#D64545" : "#FF3333",
-              stack: "userPlan",
+              stack: "PLAN",
+              order: 3,
             },
             {
               label: "Referanse Olje (uten tiltak)",
-              data: baseLineOil,
+              data: resOil,
               borderColor: "orange",
               backgroundColor: usePrefersDarkMode()
                 ? createStipedPattern("#2A5D8F", "transparent")
                 : createStipedPattern("#4DA3FF", "transparent"),
-              stack: "reference",
+              stack: "PLAN",
+              order: 2,
             },
             {
               label: "Referanse Gass (uten tiltak)",
-              data: baseLineGas,
+              data: resGas,
               borderColor: "orange",
               backgroundColor: usePrefersDarkMode()
                 ? createStipedPattern("#D64545", "transparent")
                 : createStipedPattern("#FF3333", "transparent"),
-              stack: "reference",
+              stack: "PLAN",
+              order: 4,
             },
           ],
         }}
