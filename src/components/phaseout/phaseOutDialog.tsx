@@ -1,23 +1,37 @@
-import React, { FormEvent, useContext, useState } from "react";
+import { DataField, Year } from "../../data/types";
+
+import React, { FormEvent, useContext, useMemo, useState } from "react";
 import { ApplicationContext } from "../../applicationContext";
-import { OilfieldName, PhaseOutSchedule } from "../../data/data";
 import { EmissionIntensityBarChart } from "../charts/emissionIntensityBarChart";
 import { useNavigate } from "react-router-dom";
 import "./phaseOut.css";
 import { mdgPlan } from "../../generated/dataMdg";
-import { fullData } from "../../data/projections";
 import { fromEntries } from "../../data/fromEntries";
+import {
+  DatasetForAllFields,
+  gameData,
+  OilfieldName,
+  PhaseOutSchedule,
+} from "../../data/gameData";
 import { InfoTag } from "../ui/InfoTag";
 
-type Oilfield = {
-  field: string;
-  productionOil: number | null;
-  productionGas: number | null;
-  emission: number | null;
-  emissionIntensity: number | null;
-};
+type SortKey =
+  | "alphabetical"
+  | "totalProduction"
+  | "emission"
+  | "emissionIntensity";
 
-type SortKey = "alphabetical" | "production" | "emission" | "emissionIntensity";
+function sumFieldValues(
+  data: DatasetForAllFields,
+  fields: OilfieldName[],
+  year: Year,
+  dataField: DataField,
+) {
+  const value = fields
+    .map((field) => data[field]?.[year]?.[dataField]?.value ?? 0)
+    .reduce((sum, value) => sum + value, 0);
+  return Math.round(value * 100) / 100;
+}
 
 export function PhaseOutDialog({
   close,
@@ -30,14 +44,20 @@ export function PhaseOutDialog({
     useContext(ApplicationContext);
 
   const [draft, setDraft] = useState<PhaseOutSchedule>({});
-  const [selectedOrder, setSelectedOrder] = useState<OilfieldName[]>([]);
+  const [, setSelectedOrder] = useState<OilfieldName[]>([]);
   const navigate = useNavigate();
 
   const [sortKey, setSortKey] = useState<SortKey>("alphabetical");
 
   const [latestSelectedField, setLatestSelectedField] =
-    useState<OilfieldName | null>(null);
-  const [fieldForChart, setFieldForChart] = useState<Oilfield | null>(null);
+    useState<OilfieldName>();
+  const fieldForChart = useMemo(
+    () =>
+      latestSelectedField
+        ? gameData.data[latestSelectedField][year]
+        : undefined,
+    [latestSelectedField],
+  );
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -65,37 +85,6 @@ export function PhaseOutDialog({
     setDraft(fields);
   }
 
-  function updateLatestSelectedField(
-    removed: string,
-    selectedOrder: string[],
-  ): string | null {
-    const newOrder = selectedOrder.filter((f) => f !== removed);
-    return newOrder[newOrder.length - 1] ?? null;
-  }
-
-  function setLatestFieldInfo(field: OilfieldName | null) {
-    setLatestSelectedField(field);
-
-    if (!field) {
-      setFieldForChart(null);
-      return;
-    }
-
-    const data = fullData[field]?.[year];
-    if (data) {
-      const fieldData: Oilfield = {
-        field,
-        productionOil: data.productionOil ?? null,
-        productionGas: data.productionGas ?? null,
-        emission: data.emission ?? null,
-        emissionIntensity: data.emissionIntensity ?? null,
-      };
-      setFieldForChart(fieldData);
-    } else {
-      setFieldForChart(null);
-    }
-  }
-
   function removeField(field: OilfieldName) {
     setDraft((d) =>
       fromEntries(Object.entries(d).filter(([f]) => f !== field)),
@@ -103,8 +92,7 @@ export function PhaseOutDialog({
 
     setSelectedOrder((prev) => {
       const updated = prev.filter((f) => f !== field);
-      const fallback = updateLatestSelectedField(field, prev);
-      setLatestFieldInfo(fallback);
+      setLatestSelectedField(updated[updated.length - 1] ?? null);
       return updated;
     });
   }
@@ -112,7 +100,7 @@ export function PhaseOutDialog({
   function addField(field: OilfieldName) {
     setDraft((d) => ({ ...d, [field]: year }));
     setSelectedOrder((prev) => [...prev.filter((f) => f !== field), field]);
-    setLatestFieldInfo(field);
+    setLatestSelectedField(field);
   }
 
   function toggle(field: OilfieldName, checked: boolean) {
@@ -123,70 +111,43 @@ export function PhaseOutDialog({
     }
   }
 
-  function calculateTotal(
-    draft: Record<string, unknown>,
-    fullData: Record<string, any>,
-    year: string | number,
-    key: "productionOil" | "productionGas" | "emission",
-  ): number {
-    return (
-      Math.round(
-        Object.keys(draft).reduce((sum, field) => {
-          const value = fullData[field]?.[year]?.[key] ?? 0;
-          return sum + value;
-        }, 0) * 100,
-      ) / 100
-    );
-  }
-
-  const sortedFields = Object.keys(fullData).sort((a, b) => {
+  const sortedFields = Object.keys(gameData.data).sort((a, b) => {
     const aIsDisabled = a in phaseOut;
     const bIsDisabled = b in phaseOut;
 
     if (aIsDisabled && !bIsDisabled) return 1;
     if (!aIsDisabled && bIsDisabled) return -1;
-
-    const aData = fullData[a]?.[year];
-    const bData = fullData[b]?.[year];
-
     if (sortKey === "alphabetical") {
       return a.localeCompare(b);
     }
 
-    if (sortKey === "emission") {
-      const aE = aData?.emission ?? -Infinity;
-      const bE = bData?.emission ?? -Infinity;
-      return bE - aE;
-    }
+    const aData = gameData.data[a]?.[year];
+    const bData = gameData.data[b]?.[year];
 
-    if (sortKey === "production") {
-      const aProd = (aData?.productionOil ?? 0) + (aData?.productionGas ?? 0);
-      const bProd = (bData?.productionOil ?? 0) + (bData?.productionGas ?? 0);
-      return bProd - aProd;
-    }
-
-    if (sortKey === "emissionIntensity") {
-      const aEI = aData?.emissionIntensity ?? -Infinity;
-      const bEI = bData?.emissionIntensity ?? -Infinity;
-      return bEI - aEI;
-    }
-
-    return 0;
+    return (
+      (aData?.[sortKey]?.value ?? -Infinity) -
+      (bData?.[sortKey]?.value ?? -Infinity)
+    );
   });
 
-  const totalOilProduction = calculateTotal(
-    draft,
-    fullData,
+  const totalOilProduction = sumFieldValues(
+    gameData.data,
+    Object.keys(draft),
     year,
     "productionOil",
   );
-  const totalGasProduction = calculateTotal(
-    draft,
-    fullData,
+  const totalGasProduction = sumFieldValues(
+    gameData.data,
+    Object.keys(draft),
     year,
     "productionGas",
   );
-  const totalEmission = calculateTotal(draft, fullData, year, "emission");
+  const totalEmission = sumFieldValues(
+    gameData.data,
+    Object.keys(draft),
+    year,
+    "emission",
+  );
 
   return (
     <form className="phaseout-dialog" onSubmit={handleSubmit}>
@@ -207,7 +168,7 @@ export function PhaseOutDialog({
               onChange={(e) => setSortKey(e.target.value as SortKey)}
             >
               <option value="alphabetical">Alfabetisk</option>
-              <option value="production">Total produksjon</option>
+              <option value="totalProduction">Total produksjon</option>
               <option value="emission">Utslipp</option>
               <option value="emissionIntensity">Utslippsintensitet</option>
             </select>
@@ -243,38 +204,38 @@ export function PhaseOutDialog({
         </ul>
       </div>
       <div className="dialog-information-container">
-        {latestSelectedField && fullData[latestSelectedField] && (
+        {latestSelectedField && fieldForChart && (
           <div className="phaseout-latest-oilfield">
             <h3>Sist valgt oljefelt: {latestSelectedField}</h3>
             <p>
-              Oljeproduksjon i {year}:{" "}
-              {fullData[latestSelectedField]?.[year]?.productionOil ?? "0"} GSm3
-              olje{" "}
+              Olje/væskeproduksjon i {year}:{" "}
+              {fieldForChart.productionOil?.value ?? "0"} GSm3 olje{" "}
               <InfoTag title="GSm3 = standard kubikkmeter ved standard trykk/temperatur. Brukes for å sammenligne volum.">
                 ?
               </InfoTag>
             </p>
             <p>
-              Gassproduksjon i {year}:{" "}
-              {fullData[latestSelectedField]?.[year]?.productionGas ?? "0"} GSm3
-              gass{" "}
+              Gasseksport i {year}: {fieldForChart.productionGas?.value ?? "0"}{" "}
+              GSm3 gass{" "}
               <InfoTag title="GSm3 = standard kubikkmeter ved standard trykk/temperatur.">
                 ?
               </InfoTag>
             </p>
             <p>
               Utslipp i {year}:{" "}
-              {Math.round(
-                (fullData[latestSelectedField]?.[year]?.emission ?? 0) / 1000,
-              )}{" "}
-              tusen tonn CO2e{" "}
+              {Math.round((fieldForChart.emission?.value ?? 0) / 1000)} tusen
+              tonn Co2{" "}
               <InfoTag title="CO2e = CO2-ekvivalenter (inkluderer andre klimagasser omregnet til CO2). ‘Tusen tonn’ betyr at tallet er delt på 1000.">
                 ?
               </InfoTag>
             </p>
             <div className="phaseout-emission-chart">
               {fieldForChart && (
-                <EmissionIntensityBarChart dataPoint={fieldForChart!} />
+                <EmissionIntensityBarChart
+                  year={year}
+                  field={latestSelectedField}
+                  emissionIntensity={fieldForChart.emissionIntensity?.value}
+                />
               )}
             </div>
           </div>
@@ -296,10 +257,12 @@ export function PhaseOutDialog({
               </InfoTag>
             </p>
             <strong>Utslipp som reduseres innen {periodEnd}:</strong>{" "}
-            {Math.round(totalEmission / 1_000)} tusen tonn CO2e{" "}
-            <InfoTag title="CO2e = CO2-ekvivalenter. ‘Tusen tonn’ = delt på 1000.">
-              ?
-            </InfoTag>
+            <p>
+              {Math.round(totalEmission / 1_000)} tusen tonn CO2e{" "}
+              <InfoTag title="CO2e = CO2-ekvivalenter. ‘Tusen tonn’ = delt på 1000.">
+                ?
+              </InfoTag>
+            </p>
           </div>
         )}
 

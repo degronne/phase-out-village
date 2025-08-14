@@ -6,11 +6,14 @@
   "scripts": {
     "dev": "vite",
     "data:download": "download -f - https://script.google.com/macros/s/AKfycbxZtR2yZdYoQFquvl86qv870H9jkK5rOgFx9ZNN7QAtKjXCvo8rTDmxgii0zOo_GX8Y7g/exec > tmp/data.json",
-    "data:process": "tsx build/processData.ts > src/generated/data.ts",
+    "data:process": "tsx build/generateDataset.ts > src/generated/data.ts",
     "data:mdg:download": "download -f - https://script.google.com/macros/s/AKfycbxZtR2yZdYoQFquvl86qv870H9jkK5rOgFx9ZNN7QAtKjXCvo8rTDmxgii0zOo_GX8Y7g/exec?sheet=MDG-plan > tmp/dataMdg.json",
-    "data:mdg:process": "tsx build/processMdgData.ts > src/generated/dataMdg.ts",
+    "data:mdg:process": "tsx build/generateMdgData.ts > src/generated/dataMdg.ts",
     "data:mdg": "npm run data:mdg:download && npm run data:mdg:process",
-    "data": "npm run data:download && npm run data:process && npm run data:mdg && prettier --write src/generated",
+    "data:development:download": "download -f - https://script.google.com/macros/s/AKfycbxZtR2yZdYoQFquvl86qv870H9jkK5rOgFx9ZNN7QAtKjXCvo8rTDmxgii0zOo_GX8Y7g/exec?sheet=Utvikling > tmp/development.json",
+    "data:development:process": "tsx build/generateDevelopment.ts > src/generated/development.ts",
+    "data:development": "npm run data:development:download && npm run data:development:process",
+    "data": "npm run data:download && npm run data:process && npm run data:development && npm run data:mdg && prettier --write src/generated",
     "test": "tsc --noEmit && prettier --check .",
     "prepare": "husky",
     "build": "npm test && vite build"

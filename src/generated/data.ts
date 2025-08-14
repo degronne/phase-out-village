@@ -1,4 +1,4 @@
-import { OilFieldDataset } from "../types/types";
+import { OilFieldDataset } from "../data/types";
 
 export const data: OilFieldDataset = {
   "Aasta Hansteen": {

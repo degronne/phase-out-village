@@ -1,14 +1,12 @@
 import React from "react";
 import { EmissionStackedBarChart } from "./emissionStackedBarChart";
 import { Link } from "react-router-dom";
-import { TimeSerieValue } from "../../data/data";
+import { PhaseOutSchedule } from "../../data/gameData";
 
 export function EmissionStackedBarRoute({
-  userPlan,
-  baseline,
+  phaseOut,
 }: {
-  userPlan: TimeSerieValue[];
-  baseline: TimeSerieValue[];
+  phaseOut: PhaseOutSchedule;
 }) {
   return (
     <>
@@ -18,7 +16,7 @@ export function EmissionStackedBarRoute({
         <Link to={"/emissions/intensity"}>Utslippsintensitet</Link>
       </nav>
       <div className="emission-chart">
-        <EmissionStackedBarChart userPlan={userPlan} baseline={baseline} />
+        <EmissionStackedBarChart phaseOut={phaseOut} />
       </div>
     </>
   );

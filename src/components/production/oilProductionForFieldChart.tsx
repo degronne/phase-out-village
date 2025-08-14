@@ -1,20 +1,12 @@
 import React, { useContext } from "react";
 import { ApplicationContext } from "../../applicationContext";
-import { oilProduction, YearlyDataset } from "../../data/data";
 import { Line } from "react-chartjs-2";
 import { isEstimated } from "../charts/isEstimated";
-import { data } from "../../generated/data";
+import { gameData, toTimeseries, truncatedDataset } from "../../data/gameData";
 
 export function OilProductionForFieldChart({ field }: { field: string }) {
   const { phaseOut } = useContext(ApplicationContext);
-
-  function toDataset(yearlyDataset: YearlyDataset) {
-    return Object.entries(yearlyDataset).map(([year, { value, estimate }]) => ({
-      x: year,
-      y: value,
-      estimate,
-    }));
-  }
+  const dataset = gameData.data[field];
 
   return (
     <Line
@@ -24,7 +16,7 @@ export function OilProductionForFieldChart({ field }: { field: string }) {
           legend: { display: false },
           title: {
             display: true,
-            text: `Årlig oljeproduksjon fra ${field}`,
+            text: `Årlig olje/væskeproduksjon fra ${field}`,
           },
           tooltip: {
             callbacks: {
@@ -48,13 +40,14 @@ export function OilProductionForFieldChart({ field }: { field: string }) {
         },
       }}
       data={{
-        labels: toDataset(oilProduction(data[field], {}, field)).map(
-          ({ x }) => x,
-        ),
+        labels: Object.keys(dataset),
         datasets: [
           {
             label: "Din plan",
-            data: toDataset(oilProduction(data[field], phaseOut, field)),
+            data: toTimeseries(
+              truncatedDataset(dataset, phaseOut[field]),
+              "productionOil",
+            ),
             borderColor: "#4a90e2",
             segment: {
               borderDash: (ctx) => (isEstimated(ctx.p1) ? [5, 5] : undefined),
@@ -66,7 +59,7 @@ export function OilProductionForFieldChart({ field }: { field: string }) {
           },
           {
             label: "Referanse",
-            data: toDataset(oilProduction(data[field], {}, field)),
+            data: toTimeseries(dataset, "productionOil"),
             borderColor: "orange",
             segment: {
               borderDash: (ctx) => (isEstimated(ctx.p1) ? [5, 5] : undefined),

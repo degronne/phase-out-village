@@ -1,14 +1,15 @@
 import React from "react";
-import { TimeSerieValue } from "../../data/data";
 import { Line } from "react-chartjs-2";
-import { toXYDataSeries } from "../../data/toXYDataSeries";
+import {
+  PhaseOutSchedule,
+  totalProduction,
+  xyDataSeries,
+} from "../../data/gameData";
 
 export function EmissionForAllFieldsChart({
-  userPlan,
-  baseline,
+  phaseOut,
 }: {
-  userPlan: TimeSerieValue[];
-  baseline: TimeSerieValue[];
+  phaseOut: PhaseOutSchedule;
 }) {
   return (
     <Line
@@ -65,7 +66,7 @@ export function EmissionForAllFieldsChart({
         datasets: [
           {
             label: "Din plan",
-            data: toXYDataSeries(userPlan),
+            data: xyDataSeries(totalProduction(phaseOut), "emission"),
             borderColor: "#4a90e2",
             segment: {
               borderDash: (ctx) => {
@@ -84,7 +85,7 @@ export function EmissionForAllFieldsChart({
           },
           {
             label: "Referanse (uten tiltak)",
-            data: toXYDataSeries(baseline),
+            data: xyDataSeries(totalProduction(), "emission"),
             borderColor: "orange",
             segment: {
               borderDash: (ctx) => {
