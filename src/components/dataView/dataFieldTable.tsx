@@ -1,9 +1,9 @@
 import * as XLSX from "xlsx";
 import { Link } from "react-router-dom";
-import { fullData } from "../../data/projections";
-import { slugify, yearsInRange } from "../../data/data";
+import { slugify } from "../../data/slugify";
 import React from "react";
 import { dataFieldToExcel } from "./exportToExcel";
+import { gameData, yearsInRange } from "../../data/gameData";
 
 export function DataFieldTable({
   dataField,
@@ -29,7 +29,7 @@ export function DataFieldTable({
         <thead>
           <tr>
             <th className="rowHeader">År</th>
-            {Object.keys(fullData).map((field) => (
+            {Object.keys(gameData.data).map((field) => (
               <th key={field}>
                 <Link to={`/data/${slugify(field)}`}>{field}</Link>
               </th>
@@ -40,11 +40,19 @@ export function DataFieldTable({
           {yearsInRange(2000, 2040).map((year) => (
             <tr key={year}>
               <th className="rowHeader">{year}</th>
-              {Object.keys(fullData).map((field) => (
-                <td key={field}>
-                  {fullData[field][year]?.[dataField] || undefined}
-                </td>
-              ))}
+              {Object.entries(gameData.data)
+                .map(([field, values]) => ({
+                  field,
+                  data: values?.[year]?.[dataField] || undefined,
+                }))
+                .map(({ field, data }) => (
+                  <td
+                    key={field}
+                    className={data?.estimate ? "estimate" : undefined}
+                  >
+                    {data?.value}
+                  </td>
+                ))}
             </tr>
           ))}
         </tbody>

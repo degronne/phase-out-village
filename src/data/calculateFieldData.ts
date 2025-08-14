@@ -1,9 +1,11 @@
-import { DataField, DatasetForSingleField, Year } from "./types";
 import {
+  DataField,
+  DatasetForSingleField,
   FieldDataValues,
-  oilEquivalentToBarrel,
-  OilfieldName,
-} from "./gameData";
+  Year,
+} from "./types";
+import { oilEquivalentToBarrel, OilfieldName } from "./gameData";
+import { development } from "../generated/development";
 
 export function calculateFieldData(
   field: OilfieldName,
@@ -36,8 +38,11 @@ export function calculateFieldData(
     const emissionIntensity = emission
       ? {
           value:
-            (emission.value * 1000) /
-            (totalProduction.value * oilEquivalentToBarrel * 1_000_000),
+            Math.round(
+              ((emission.value * 1000) /
+                (totalProduction.value * oilEquivalentToBarrel * 1_000_000)) *
+                100,
+            ) / 100,
         }
       : undefined;
     return {
@@ -63,19 +68,19 @@ export function calculateFieldData(
     });
   }
 
-  const annualOilDevelopment = 0.9;
-  const annualGasDevelopment = 0.9;
-  const annualEmissionDevelopment = 0.97;
+  const fieldDevelopment: (typeof development)[OilfieldName] | undefined =
+    development[field + "disable"];
+  const annualOilDevelopment = fieldDevelopment?.oil || 0.9;
+  const annualGasDevelopment = fieldDevelopment?.gas || 0.9;
+  const annualEmissionDevelopment = fieldDevelopment?.emissions || 0.97;
 
   let currentOil = calculateAverage(data, "productionOil") || 0;
   let currentGas = calculateAverage(data, "productionGas") || 0;
   let currentEmission = calculateAverage(data, "emission") || 0;
   for (let year = parseInt(years[years.length - 1]) + 1; year <= 2040; year++) {
     currentOil = Math.round(currentOil * annualOilDevelopment * 100) / 100;
-    if (currentOil < 0.2) currentOil = 0;
     currentGas = Math.round(currentGas * annualGasDevelopment * 100) / 100;
-    if (currentGas < 0.2) currentGas = 0;
-    if (currentGas === 0 && currentOil === 0) break;
+    if (currentGas + currentOil < 0.2) break;
     currentEmission = Math.round(currentEmission * annualEmissionDevelopment);
     dataset[year.toString() as Year] = createDataValues({
       productionGas:

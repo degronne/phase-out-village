@@ -1,38 +1,26 @@
-import {
-  calculateEmissions,
-  calculateGasProduction,
-  calculateOilProduction,
-  yearsInRange,
-} from "../../data/data";
-import { fullData } from "../../data/projections";
-import { data } from "../../generated/data";
-import { PhaseOutSchedule } from "../../data/gameData";
+import { gameData } from "../../data/gameData";
+import { fromEntries } from "../../data/fromEntries";
 
 export function dataFieldToExcel(
   dataField: "productionOil" | "productionGas" | "emission",
 ) {
-  return yearsInRange(2000, 2040).map((year) => ({
+  return gameData.allYears.map((year) => ({
     År: year,
-    ...Object.fromEntries(
-      Object.keys(fullData).map((field) => [
+    ...fromEntries(
+      Object.entries(gameData.data).map(([field, data]) => [
         field,
-        fullData[field][year]?.[dataField] || undefined,
+        data?.[year]?.[dataField]?.value || undefined,
       ]),
     ),
   }));
 }
 
-export function oilFieldToExcel(field: string, phaseOut: PhaseOutSchedule) {
-  const oil = calculateOilProduction(data[field], phaseOut[field]);
-  const gas = calculateGasProduction(data[field], phaseOut[field]);
-  const emissions = calculateEmissions(data[field], phaseOut[field]);
-  const years = [
-    ...new Set([...gas.map(([y]) => y), ...emissions.map(([y]) => y)]),
-  ].sort();
-  return years.map((year) => ({
+export function oilFieldToExcel(field: string) {
+  return Object.entries(gameData.data[field]).map(([year, data]) => ({
     year,
-    productionOil: (oil.find(([y]) => y === year) || [])[1] ?? null,
-    productionGas: (gas.find(([y]) => y === year) || [])[1] ?? null,
-    emission: (emissions.find(([y]) => y === year) || [])[1] ?? null,
+    Olje: data.productionOil?.value || undefined,
+    Gass: data.productionGas?.value || undefined,
+    Utslipp: data.emission?.value || undefined,
+    Utslippsintensitet: data.emissionIntensity?.value || undefined,
   }));
 }

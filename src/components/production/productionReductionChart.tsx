@@ -1,116 +1,16 @@
 import { Line } from "react-chartjs-2";
-import React, { useMemo } from "react";
+import React from "react";
 import {
-  calculateGasProduction,
-  calculateOilProduction,
-} from "../../data/data";
-import { data } from "../../generated/data";
-import { PhaseOutSchedule } from "../../data/gameData";
+  PhaseOutSchedule,
+  totalProduction,
+  xyDataSeries,
+} from "../../data/gameData";
 
 export function ProductionReductionChart({
   phaseOut,
 }: {
   phaseOut: PhaseOutSchedule;
 }) {
-  const allFields = Object.keys(data);
-
-  function calculateTotalOil(plan: "baseline" | "user") {
-    const allOilProduction = allFields.map((field) =>
-      calculateOilProduction(
-        data[field],
-        plan === "user" ? phaseOut[field] : undefined,
-      ),
-    );
-
-    const allYearsSet = new Set<string>();
-    allOilProduction.forEach((series) => {
-      series.forEach(([year]) => {
-        allYearsSet.add(year);
-      });
-    });
-
-    const allYearsSorted = Array.from(allYearsSet).sort();
-
-    const summed = allYearsSorted.map((year) => {
-      let total = 0;
-      for (const series of allOilProduction) {
-        const match = series.find(([y]) => y === year);
-        if (match) total += match[1] ?? 0;
-      }
-
-      return {
-        x: year,
-        y: total,
-      };
-    });
-
-    return summed;
-  }
-
-  function calculateTotalGas(plan: "baseline" | "user") {
-    const allGasProduction = allFields.map((field) =>
-      calculateGasProduction(
-        data[field],
-        plan === "user" ? phaseOut[field] : undefined,
-      ),
-    );
-
-    const allYearsSet = new Set<string>();
-    allGasProduction.forEach((series) => {
-      series.forEach(([year]) => {
-        allYearsSet.add(year);
-      });
-    });
-
-    const allYearsSorted = Array.from(allYearsSet).sort();
-
-    const summed = allYearsSorted.map((year) => {
-      let total = 0;
-      for (const series of allGasProduction) {
-        const match = series.find(([y]) => y === year);
-        if (match) total += match[1] ?? 0;
-      }
-
-      return {
-        x: year,
-        y: total,
-      };
-    });
-
-    return summed;
-  }
-
-  function combineTimeSeries(
-    series1: { x: string; y: number }[],
-    series2: { x: string; y: number }[],
-  ): { x: string; y: number }[] {
-    const yearSet = new Set<string>();
-    series1.forEach((d) => yearSet.add(d.x));
-    series2.forEach((d) => yearSet.add(d.x));
-
-    const allYears = Array.from(yearSet).sort();
-
-    return allYears.map((year) => {
-      const y1 = series1.find((d) => d.x === year)?.y ?? 0;
-      const y2 = series2.find((d) => d.x === year)?.y ?? 0;
-      return { x: year, y: y1 + y2 };
-    });
-  }
-
-  const userPlanOil = useMemo(
-    () => calculateTotalOil("user"),
-    [data, phaseOut],
-  );
-  const baseLineOil = useMemo(() => calculateTotalOil("baseline"), [data]);
-  const userPlanGas = useMemo(
-    () => calculateTotalGas("user"),
-    [data, phaseOut],
-  );
-  const baseLineGas = useMemo(() => calculateTotalGas("baseline"), [data]);
-
-  const userPlan = combineTimeSeries(userPlanOil, userPlanGas);
-  const baseLine = combineTimeSeries(baseLineOil, baseLineGas);
-
   return (
     <Line
       options={{
@@ -175,7 +75,7 @@ export function ProductionReductionChart({
         datasets: [
           {
             label: "Utfasingsplan",
-            data: userPlan,
+            data: xyDataSeries(totalProduction(phaseOut), "totalProduction"),
             borderColor: "#4a90e2",
             segment: {
               borderDash: (ctx) => {
@@ -194,7 +94,7 @@ export function ProductionReductionChart({
           },
           {
             label: "Referanse (uten tiltak)",
-            data: baseLine,
+            data: xyDataSeries(totalProduction({}), "totalProduction"),
             borderColor: "orange",
             segment: {
               borderDash: (ctx) => {

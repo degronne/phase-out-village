@@ -1,18 +1,16 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link, Route, Routes, useParams } from "react-router-dom";
-import { oilfieldNames, slugify, Slugify } from "../../data/data";
-import { data } from "../../generated/data";
+import { slugify } from "../../data/slugify";
 import { OilFieldTable } from "../map/oilFieldTable";
 import { DataFieldTable } from "./dataFieldTable";
 import * as XLSX from "xlsx";
 import { dataFieldToExcel, oilFieldToExcel } from "./exportToExcel";
-import { ApplicationContext } from "../../applicationContext";
-import { OilfieldName } from "../../data/gameData";
+import { gameData } from "../../data/gameData";
 
 function OilProductionTable() {
   return (
     <>
-      <h2>Oversikt over oljeproduksjon</h2>
+      <h2>Oversikt over olje/væskeproduksjon</h2>
       <DataFieldTable dataField={"productionOil"} />
     </>
   );
@@ -21,7 +19,7 @@ function OilProductionTable() {
 function GasProductionTable() {
   return (
     <>
-      <h2>Oversikt over gassproduksjon</h2>
+      <h2>Oversikt over gasseksport</h2>
       <DataFieldTable dataField={"productionGas"} />
     </>
   );
@@ -38,23 +36,21 @@ function EmissionTable() {
 
 function FieldTableWrapper() {
   const { oilFieldSlug } = useParams();
-  const name = oilfieldNames[oilFieldSlug as Slugify<OilfieldName>];
-  if (!name) return <h2>Fant ikke {oilFieldSlug}</h2>;
+  const field = gameData.allFields.find((s) => slugify(s) === oilFieldSlug);
+  if (!field) return <h2>Fant ikke {oilFieldSlug}</h2>;
 
   return (
     <>
-      <h2>{name}</h2>
+      <h2>{field}</h2>
       <p>
         <Link to={"/data"}>Tilbake</Link>
       </p>
-      <OilFieldTable field={name} />
+      <OilFieldTable field={field} />
     </>
   );
 }
 
 function FieldOverview() {
-  const { phaseOut } = useContext(ApplicationContext);
-
   function handleClickAllDataFieldsToExcel() {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(
@@ -77,10 +73,10 @@ function FieldOverview() {
 
   function handleClickAllOilFieldsToExcel() {
     const workbook = XLSX.utils.book_new();
-    for (const oilField of Object.keys(data)) {
+    for (const oilField of Object.keys(gameData.data)) {
       XLSX.utils.book_append_sheet(
         workbook,
-        XLSX.utils.json_to_sheet(oilFieldToExcel(oilField, phaseOut)),
+        XLSX.utils.json_to_sheet(oilFieldToExcel(oilField)),
         oilField,
       );
     }
@@ -109,7 +105,7 @@ function FieldOverview() {
         Eksporter alle til Excel
       </button>
       <ul>
-        {Object.keys(data).map((oilField) => (
+        {Object.keys(gameData.data).map((oilField) => (
           <li key={slugify(oilField)}>
             <Link to={`/data/${slugify(oilField)}`}>{oilField}</Link>
           </li>

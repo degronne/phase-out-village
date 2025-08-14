@@ -1,12 +1,12 @@
-import { YearlyDataset } from "../../data/data";
 import React from "react";
+import { DatasetForSingleField } from "../../data/types";
 
 export function ProductionTable({
   field,
   dataseries,
 }: {
   field: string;
-  dataseries: YearlyDataset;
+  dataseries: DatasetForSingleField;
 }) {
   return (
     <>
@@ -22,8 +22,8 @@ export function ProductionTable({
           {Object.entries(dataseries).map(([year, value]) => (
             <tr>
               <td>{year}</td>
-              <td className={value.estimate ? "projected" : ""}>
-                {value.value.toFixed(2)}
+              <td className={value.productionOil?.estimate ? "projected" : ""}>
+                {value.productionOil?.value.toFixed(2)}
               </td>
             </tr>
           ))}

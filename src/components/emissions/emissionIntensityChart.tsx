@@ -10,9 +10,13 @@ import {
 } from "chart.js";
 import annotationPlugin from "chartjs-plugin-annotation";
 import { Scatter } from "react-chartjs-2";
-import { emissionIntensityPerField } from "../../data/emissionIntensityPerField";
 import { Year } from "../../data/types";
-import { PhaseOutSchedule } from "../../data/gameData";
+import {
+  gameData,
+  isPhasedOut,
+  oilEquivalentToBarrel,
+  PhaseOutSchedule,
+} from "../../data/gameData";
 
 ChartJS.register(
   LinearScale,
@@ -31,12 +35,23 @@ export function EmissionIntensityChart({
   year: Year;
   phaseOut: PhaseOutSchedule;
 }) {
-  const datasets = emissionIntensityPerField(year).map((d) => ({
-    label: d.fieldName,
-    data: [{ x: d.totalProduction, y: d.emissionIntensity }],
-    pointBackgroundColor: d.fieldName in phaseOut ? "#C6CACB" : "#4a90e2",
-    pointRadius: 6,
-  }));
+  const datasets = Object.entries(gameData.data)
+    .filter(([, value]) => value)
+    .map(([field, data]) => ({
+      label: field,
+      data: data[year]?.totalProduction
+        ? [
+            {
+              x: data[year].totalProduction.value * oilEquivalentToBarrel,
+              y: data[year].emissionIntensity?.value,
+            },
+          ]
+        : undefined,
+      pointBackgroundColor: isPhasedOut(field, phaseOut, year)
+        ? "#C6CACB"
+        : "#4a90e2",
+      pointRadius: 6,
+    }));
 
   return (
     <Scatter
