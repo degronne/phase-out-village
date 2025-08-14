@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { Dialog } from "../ui/dialog";
 import { useNavigate } from "react-router-dom";
 
-const SSB_LINK =
-  "https://www.ssb.no/natur-og-miljo/forurensning-og-klima/statistikk/utslipp-til-luft";
-
 const OLJEPLAN_LINK = "https://mdg.no/oljeplan";
 
 export function FrontPage() {

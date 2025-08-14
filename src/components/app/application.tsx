@@ -5,13 +5,15 @@ import { ApplicationContext } from "../../applicationContext";
 import { FrontPage } from "./frontPage";
 import { PhaseOutRoute } from "../phaseout/phaseOutRoute";
 import { ProductionRoute } from "../production/productionRoute";
-import { PhaseOutSchedule, Year } from "../../data/data";
 import { useSessionState } from "../../hooks/useSessionState";
 import { EmissionRoute } from "../emissions/emissionRoute";
 import { ApplicationHeader } from "./applicationHeader";
 import { ApplicationFooter } from "./applicationFooter";
 import { GameOverDialog } from "./gameOverDialog";
 import { PlanRoute } from "../plan/planRoute";
+import { Year } from "../../data/types";
+import { DataViewRoute } from "../dataView/dataViewRoute";
+import { PhaseOutSchedule } from "../../data/gameData";
 import { TutorialRoute } from "./tutorialRoute";
 
 function ApplicationRoutes() {
@@ -25,6 +27,7 @@ function ApplicationRoutes() {
       <Route path={"/production/*"} element={<ProductionRoute />} />
       <Route path={"/tutorial"} element={<TutorialRoute />} />
       <Route path={"/summary"} element={<GameOverDialog />} />
+      <Route path={"/data/*"} element={<DataViewRoute />} />
       <Route path={"*"} element={<h2>Not Found</h2>} />
     </Routes>
   );

@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { ApplicationContext } from "../../applicationContext";
-import { calculateGasProduction } from "../../data/data";
 import { Line } from "react-chartjs-2";
 import { isEstimated } from "../charts/isEstimated";
-import { data } from "../../generated/data";
+import { gameData, toTimeseries, truncatedDataset } from "../../data/gameData";
 
 export function GasProductionForFieldChart({ field }: { field: string }) {
   const { phaseOut } = useContext(ApplicationContext);
+  const dataset = gameData.data[field];
 
   return (
     <Line
@@ -16,7 +16,7 @@ export function GasProductionForFieldChart({ field }: { field: string }) {
           legend: { display: false },
           title: {
             display: true,
-            text: `Årlig gassproduksjon fra ${field}`,
+            text: `Årlig gasseksport fra ${field}`,
           },
           tooltip: {
             callbacks: {
@@ -40,13 +40,14 @@ export function GasProductionForFieldChart({ field }: { field: string }) {
         },
       }}
       data={{
-        labels: calculateGasProduction(data[field], undefined).map(
-          ([y, ..._]) => y,
-        ),
+        labels: Object.keys(dataset),
         datasets: [
           {
             label: "Din plan",
-            data: calculateGasProduction(data[field], phaseOut[field]),
+            data: toTimeseries(
+              truncatedDataset(dataset, phaseOut[field]),
+              "productionGas",
+            ),
             borderColor: "#4a90e2",
             segment: {
               borderDash: (ctx) => {
@@ -60,7 +61,7 @@ export function GasProductionForFieldChart({ field }: { field: string }) {
           },
           {
             label: "Referanse",
-            data: calculateGasProduction(data[field], undefined),
+            data: toTimeseries(dataset, "productionGas"),
             borderColor: "orange",
             segment: {
               borderDash: (ctx) => (isEstimated(ctx.p1) ? [5, 5] : undefined),
