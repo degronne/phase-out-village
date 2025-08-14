@@ -13,96 +13,31 @@ export function Dialog({
 }) {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   useLayoutEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-
-    function handleBackdropClick(e: MouseEvent) {
-      // Only close when the backdrop itself is clicked
-      const d = dialogRef.current;
-      if (!d) return;
-      if (e.target === d) d.close();
-    }
-
-    function handleKeyDown(e: KeyboardEvent) {
-      const d = dialogRef.current;
-      if (!d) return;
-      if (e.key === "Escape") {
-        e.stopPropagation();
-        d.close();
-        return;
-      }
-      if (e.key === "Tab") {
-        const focusables = Array.from(
-          d.querySelectorAll<HTMLElement>(
-            'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])',
-          ),
-        ).filter((el) => !el.hasAttribute("disabled") && el.tabIndex !== -1);
-        if (focusables.length === 0) return;
-        const first = focusables[0];
-        const last = focusables[focusables.length - 1];
-        const active = document.activeElement as HTMLElement | null;
-        if (e.shiftKey) {
-          if (active === first || !d.contains(active)) {
-            last.focus();
-            e.preventDefault();
-          }
-        } else {
-          if (active === last || !d.contains(active)) {
-            first.focus();
-            e.preventDefault();
-          }
-        }
+    function handleClick(e: MouseEvent) {
+      const dialog = dialogRef.current;
+      if (dialog && dialog.open && dialog.contains(e.target as Node)) {
+        const rect = dialog.getBoundingClientRect();
+        const clickedInDialog =
+          e.clientX >= rect.left &&
+          e.clientX <= rect.right &&
+          e.clientY >= rect.top &&
+          e.clientY <= rect.bottom;
+        if (!clickedInDialog) dialog.close();
       }
     }
 
-    function focusFirst() {
-      // Delay to after dialog is shown
-      requestAnimationFrame(() => {
-        const d = dialogRef.current;
-        if (!d) return;
-        const focusables = Array.from(
-          d.querySelectorAll<HTMLElement>(
-            'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])',
-          ),
-        ).filter((el) => !el.hasAttribute("disabled") && el.tabIndex !== -1);
-        (focusables[0] ?? d).focus();
-      });
-    }
-
-    dialog.addEventListener("click", handleBackdropClick);
-    dialog.addEventListener("keydown", handleKeyDown);
-    if (onClose) dialog.addEventListener("close", onClose);
-
+    window.addEventListener("click", handleClick);
+    dialogRef.current?.showModal();
+    if (onClose) dialogRef.current?.addEventListener("close", onClose);
     return () => {
-      if (onClose) dialog.removeEventListener("close", onClose);
-      dialog.removeEventListener("click", handleBackdropClick);
-      dialog.removeEventListener("keydown", handleKeyDown);
+      if (onClose) dialogRef.current?.removeEventListener("close", onClose);
+      window.removeEventListener("click", handleClick);
     };
   }, []);
-
   useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-    function focusFirst() {
-      requestAnimationFrame(() => {
-        const d = dialogRef.current;
-        if (!d) return;
-        const focusables = Array.from(
-          d.querySelectorAll<HTMLElement>(
-            'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])',
-          ),
-        ).filter((el) => !el.hasAttribute("disabled") && el.tabIndex !== -1);
-        (focusables[0] ?? d).focus();
-      });
-    }
-    if (open) {
-      if (!dialog.open) dialog.showModal();
-      focusFirst();
-    } else {
-      if (dialog.open) dialog.close();
-    }
+    if (open) dialogRef.current?.showModal();
+    else dialogRef.current?.close();
   }, [open]);
-
   return (
     <dialog ref={dialogRef} className={className}>
       {children}
