@@ -207,12 +207,12 @@ export function PhaseOutDialog({
           <div className="phaseout-latest-oilfield">
             <h3>Sist valgt oljefelt: {latestSelectedField}</h3>
             <p>
-              Oljeproduksjon i {year}:{" "}
+              Olje/væskeproduksjon i {year}:{" "}
               {fieldForChart.productionOil?.value ?? "0"} GSm3 olje
             </p>
             <p>
-              Gassproduksjon i {year}:{" "}
-              {fieldForChart.productionGas?.value ?? "0"} GSm3 gass
+              Gasseksport i {year}: {fieldForChart.productionGas?.value ?? "0"}{" "}
+              GSm3 gass
             </p>
             <p>
               Utslipp i {year}:{" "}

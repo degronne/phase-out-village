@@ -16,7 +16,7 @@ export function OilProductionForFieldChart({ field }: { field: string }) {
           legend: { display: false },
           title: {
             display: true,
-            text: `Årlig oljeproduksjon fra ${field}`,
+            text: `Årlig olje/væskeproduksjon fra ${field}`,
           },
           tooltip: {
             callbacks: {

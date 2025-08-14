@@ -16,7 +16,7 @@ export function GasProductionForFieldChart({ field }: { field: string }) {
           legend: { display: false },
           title: {
             display: true,
-            text: `Årlig gassproduksjon fra ${field}`,
+            text: `Årlig gasseksport fra ${field}`,
           },
           tooltip: {
             callbacks: {

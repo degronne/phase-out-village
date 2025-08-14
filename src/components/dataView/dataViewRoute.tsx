@@ -10,7 +10,7 @@ import { gameData } from "../../data/gameData";
 function OilProductionTable() {
   return (
     <>
-      <h2>Oversikt over oljeproduksjon</h2>
+      <h2>Oversikt over olje/væskeproduksjon</h2>
       <DataFieldTable dataField={"productionOil"} />
     </>
   );
@@ -19,7 +19,7 @@ function OilProductionTable() {
 function GasProductionTable() {
   return (
     <>
-      <h2>Oversikt over gassproduksjon</h2>
+      <h2>Oversikt over gasseksport</h2>
       <DataFieldTable dataField={"productionGas"} />
     </>
   );

@@ -58,13 +58,13 @@ export function YearlyTotalProductionChart() {
         labels: years,
         datasets: [
           {
-            label: "Oljeproduksjon",
+            label: "Olje/væskeproduksjon",
             data: oilValues,
             backgroundColor: "rgba(255,99,132,0.6)",
             stack: "production",
           },
           {
-            label: "Gassproduksjon",
+            label: "Gasseksport",
             data: gasValues,
             backgroundColor: "rgba(54,162,235,0.6)",
             stack: "production",
