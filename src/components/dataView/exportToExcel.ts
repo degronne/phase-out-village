@@ -1,11 +1,12 @@
 import { gameData, PhaseOutSchedule } from "../../data/gameData";
+import { fromEntries } from "../../data/fromEntries";
 
 export function dataFieldToExcel(
   dataField: "productionOil" | "productionGas" | "emission",
 ) {
   return gameData.gameYears.map((year) => ({
     År: year,
-    ...Object.fromEntries(
+    ...fromEntries(
       Object.entries(gameData.data).map(([field, data]) => [
         field,
         data?.[year]?.[dataField]?.value || undefined,

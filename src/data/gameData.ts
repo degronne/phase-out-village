@@ -7,6 +7,7 @@ import {
   Year,
 } from "./types";
 import { calculateFieldData } from "./calculateFieldData";
+import { fromEntries } from "./fromEntries";
 
 export const oilEquivalentToBarrel = 6.2898;
 export const allYears = yearsInRange(1900, 2099);
@@ -32,7 +33,7 @@ function calculateGameData(data: OilFieldDataset): GameData {
       { years: yearsInRange(2033, 2036) },
       { years: yearsInRange(2037, 2040) },
     ],
-    data: Object.fromEntries(
+    data: fromEntries(
       allFields.map((f) => [f, calculateFieldData(f, data[f])]),
     ),
   };
@@ -108,9 +109,11 @@ export function fieldDataset(
   fieldName: OilfieldName,
   phaseOut: PhaseOutSchedule,
 ): Partial<Record<Year, FieldData>> {
-  return Object.fromEntries(
+  return fromEntries(
     allYears
-      .map((y) => [y, fieldDataForYear(fieldName, y, phaseOut)])
+      .map<
+        [string, FieldData]
+      >((y) => [y, fieldDataForYear(fieldName, y, phaseOut)])
       .filter((o) => !!o[1]),
   );
 }
@@ -118,7 +121,7 @@ export function fieldDataset(
 export function totalProduction(
   phaseOut: PhaseOutSchedule = {},
   years: Year[] = yearsInRange(1971, 2040),
-): Partial<Record<Year, FieldDataValues>> {
+): Partial<Record<Year, Omit<FieldDataValues, "emissionIntensity">>> {
   function sumSeries(
     dataSeries: DatasetForAllFields,
     dataField: DataField,
@@ -139,7 +142,7 @@ export function totalProduction(
       });
   }
 
-  return Object.fromEntries(
+  return fromEntries(
     years.map((year) => {
       const value: Omit<FieldDataValues, "emissionIntensity"> = {
         productionOil: sumSeries(gameData.data, "productionOil", year),
@@ -156,7 +159,7 @@ export function truncatedDataset(
   lastYear: Year | undefined,
 ): DatasetForSingleField {
   if (!lastYear) return data;
-  return Object.fromEntries(
+  return fromEntries(
     Object.entries(data).map((data) => {
       if (parseInt(data[0]) < parseInt(lastYear)) return data;
       if (parseInt(data[0]) > parseInt(lastYear)) return [data[0], undefined];
@@ -166,6 +169,8 @@ export function truncatedDataset(
           productionOil: { value: 0, estimate: true },
           productionGas: { value: 0, estimate: true },
           emission: { value: 0, estimate: true },
+          totalProduction: { value: 0, estimate: true },
+          emissionIntensity: { value: 0, estimate: true },
         },
       ];
     }),
