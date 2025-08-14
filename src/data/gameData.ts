@@ -39,7 +39,6 @@ function calculateGameData(data: OilFieldDataset): GameData {
 }
 
 export const gameData: GameData = calculateGameData(data);
-console.log(gameData);
 
 export function yearsInRange(first: number, last: number) {
   return Array.from({ length: last - first + 1 }, (_, i) =>
@@ -124,26 +123,32 @@ export function totalProduction(
     dataSeries: DatasetForAllFields,
     dataField: DataField,
     year: Year,
-  ) {
+  ): DataValue | undefined {
     return Object.entries(dataSeries)
       .map(([name, v]) => {
-        if (isPhasedOut(name, phaseOut, year)) return 0;
-        const yearlyValues = v[year];
-        return (yearlyValues ? yearlyValues[dataField]?.value : 0) || 0;
+        return isPhasedOut(name, phaseOut, year)
+          ? undefined
+          : v[year]?.[dataField];
       })
-      .reduce((a, b) => a + b, 0);
+      .reduce((a, b) => {
+        if (!a && !b) return undefined;
+        return {
+          value: (a?.value || 0) + (b?.value || 0),
+          estimate: a?.estimate || false || b?.estimate || false,
+        };
+      });
   }
 
   return Object.fromEntries(
-    years.map((year) => [
-      year,
-      {
+    years.map((year) => {
+      const value: Omit<FieldDataValues, "emissionIntensity"> = {
         productionOil: sumSeries(gameData.data, "productionOil", year),
         productionGas: sumSeries(gameData.data, "productionGas", year),
         totalProduction: sumSeries(gameData.data, "totalProduction", year),
         emission: sumSeries(gameData.data, "emission", year),
-      },
-    ]),
+      };
+      return [year, value];
+    }),
   );
 }
 export function truncatedDataset(
@@ -152,31 +157,49 @@ export function truncatedDataset(
 ): DatasetForSingleField {
   if (!lastYear) return data;
   return Object.fromEntries(
-    Object.entries(data).filter(([y]) => parseInt(y) < parseInt(lastYear)),
+    Object.entries(data).map((data) => {
+      if (parseInt(data[0]) < parseInt(lastYear)) return data;
+      if (parseInt(data[0]) > parseInt(lastYear)) return [data[0], undefined];
+      return [
+        data[0],
+        {
+          productionOil: { value: 0, estimate: true },
+          productionGas: { value: 0, estimate: true },
+          emission: { value: 0, estimate: true },
+        },
+      ];
+    }),
   );
 }
 
 export function xyDataSeries<T extends string>(
   dataset: Partial<Record<Year, Record<T, DataValue | undefined>>>,
   dataField: T,
-): { x: Year; y: number | undefined; estimate: boolean | undefined }[] {
-  return Object.entries(dataset).map(([year, dataPoint]) => ({
-    x: year as Year,
-    y: dataPoint[dataField]?.value,
-    estimate: dataPoint[dataField]?.estimate,
-  }));
+): {
+  x: Year;
+  y: number | undefined;
+  estimated?: boolean;
+}[] {
+  return Object.entries(dataset)
+    .filter(([, dataPoint]) => !!dataPoint?.[dataField])
+    .map(([year, dataPoint]) => ({
+      x: year as Year,
+      y: dataPoint?.[dataField]?.value,
+      estimate: dataPoint?.[dataField]?.estimate,
+    }));
 }
 
 export function toTimeseries(
   dataset: DatasetForSingleField,
   datafield: DataField,
+  years: Year[] = Object.keys(dataset) as Year[],
 ): [Year, number, { estimated: boolean }?][] {
-  return Object.entries(dataset).map(
-    ([year, datapoint]) =>
+  return years.map(
+    (year) =>
       [
-        year as Year,
-        datapoint[datafield]?.value,
-        datapoint[datafield]?.estimate,
+        year,
+        dataset[year]?.[datafield]?.value,
+        dataset[year]?.[datafield]?.estimate,
       ] as [Year, number, { estimated: boolean }?],
   );
 }

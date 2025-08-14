@@ -36,8 +36,11 @@ export function calculateFieldData(
     const emissionIntensity = emission
       ? {
           value:
-            (emission.value * 1000) /
-            (totalProduction.value * oilEquivalentToBarrel * 1_000_000),
+            Math.round(
+              ((emission.value * 1000) /
+                (totalProduction.value * oilEquivalentToBarrel * 1_000_000)) *
+                100,
+            ) / 100,
         }
       : undefined;
     return {

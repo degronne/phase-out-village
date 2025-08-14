@@ -35,7 +35,6 @@ function findLatestYear(dataset: OilFieldDataset): number {
 export function productionProjections(data: OilFieldDataset): Projection[] {
   const projections: Projection[] = [];
   const projectionStart = findLatestYear(data) + 1;
-  console.log(projectionStart);
   const projectionEnd = 2040;
   const annualDeclineRate = 0.1;
 

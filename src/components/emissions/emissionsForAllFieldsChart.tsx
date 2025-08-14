@@ -1,24 +1,16 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Line } from "react-chartjs-2";
-import { toXYDataSeries } from "../../data/toXYDataSeries";
-import { data } from "../../generated/data";
-import { calculateTotalEmissions } from "../../data/calculateTotalEmissions";
-import { PhaseOutSchedule } from "../../data/gameData";
+import {
+  PhaseOutSchedule,
+  totalProduction,
+  xyDataSeries,
+} from "../../data/gameData";
 
 export function EmissionForAllFieldsChart({
   phaseOut,
 }: {
   phaseOut: PhaseOutSchedule;
 }) {
-  const allFields = Object.keys(data);
-  const userPlan = useMemo(
-    () => calculateTotalEmissions(allFields, data, phaseOut),
-    [data, phaseOut],
-  );
-  const baseline = useMemo(
-    () => calculateTotalEmissions(allFields, data, {}),
-    [data],
-  );
   return (
     <Line
       options={{
@@ -74,7 +66,7 @@ export function EmissionForAllFieldsChart({
         datasets: [
           {
             label: "Din plan",
-            data: toXYDataSeries(userPlan),
+            data: xyDataSeries(totalProduction(phaseOut), "emission"),
             borderColor: "#4a90e2",
             segment: {
               borderDash: (ctx) => {
@@ -93,7 +85,7 @@ export function EmissionForAllFieldsChart({
           },
           {
             label: "Referanse (uten tiltak)",
-            data: toXYDataSeries(baseline),
+            data: xyDataSeries(totalProduction(), "emission"),
             borderColor: "orange",
             segment: {
               borderDash: (ctx) => {

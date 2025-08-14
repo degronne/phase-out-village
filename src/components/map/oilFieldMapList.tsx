@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { oilfieldNames, oilfields } from "../../data/data";
 import { ApplicationContext } from "../../applicationContext";
+import { gameData, slugify } from "../../data/gameData";
 
 export function OilFieldMapList() {
   const { phaseOut } = useContext(ApplicationContext);
@@ -9,11 +9,10 @@ export function OilFieldMapList() {
     <div>
       <h1>Oljefelter</h1>
       <ul>
-        {oilfields.map((o) => (
+        {gameData.allFields.map((o) => (
           <li key={o}>
-            <Link to={`/map/${o}`}>{oilfieldNames[o]}</Link>
-            {phaseOut[oilfieldNames[o]] &&
-              ` (din plan: avvikles i ${phaseOut[oilfieldNames[o]]})`}
+            <Link to={`/map/${slugify(o)}`}>{o}</Link>
+            {phaseOut[o] && ` (din plan: avvikles i ${phaseOut[o]})`}
           </li>
         ))}
       </ul>

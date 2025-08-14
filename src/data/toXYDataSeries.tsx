@@ -3,7 +3,8 @@ import { Year } from "./types";
 
 export function toXYDataSeries(allEmissions: TimeSerieValue[]): {
   x: Year;
-  y: number;
+  y: number | undefined;
+  estimated?: boolean;
 }[] {
   const allYearsSet = new Set<Year>();
   allEmissions.forEach(([year]) => {
