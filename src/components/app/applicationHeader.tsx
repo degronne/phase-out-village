@@ -41,6 +41,13 @@ function ActionCard() {
         )}
       </div>
       <div>
+        <button
+          onClick={() => navigate("/tutorial", { state: { from: location } })}
+        >
+          Hvordan spiller jeg?
+        </button>
+      </div>
+      <div>
         <button onClick={restart}>Start på nytt</button>
       </div>
     </div>

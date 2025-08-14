@@ -8,7 +8,27 @@ a {
 }
 
 dialog {
-  margin: revert;
+  margin: auto;
+}
+
+dialog::backdrop {
+  background-color: rgb(0 0 0 / 0.35);
+}
+
+.tutorial-modal {
+  width: min(640px, 92vw);
+  max-height: 85vh;
+  padding: 1rem 1.25rem;
+  border-radius: 0.25rem;
+  border: 1px solid currentColor;
+}
+
+@media (max-width: 600px) {
+  .tutorial-modal {
+    width: 94vw;
+    max-height: 88vh;
+    padding: 0.75rem 0.75rem;
+  }
 }
 
 &:disabled {
