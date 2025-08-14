@@ -53,7 +53,6 @@ function showFieldNameStyle(f: FeatureLike, resolution: number) {
       stroke: new Stroke({ color: "black", width: 2 }),
       offsetY: -5,
     }),
-    geometry: new Point(getCenter(f.getGeometry()!.getExtent())),
   });
 }
 
@@ -85,6 +84,7 @@ export function useOilfieldLayer(map: Map, slug: string | undefined) {
     () => (e: MapBrowserEvent) => {
       const features = map.getFeaturesAtPixel(e.pixel, {
         layerFilter: (l) => l.getSource() === oilfieldSource,
+        hitTolerance: 5, // Add tolerance for better click detection
       });
       if (features.length === 1) {
         navigate(
@@ -150,11 +150,22 @@ export function useOilfieldLayer(map: Map, slug: string | undefined) {
       selectOilField();
     }
 
+    function handlePointerMove(e: MapBrowserEvent) {
+      const features = map.getFeaturesAtPixel(e.pixel, {
+        layerFilter: (l) => l.getSource() === oilfieldSource,
+        hitTolerance: 5,
+      });
+      map.getTargetElement().style.cursor =
+        features.length > 0 ? "pointer" : "";
+    }
+
     oilfieldSource.once("featuresloadend", handleFeaturesLoadEnd);
     map.on("click", handleClick);
+    map.on("pointermove", handlePointerMove);
 
     return () => {
       map.un("click", handleClick);
+      map.un("pointermove", handlePointerMove);
       oilfieldSource.un("featuresloadend", handleFeaturesLoadEnd);
     };
   }, [map, oilfieldSource, handleClick, selectOilField]);
