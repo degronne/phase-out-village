@@ -1,18 +1,15 @@
-import React, { useContext } from "react";
-import { ApplicationContext } from "../../applicationContext";
-import { slugify } from "../../data/data";
+import React from "react";
+import { slugify } from "../../data/slugify";
 import * as XLSX from "xlsx";
 import { oilFieldToExcel } from "../dataView/exportToExcel";
 import { gameData } from "../../data/gameData";
 
 export function OilFieldTable({ field }: { field: string }) {
-  const { phaseOut } = useContext(ApplicationContext);
-
   function handleExportClick() {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(
       workbook,
-      XLSX.utils.json_to_sheet(oilFieldToExcel(field, phaseOut)),
+      XLSX.utils.json_to_sheet(oilFieldToExcel(field)),
       field,
     );
     XLSX.writeFile(workbook, `oil-field-data-${slugify(field)}.xlsx`);

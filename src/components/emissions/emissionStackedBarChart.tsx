@@ -1,9 +1,9 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
 import {
+  gameData,
   PhaseOutSchedule,
   totalProduction,
-  yearsInRange,
 } from "../../data/gameData";
 
 export function EmissionStackedBarChart({
@@ -11,13 +11,11 @@ export function EmissionStackedBarChart({
 }: {
   phaseOut: PhaseOutSchedule;
 }) {
-  const years = yearsInRange(2012, 2040);
-
-  const userData = Object.values(totalProduction(phaseOut, years)).map(
+  const userData = Object.values(totalProduction(phaseOut)).map(
     ({ emission }) => emission?.value || 0,
   );
 
-  const reductionData = Object.values(totalProduction({}, years))
+  const reductionData = Object.values(totalProduction())
     .map(({ emission }) => emission?.value || 0)
     .map((base, i) => Math.max(base - (userData[i] ?? 0), 0));
 
@@ -65,7 +63,7 @@ export function EmissionStackedBarChart({
         },
       }}
       data={{
-        labels: years,
+        labels: gameData.gameYears,
         datasets: [
           {
             label: "Utfasingsplan",

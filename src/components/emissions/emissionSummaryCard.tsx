@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { yearsInRange } from "../../data/data";
 import { ApplicationContext } from "../../applicationContext";
 import { Link } from "react-router-dom";
 import { gameData, sumOverYears, totalProduction } from "../../data/gameData";
@@ -7,9 +6,9 @@ import { gameData, sumOverYears, totalProduction } from "../../data/gameData";
 export function EmissionSummaryCard() {
   const { phaseOut } = useContext(ApplicationContext);
 
-  const years = yearsInRange(2025, 2040);
-  const baseline = sumOverYears(years, totalProduction(), "emission");
-  const result = sumOverYears(years, totalProduction(phaseOut), "emission");
+  const years = gameData.gameYears;
+  const baseline = sumOverYears(totalProduction({}, years), "emission");
+  const result = sumOverYears(totalProduction(phaseOut, years), "emission");
   const reduction = Math.round(((baseline - result) / baseline) * 100);
 
   return (

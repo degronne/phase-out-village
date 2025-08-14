@@ -3,6 +3,7 @@ import {
   DataField,
   DatasetForSingleField,
   DataValue,
+  FieldDataValues,
   OilFieldDataset,
   Year,
 } from "./types";
@@ -10,12 +11,14 @@ import { calculateFieldData } from "./calculateFieldData";
 import { fromEntries } from "./fromEntries";
 
 export const oilEquivalentToBarrel = 6.2898;
-export const allYears = yearsInRange(1900, 2099);
 
 export type OilfieldName = keyof typeof data;
+export type PhaseOutSchedule = Partial<Record<OilfieldName, Year>>;
 export type DatasetForAllFields = Record<OilfieldName, DatasetForSingleField>;
+
 export type GameData = {
   allFields: OilfieldName[];
+  allYears: Year[];
   gameYears: Year[];
   gamePeriods: { years: Year[] }[];
   data: DatasetForAllFields;
@@ -26,7 +29,8 @@ function calculateGameData(data: OilFieldDataset): GameData {
 
   return {
     allFields,
-    gameYears: yearsInRange(2000, 2040),
+    allYears: yearsInRange(2000, 2040),
+    gameYears: yearsInRange(2025, 2040),
     gamePeriods: [
       { years: yearsInRange(2025, 2028) },
       { years: yearsInRange(2029, 2032) },
@@ -47,53 +51,6 @@ export function yearsInRange(first: number, last: number) {
   ) as Year[];
 }
 
-export type FieldDataValues = {
-  productionOil: DataValue | undefined;
-  productionGas: DataValue | undefined;
-  emission: DataValue | undefined;
-  emissionIntensity: DataValue | undefined;
-  totalProduction: DataValue | undefined;
-};
-export type FieldData = {
-  fieldName: OilfieldName;
-  data: FieldDataValues;
-};
-export type PhaseOutSchedule = Partial<Record<OilfieldName, Year>>;
-
-export function fieldDataForYear(
-  fieldName: OilfieldName,
-  year: Year,
-  phaseOut: PhaseOutSchedule = {},
-): FieldData {
-  if (isPhasedOut(fieldName, phaseOut, year)) {
-    return {
-      fieldName,
-      data: {
-        emission: undefined,
-        productionOil: undefined,
-        productionGas: undefined,
-        totalProduction: undefined,
-        emissionIntensity: undefined,
-      },
-    };
-  }
-  function getDataValue(field: DataField) {
-    const dataForYear = gameData.data[fieldName][year];
-    return dataForYear ? dataForYear[field] : undefined;
-  }
-
-  return {
-    fieldName,
-    data: {
-      productionOil: getDataValue("productionOil"),
-      productionGas: getDataValue("productionGas"),
-      totalProduction: getDataValue("totalProduction"),
-      emission: getDataValue("emission"),
-      emissionIntensity: getDataValue("emissionIntensity"),
-    },
-  };
-}
-
 export function isPhasedOut(
   fieldName: OilfieldName,
   phaseOut: PhaseOutSchedule,
@@ -105,22 +62,9 @@ export function isPhasedOut(
   );
 }
 
-export function fieldDataset(
-  fieldName: OilfieldName,
-  phaseOut: PhaseOutSchedule,
-): Partial<Record<Year, FieldData>> {
-  return fromEntries(
-    allYears
-      .map<
-        [string, FieldData]
-      >((y) => [y, fieldDataForYear(fieldName, y, phaseOut)])
-      .filter((o) => !!o[1]),
-  );
-}
-
 export function totalProduction(
   phaseOut: PhaseOutSchedule = {},
-  years: Year[] = yearsInRange(1971, 2040),
+  years: Year[] = gameData.gameYears,
 ): Partial<Record<Year, Omit<FieldDataValues, "emissionIntensity">>> {
   function sumSeries(
     dataSeries: DatasetForAllFields,
@@ -209,23 +153,11 @@ export function toTimeseries(
   );
 }
 
-export type Slugify<S extends string> =
-  Lowercase<S> extends infer L extends string
-    ? L extends `${infer T} ${infer U}`
-      ? `${T}-${Slugify<U>}`
-      : L
-    : never;
-
-export function slugify<T extends string>(name: T): Slugify<T> {
-  return name.toLowerCase().replace(/\s+/g, "-") as Slugify<T>;
-}
-
 export function sumOverYears<T extends string>(
-  years: Year[],
   result: Partial<Record<Year, Record<T, DataValue | undefined>>>,
   datafield: T,
 ) {
-  return years
-    .map((year) => (result[year] ? result[year][datafield]?.value || 0 : 0))
+  return Object.values(result)
+    .map((value) => (value ? value[datafield]?.value || 0 : 0))
     .reduce((a, b) => a + b, 0);
 }

@@ -1,9 +1,9 @@
 import * as XLSX from "xlsx";
 import { Link } from "react-router-dom";
-import { slugify, yearsInRange } from "../../data/data";
+import { slugify } from "../../data/slugify";
 import React from "react";
 import { dataFieldToExcel } from "./exportToExcel";
-import { gameData } from "../../data/gameData";
+import { gameData, yearsInRange } from "../../data/gameData";
 
 export function DataFieldTable({
   dataField,

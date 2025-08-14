@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Slugify } from "../../data/data";
+import { slugify, Slugify } from "../../data/slugify";
 import { OilProductionForFieldChart } from "../production/oilProductionForFieldChart";
 import { EmissionsForFieldChart } from "../emissions/emissionsForFieldChart";
 import { GasProductionForFieldChart } from "../production/gasProductionForFieldChart";
-import { gameData, OilfieldName, slugify } from "../../data/gameData";
+import { gameData, OilfieldName } from "../../data/gameData";
 
 export function OilfieldDetails({ slug }: { slug: Slugify<OilfieldName> }) {
   const name = gameData.allFields.find((n) => slugify(n) === slug);

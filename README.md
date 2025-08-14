@@ -31,7 +31,7 @@ As future production is secret and emission is tied to production, the following
 
 ## Features
 
-- For each oil field, the user can select an phase out year between 2027 and 2040
+- For each oil field, the user can select a phase out year between 2027 and 2040
 - All Norwegian oil fields are displayed on a map with a shading that shows their emission intensity. When the user
   selects a phase out year for any field, the total contribution of each field determines the shading instead
 - A graph displays the emission of the current projected production. When the user selects a production end data for an
@@ -43,7 +43,7 @@ As future production is secret and emission is tied to production, the following
 
 ## Technology
 
-This game is a purely frontend application developed with React. OpenLayers are used for the maps and Chart.js for the
+This game is a pure frontend application developed with React. OpenLayers are used for the maps and Chart.js for the
 charts. The game is optimized for mobile display format.
 
 The development language is English. The UI language is Norwegian.

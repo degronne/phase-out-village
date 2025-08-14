@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { ApplicationContext } from "../../applicationContext";
-import { gameData, slugify } from "../../data/gameData";
+import { gameData } from "../../data/gameData";
+import { slugify } from "../../data/slugify";
 
 export function OilFieldMapList() {
   const { phaseOut } = useContext(ApplicationContext);

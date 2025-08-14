@@ -1,9 +1,10 @@
-import { DataField, DatasetForSingleField, Year } from "./types";
 import {
+  DataField,
+  DatasetForSingleField,
   FieldDataValues,
-  oilEquivalentToBarrel,
-  OilfieldName,
-} from "./gameData";
+  Year,
+} from "./types";
+import { oilEquivalentToBarrel, OilfieldName } from "./gameData";
 
 export function calculateFieldData(
   field: OilfieldName,
