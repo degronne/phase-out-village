@@ -1,0 +1,372 @@
+diff --git a/src/components/emissions/emissionStackedBarChart.tsx b/src/components/emissions/emissionStackedBarChart.tsx
+index ff9f0f6..f90d88f 100644
+--- a/src/components/emissions/emissionStackedBarChart.tsx
++++ b/src/components/emissions/emissionStackedBarChart.tsx
+@@ -2,7 +2,6 @@ import React from "react";
+ import { Bar } from "react-chartjs-2";
+ import {
+   gameData,
+-  numberSeries,
+   PhaseOutSchedule,
+   totalProduction,
+ } from "../../data/gameData";
+@@ -12,12 +11,14 @@ export function EmissionStackedBarChart({
+ }: {
+   phaseOut: PhaseOutSchedule;
+ }) {
+-  const userData = numberSeries(totalProduction(phaseOut), "emission");
+-
+-  const reductionData = numberSeries(totalProduction(), "emission").map(
+-    (base, i) => Math.max((base ?? 0) - (userData[i] ?? 0), 0),
++  const userData = Object.values(totalProduction(phaseOut)).map(
++    ({ emission }) => emission?.value || 0,
+   );
+ 
++  const reductionData = Object.values(totalProduction())
++    .map(({ emission }) => emission?.value || 0)
++    .map((base, i) => Math.max(base - (userData[i] ?? 0), 0));
++
+   return (
+     <Bar
+       options={{
+diff --git a/src/components/production/productionReductionChart.tsx b/src/components/production/productionReductionChart.tsx
+index f670910..8a0ca7a 100644
+--- a/src/components/production/productionReductionChart.tsx
++++ b/src/components/production/productionReductionChart.tsx
+@@ -1,69 +1,25 @@
+-import { Bar } from "react-chartjs-2";
++import { Line } from "react-chartjs-2";
+ import React from "react";
+-import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
+ import {
+-  gameData,
+-  numberSeries,
+   PhaseOutSchedule,
+   totalProduction,
++  xyDataSeries,
+ } from "../../data/gameData";
+ 
+-function createStipedPattern(
+-  color: string,
+-  background: string,
+-): CanvasPattern | string {
+-  const stripes = document.createElement("canvas");
+-  stripes.width = 10;
+-  stripes.height = 10;
+-  const ctx = stripes.getContext("2d");
+-
+-  if (!ctx) return color;
+-
+-  ctx.fillStyle = background;
+-  ctx.fillRect(0, 0, stripes.width, stripes.height);
+-
+-  ctx.strokeStyle = color;
+-  ctx.lineWidth = 2;
+-  ctx.beginPath();
+-  ctx.moveTo(0, 10);
+-  ctx.lineTo(10, 0);
+-  ctx.stroke();
+-
+-  return ctx.createPattern(stripes, "repeat") as CanvasPattern;
+-}
+-
+ export function ProductionReductionChart({
+   phaseOut,
+ }: {
+   phaseOut: PhaseOutSchedule;
+ }) {
+-  const textColor = usePrefersDarkMode() ? "#fff" : "#000";
+-
+-  const userPlan = totalProduction(phaseOut);
+-  const baseline = totalProduction();
+-
+-  const remainingOil = numberSeries(userPlan, "productionOil");
+-
+-  const reductionOil = numberSeries(baseline, "productionOil").map((base, i) =>
+-    Math.max((base ?? 0) - (remainingOil[i] ?? 0), 0),
+-  );
+-
+-  const remainingGas = numberSeries(userPlan, "productionGas");
+-
+-  const reductionGas = numberSeries(baseline, "productionGas").map((base, i) =>
+-    Math.max((base ?? 0) - (remainingGas[i] ?? 0), 0),
+-  );
+-
+   return (
+-    <Bar
++    <Line
+       options={{
+         maintainAspectRatio: false,
+         plugins: {
+-          legend: { display: true, labels: { color: textColor } },
++          legend: { display: true },
+           title: {
+             display: true,
+             text: "Total produksjon fra alle felter",
+-            color: textColor,
+             padding: {
+               bottom: 20,
+             },
+@@ -72,33 +28,19 @@ export function ProductionReductionChart({
+             callbacks: {
+               label: function (context: any) {
+                 const value = context.parsed.y;
+-                return `${context.dataset.label}: ${value.toLocaleString("nb-NO")}M Sm3`;
++                return `Produksjon: ${value.toLocaleString("nb-NO")}M Sm3`;
+               },
+             },
+           },
+         },
+         scales: {
+-          x: {
+-            stacked: true,
+-            type: "linear",
+-            title: {
+-              display: true,
+-              text: "År",
+-              color: textColor,
+-            },
+-            ticks: {
+-              color: textColor,
+-            },
+-          },
+           y: {
+             beginAtZero: true,
+             title: {
+               display: true,
+               text: "Millioner Sm3 o.e.",
+-              color: textColor,
+             },
+             ticks: {
+-              color: textColor,
+               callback: function (value: any) {
+                 const num = Number(value);
+                 if (window.innerWidth < 600) {
+@@ -110,42 +52,64 @@ export function ProductionReductionChart({
+               },
+             },
+           },
++          x: {
++            type: "linear",
++            title: {
++              display: true,
++              text: "År",
++            },
++            min: 2014,
++            max: 2040,
++            ticks: {
++              stepSize: 2,
++              callback: (tickValue) => {
++                return typeof tickValue === "number"
++                  ? tickValue.toString()
++                  : tickValue;
++              },
++            },
++          },
+         },
+       }}
+       data={{
+-        labels: gameData.gameYears,
+         datasets: [
+           {
+-            label: "Gjenværende oljeproduksjon",
+-            data: remainingOil,
++            label: "Utfasingsplan",
++            data: xyDataSeries(totalProduction(phaseOut), "totalProduction"),
+             borderColor: "#4a90e2",
+-            backgroundColor: usePrefersDarkMode() ? "#2A5D8F" : "#4DA3FF",
+-            stack: "PLAN",
+-          },
+-          {
+-            label: "Gjenværende gasseksport",
+-            data: remainingGas,
+-            borderColor: "#E24A4A",
+-            backgroundColor: usePrefersDarkMode() ? "#D64545" : "#FF3333",
+-            stack: "PLAN",
+-          },
+-          {
+-            label: "Redusjon olje",
+-            data: reductionOil,
+-            borderColor: "orange",
+-            backgroundColor: usePrefersDarkMode()
+-              ? createStipedPattern("#2A5D8F", "transparent")
+-              : createStipedPattern("#4DA3FF", "transparent"),
+-            stack: "PLAN",
++            segment: {
++              borderDash: (ctx) => {
++                const point = ctx.p1 as { raw?: { x: number | string } };
++                const year = Number(point.raw?.x);
++                return year > 2022 ? [5, 5] : undefined;
++              },
++            },
++            pointStyle: (ctx) => {
++              const point = ctx.raw as { x: number | string };
++              return Number(point.x) > 2022 ? "star" : "circle";
++            },
++            backgroundColor: "rgba(74, 144, 226, 0.2)",
++            tension: 0.3,
++            fill: true,
+           },
+           {
+-            label: "Redusjon gass",
+-            data: reductionGas,
++            label: "Referanse (uten tiltak)",
++            data: xyDataSeries(totalProduction({}), "totalProduction"),
+             borderColor: "orange",
+-            backgroundColor: usePrefersDarkMode()
+-              ? createStipedPattern("#D64545", "transparent")
+-              : createStipedPattern("#FF3333", "transparent"),
+-            stack: "PLAN",
++            segment: {
++              borderDash: (ctx) => {
++                const point = ctx.p1 as { raw?: { x: number | string } };
++                const year = Number(point.raw?.x);
++                return year > 2022 ? [5, 5] : undefined;
++              },
++            },
++            pointStyle: (ctx) => {
++              const point = ctx.raw as { x: number | string };
++              return Number(point.x) > 2022 ? "star" : "circle";
++            },
++            backgroundColor: "rgba(255, 165, 0, 0.2)",
++            tension: 0.3,
++            fill: true,
+           },
+         ],
+       }}
+diff --git a/src/components/ui/dialog.tsx b/src/components/ui/dialog.tsx
+index b64f514..0aa63b3 100644
+--- a/src/components/ui/dialog.tsx
++++ b/src/components/ui/dialog.tsx
+@@ -13,31 +13,96 @@ export function Dialog({
+ }) {
+   const dialogRef = useRef<HTMLDialogElement | null>(null);
+   useLayoutEffect(() => {
+-    function handleClick(e: MouseEvent) {
+-      const dialog = dialogRef.current;
+-      if (dialog && dialog.open && dialog.contains(e.target as Node)) {
+-        const rect = dialog.getBoundingClientRect();
+-        const clickedInDialog =
+-          e.clientX >= rect.left &&
+-          e.clientX <= rect.right &&
+-          e.clientY >= rect.top &&
+-          e.clientY <= rect.bottom;
+-        if (!clickedInDialog) dialog.close();
++    const dialog = dialogRef.current;
++    if (!dialog) return;
++
++    function handleBackdropClick(e: MouseEvent) {
++      // Only close when the backdrop itself is clicked
++      const d = dialogRef.current;
++      if (!d) return;
++      if (e.target === d) d.close();
++    }
++
++    function handleKeyDown(e: KeyboardEvent) {
++      const d = dialogRef.current;
++      if (!d) return;
++      if (e.key === "Escape") {
++        e.stopPropagation();
++        d.close();
++        return;
+       }
++      if (e.key === "Tab") {
++        const focusables = Array.from(
++          d.querySelectorAll<HTMLElement>(
++            'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])',
++          ),
++        ).filter((el) => !el.hasAttribute("disabled") && el.tabIndex !== -1);
++        if (focusables.length === 0) return;
++        const first = focusables[0];
++        const last = focusables[focusables.length - 1];
++        const active = document.activeElement as HTMLElement | null;
++        if (e.shiftKey) {
++          if (active === first || !d.contains(active)) {
++            last.focus();
++            e.preventDefault();
++          }
++        } else {
++          if (active === last || !d.contains(active)) {
++            first.focus();
++            e.preventDefault();
++          }
++        }
++      }
++    }
++
++    function focusFirst() {
++      // Delay to after dialog is shown
++      requestAnimationFrame(() => {
++        const d = dialogRef.current;
++        if (!d) return;
++        const focusables = Array.from(
++          d.querySelectorAll<HTMLElement>(
++            'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])',
++          ),
++        ).filter((el) => !el.hasAttribute("disabled") && el.tabIndex !== -1);
++        (focusables[0] ?? d).focus();
++      });
+     }
+ 
+-    window.addEventListener("click", handleClick);
+-    dialogRef.current?.showModal();
+-    if (onClose) dialogRef.current?.addEventListener("close", onClose);
++    dialog.addEventListener("click", handleBackdropClick);
++    dialog.addEventListener("keydown", handleKeyDown);
++    if (onClose) dialog.addEventListener("close", onClose);
++
+     return () => {
+-      if (onClose) dialogRef.current?.removeEventListener("close", onClose);
+-      window.removeEventListener("click", handleClick);
++      if (onClose) dialog.removeEventListener("close", onClose);
++      dialog.removeEventListener("click", handleBackdropClick);
++      dialog.removeEventListener("keydown", handleKeyDown);
+     };
+   }, []);
++
+   useEffect(() => {
+-    if (open) dialogRef.current?.showModal();
+-    else dialogRef.current?.close();
++    const dialog = dialogRef.current;
++    if (!dialog) return;
++    function focusFirst() {
++      requestAnimationFrame(() => {
++        const d = dialogRef.current;
++        if (!d) return;
++        const focusables = Array.from(
++          d.querySelectorAll<HTMLElement>(
++            'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])',
++          ),
++        ).filter((el) => !el.hasAttribute("disabled") && el.tabIndex !== -1);
++        (focusables[0] ?? d).focus();
++      });
++    }
++    if (open) {
++      if (!dialog.open) dialog.showModal();
++      focusFirst();
++    } else {
++      if (dialog.open) dialog.close();
++    }
+   }, [open]);
++
+   return (
+     <dialog ref={dialogRef} className={className}>
+       {children}
+diff --git a/src/data/gameData.ts b/src/data/gameData.ts
+index 44294e4..cd7b60f 100644
+--- a/src/data/gameData.ts
++++ b/src/data/gameData.ts
+@@ -153,13 +153,6 @@ export function toTimeseries(
+   );
+ }
+ 
+-export function numberSeries<KEYS extends string>(
+-  dataset: Partial<Record<Year, Record<KEYS, DataValue | undefined>>>,
+-  field: KEYS,
+-): (number | undefined)[] {
+-  return Object.values(dataset).map((data) => data[field]?.value);
+-}
+-
+ export function sumOverYears<T extends string>(
+   result: Partial<Record<Year, Record<T, DataValue | undefined>>>,
+   datafield: T,
