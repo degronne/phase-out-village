@@ -5,6 +5,7 @@ import {
   Year,
 } from "./types";
 import { oilEquivalentToBarrel, OilfieldName } from "./gameData";
+import { development } from "../generated/development";
 
 export function calculateFieldData(
   field: OilfieldName,
@@ -67,9 +68,11 @@ export function calculateFieldData(
     });
   }
 
-  const annualOilDevelopment = 0.9;
-  const annualGasDevelopment = 0.9;
-  const annualEmissionDevelopment = 0.97;
+  const fieldDevelopment: (typeof development)[OilfieldName] | undefined =
+    development[field + "disable"];
+  const annualOilDevelopment = fieldDevelopment?.oil || 0.9;
+  const annualGasDevelopment = fieldDevelopment?.gas || 0.9;
+  const annualEmissionDevelopment = fieldDevelopment?.emissions || 0.97;
 
   let currentOil = calculateAverage(data, "productionOil") || 0;
   let currentGas = calculateAverage(data, "productionGas") || 0;
