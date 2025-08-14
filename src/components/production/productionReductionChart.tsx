@@ -1,5 +1,5 @@
-import { Bar } from "react-chartjs-2";
 import React from "react";
+import { Bar } from "react-chartjs-2";
 import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
 import {
   gameData,
@@ -16,7 +16,6 @@ function createStipedPattern(
   stripes.width = 10;
   stripes.height = 10;
   const ctx = stripes.getContext("2d");
-
   if (!ctx) return color;
 
   ctx.fillStyle = background;
@@ -24,12 +23,24 @@ function createStipedPattern(
 
   ctx.strokeStyle = color;
   ctx.lineWidth = 2;
+
+  // diagonal stripes
   ctx.beginPath();
   ctx.moveTo(0, 10);
   ctx.lineTo(10, 0);
   ctx.stroke();
 
-  return ctx.createPattern(stripes, "repeat") as CanvasPattern;
+  ctx.beginPath();
+  ctx.moveTo(-5, 10);
+  ctx.lineTo(5, 0);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(5, 10);
+  ctx.lineTo(15, 0);
+  ctx.stroke();
+
+  return ctx.createPattern(stripes, "repeat") ?? color;
 }
 
 export function ProductionReductionChart({
@@ -37,115 +48,77 @@ export function ProductionReductionChart({
 }: {
   phaseOut: PhaseOutSchedule;
 }) {
-  const textColor = usePrefersDarkMode() ? "#fff" : "#000";
+  const prefersDark = usePrefersDarkMode();
 
-  const userPlan = totalProduction(phaseOut);
-  const baseline = totalProduction();
+  // colors
+  const baseBar = "#4a90e2";
+  const redStroke = "rgba(200, 0, 0, 0.8)";
+  const bg = prefersDark ? "#111" : "#fff";
+  const striped = createStipedPattern(redStroke, bg);
 
-  const remainingOil = numberSeries(userPlan, "productionOil");
-
-  const reductionOil = numberSeries(baseline, "productionOil").map((base, i) =>
-    Math.max((base ?? 0) - (remainingOil[i] ?? 0), 0),
+  // NOTE: totalProduction() has keys: productionOil, productionGas, totalProduction, emission
+  const userData = numberSeries(totalProduction(phaseOut), "totalProduction");
+  const baseData = numberSeries(totalProduction(), "totalProduction");
+  const reductionData = baseData.map((base, i) =>
+    Math.max((base ?? 0) - (userData[i] ?? 0), 0),
   );
 
-  const remainingGas = numberSeries(userPlan, "productionGas");
-
-  const reductionGas = numberSeries(baseline, "productionGas").map((base, i) =>
-    Math.max((base ?? 0) - (remainingGas[i] ?? 0), 0),
-  );
+  const labels = gameData.gameYears;
 
   return (
     <Bar
       options={{
         maintainAspectRatio: false,
+        animation: { duration: 0 },
         plugins: {
-          legend: { display: true, labels: { color: textColor } },
           title: {
             display: true,
-            text: "Total produksjon fra alle felter",
-            color: textColor,
-            padding: {
-              bottom: 20,
-            },
+            text: "Total årlig produksjon med reduksjon markert",
+            padding: { bottom: 20 },
           },
+          legend: { display: true },
           tooltip: {
             callbacks: {
               label: function (context: any) {
                 const value = context.parsed.y;
-                return `${context.dataset.label}: ${value.toLocaleString("nb-NO")}M Sm3`;
+                return `${context.dataset.label}: ${value.toLocaleString("nb-NO")} Sm³`;
               },
             },
           },
         },
         scales: {
-          x: {
-            stacked: true,
-            type: "linear",
-            title: {
-              display: true,
-              text: "År",
-              color: textColor,
-            },
-            ticks: {
-              color: textColor,
-            },
-          },
+          x: { stacked: true, title: { display: true, text: "År" } },
           y: {
+            stacked: true,
             beginAtZero: true,
-            title: {
-              display: true,
-              text: "Millioner Sm3 o.e.",
-              color: textColor,
-            },
+            title: { display: true, text: "Produksjon (Sm³)" },
             ticks: {
-              color: textColor,
-              callback: function (value: any) {
-                const num = Number(value);
-                if (window.innerWidth < 600) {
-                  if (num >= 1_000_000)
-                    return `${(num / 1_000_000).toFixed(0)} M`;
-                  if (num >= 1_000) return `${(num / 1_000).toFixed(0)} K`;
-                }
-                return num.toLocaleString("nb-NO");
+              callback: function (v: any) {
+                const n = Number(v);
+                return window.innerWidth < 600
+                  ? `${(n / 1_000_000).toFixed(0)}M`
+                  : n.toLocaleString("nb-NO");
               },
             },
           },
         },
       }}
       data={{
-        labels: gameData.gameYears,
+        labels,
         datasets: [
           {
-            label: "Gjenværende oljeproduksjon",
-            data: remainingOil,
-            borderColor: "#4a90e2",
-            backgroundColor: usePrefersDarkMode() ? "#2A5D8F" : "#4DA3FF",
-            stack: "PLAN",
+            label: "Utfasingsplan",
+            data: userData,
+            backgroundColor: baseBar,
+            stack: "stack1",
           },
           {
-            label: "Gjenværende gasseksport",
-            data: remainingGas,
-            borderColor: "#E24A4A",
-            backgroundColor: usePrefersDarkMode() ? "#D64545" : "#FF3333",
-            stack: "PLAN",
-          },
-          {
-            label: "Redusjon olje",
-            data: reductionOil,
-            borderColor: "orange",
-            backgroundColor: usePrefersDarkMode()
-              ? createStipedPattern("#2A5D8F", "transparent")
-              : createStipedPattern("#4DA3FF", "transparent"),
-            stack: "PLAN",
-          },
-          {
-            label: "Redusjon gass",
-            data: reductionGas,
-            borderColor: "orange",
-            backgroundColor: usePrefersDarkMode()
-              ? createStipedPattern("#D64545", "transparent")
-              : createStipedPattern("#FF3333", "transparent"),
-            stack: "PLAN",
+            label: "Reduksjon",
+            data: reductionData,
+            backgroundColor: striped as any,
+            borderColor: redStroke,
+            borderWidth: 1,
+            stack: "stack1",
           },
         ],
       }}

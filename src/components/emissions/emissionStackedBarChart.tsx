@@ -13,18 +13,17 @@ export function EmissionStackedBarChart({
   phaseOut: PhaseOutSchedule;
 }) {
   const userData = numberSeries(totalProduction(phaseOut), "emission");
+  const baseData = numberSeries(totalProduction(), "emission");
 
-  const reductionData = numberSeries(totalProduction(), "emission").map(
-    (base, i) => Math.max((base ?? 0) - (userData[i] ?? 0), 0),
+  const reductionData = baseData.map((base, i) =>
+    Math.max((base ?? 0) - (userData[i] ?? 0), 0),
   );
 
   return (
     <Bar
       options={{
         maintainAspectRatio: false,
-        animation: {
-          duration: 0,
-        },
+        animation: { duration: 0 },
         plugins: {
           title: {
             display: true,
@@ -36,16 +35,15 @@ export function EmissionStackedBarChart({
             callbacks: {
               label: function (context: any) {
                 const value = context.parsed.y;
-                return `${context.dataset.label}: ${value.toLocaleString("nb-NO")} tonn`;
+                return `${context.dataset.label}: ${value.toLocaleString(
+                  "nb-NO",
+                )} tonn`;
               },
             },
           },
         },
         scales: {
-          x: {
-            stacked: true,
-            title: { display: true, text: "År" },
-          },
+          x: { stacked: true, title: { display: true, text: "År" } },
           y: {
             stacked: true,
             beginAtZero: true,

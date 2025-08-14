@@ -98,6 +98,7 @@ export function totalProduction(
     }),
   );
 }
+
 export function truncatedDataset(
   data: DatasetForSingleField,
   lastYear: Year | undefined,
