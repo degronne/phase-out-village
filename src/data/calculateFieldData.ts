@@ -79,10 +79,8 @@ export function calculateFieldData(
   let currentEmission = calculateAverage(data, "emission") || 0;
   for (let year = parseInt(years[years.length - 1]) + 1; year <= 2040; year++) {
     currentOil = Math.round(currentOil * annualOilDevelopment * 100) / 100;
-    if (currentOil < 0.2) currentOil = 0;
     currentGas = Math.round(currentGas * annualGasDevelopment * 100) / 100;
-    if (currentGas < 0.2) currentGas = 0;
-    if (currentGas === 0 && currentOil === 0) break;
+    if (currentGas + currentOil < 0.2) break;
     currentEmission = Math.round(currentEmission * annualEmissionDevelopment);
     dataset[year.toString() as Year] = createDataValues({
       productionGas:
