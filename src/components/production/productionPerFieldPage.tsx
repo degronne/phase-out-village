@@ -14,14 +14,16 @@ import {
 import { Line } from "react-chartjs-2";
 
 import { ApplicationContext } from "../../applicationContext";
-import {
-  estimatedOilProduction,
-  measuredOilProduction,
-  OilfieldName,
-  YearlyDataset,
-} from "../../data";
 import { isEstimated } from "../charts/isEstimated";
 import { Link } from "react-router-dom";
+import { Year } from "../../data/types";
+import {
+  gameData,
+  OilfieldName,
+  truncatedDataset,
+  xyDataSeries,
+} from "../../data/gameData";
+import { ProductionTable } from "./productionTable";
 
 ChartJS.register(
   CategoryScale,
@@ -56,64 +58,25 @@ function focusOnClicked(
   chart.update();
 }
 
-function ProductionTable({
-  field,
-  dataseries,
-}: {
-  field: string;
-  dataseries: YearlyDataset;
-}) {
-  return (
-    <>
-      <p>Produksjon for {field}</p>
-      <table>
-        <thead>
-          <tr>
-            <th>År</th>
-            <th>Produksjon</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.entries(dataseries).map(([year, value]) => (
-            <tr>
-              <td>{year}</td>
-              <td className={value.estimate ? "projected" : ""}>
-                {value.value.toFixed(2)}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
-  );
-}
-
-export function ProductionPerFieldChart() {
+export function ProductionPerFieldPage() {
   const [visibleField, setVisibleField] = useState<string | undefined>();
 
-  const { data, phaseOut } = useContext(ApplicationContext);
-  const dataSeries: Record<OilfieldName, YearlyDataset> = Object.fromEntries(
-    Object.entries(data).map(([key, value]) => [
-      key,
-      {
-        ...estimatedOilProduction(measuredOilProduction(value), phaseOut[key]),
-        ...measuredOilProduction(value),
-      },
-    ]),
-  );
+  const { phaseOut } = useContext(ApplicationContext);
 
-  const datasets = Object.entries(
-    Object.fromEntries(
-      Object.entries(dataSeries).map(([key, value]) => [
-        key,
-        Object.entries(value).map(([year, { value, estimate }]) => ({
-          x: year,
-          y: value,
-          estimate,
-        })),
-      ]),
-    ),
-  );
+  const datasets: [
+    OilfieldName,
+    {
+      x: Year;
+      y: number | undefined;
+      estimate?: boolean | undefined;
+    }[],
+  ][] = Object.entries(gameData.data).map(([field, data]) => {
+    return [
+      field,
+      xyDataSeries(truncatedDataset(data, phaseOut[field]), "productionOil"),
+    ];
+  });
+
   return (
     <>
       <nav className="production-nav">
@@ -184,7 +147,7 @@ export function ProductionPerFieldChart() {
         {visibleField && (
           <ProductionTable
             field={visibleField}
-            dataseries={dataSeries[visibleField]}
+            dataseries={gameData.data[visibleField]}
           />
         )}
       </div>

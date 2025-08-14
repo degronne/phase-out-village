@@ -1,9 +1,10 @@
 import React from "react";
-import { EmissionStackedBarChart } from "./emissionStackedBarChart";
 import { Link } from "react-router-dom";
+import { EmissionForAllFieldsChart } from "./emissionsForAllFieldsChart";
+
 import { PhaseOutSchedule } from "../../data/gameData";
 
-export function EmissionStackedBarRoute({
+export function EmissionForAllFieldsPage({
   phaseOut,
 }: {
   phaseOut: PhaseOutSchedule;
@@ -11,12 +12,12 @@ export function EmissionStackedBarRoute({
   return (
     <>
       <nav className="emission-nav">
-        <Link to={"/emissions/line"}>Linjediagram</Link>
-        <Link to={"./"}>Søylediagram</Link>
+        <Link to={"./"}>Linjediagram</Link>
+        <Link to={"/emissions/bar"}>Søylediagram</Link>
         <Link to={"/emissions/intensity"}>Utslippsintensitet</Link>
       </nav>
       <div className="emission-chart">
-        <EmissionStackedBarChart phaseOut={phaseOut} />
+        <EmissionForAllFieldsChart phaseOut={phaseOut} />
       </div>
     </>
   );

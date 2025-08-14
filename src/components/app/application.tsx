@@ -1,18 +1,20 @@
-import React, { useEffect, useMemo } from "react";
+import React from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { MapRoute } from "../map/mapRoute";
-import { generateCompleteData } from "../../utils/projections";
-import { data } from "../../generated/data";
 import { ApplicationContext } from "../../applicationContext";
 import { FrontPage } from "./frontPage";
 import { PhaseOutRoute } from "../phaseout/phaseOutRoute";
 import { ProductionRoute } from "../production/productionRoute";
-import { PhaseOutSchedule, Year } from "../../data";
 import { useSessionState } from "../../hooks/useSessionState";
 import { EmissionRoute } from "../emissions/emissionRoute";
 import { ApplicationHeader } from "./applicationHeader";
 import { ApplicationFooter } from "./applicationFooter";
 import { GameOverDialog } from "./gameOverDialog";
+import { PlanRoute } from "../plan/planRoute";
+import { Year } from "../../data/types";
+import { DataViewRoute } from "../dataView/dataViewRoute";
+import { PhaseOutSchedule } from "../../data/gameData";
+import { TutorialRoute } from "./tutorialRoute";
 
 function ApplicationRoutes() {
   return (
@@ -20,9 +22,12 @@ function ApplicationRoutes() {
       <Route path={"/"} element={<FrontPage />} />
       <Route path={"/phaseout"} element={<PhaseOutRoute />} />
       <Route path={"/map/*"} element={<MapRoute />} />
+      <Route path={"/plan/*"} element={<PlanRoute />} />
       <Route path={"/emissions/*"} element={<EmissionRoute />} />
       <Route path={"/production/*"} element={<ProductionRoute />} />
+      <Route path={"/tutorial"} element={<TutorialRoute />} />
       <Route path={"/summary"} element={<GameOverDialog />} />
+      <Route path={"/data/*"} element={<DataViewRoute />} />
       <Route path={"*"} element={<h2>Not Found</h2>} />
     </Routes>
   );
@@ -34,20 +39,16 @@ export function Application() {
     "phaseOutSchedule",
     {},
   );
-  const fullData = useMemo(() => generateCompleteData(data), [data]);
   const navigate = useNavigate();
 
   function proceed() {
     setYear((y) => {
       const year = parseInt(y);
       const nextYear = Math.min(year + 4 - (year % 4), 2040);
+      if (nextYear === 2040) navigate("/summary");
       return nextYear.toString() as Year;
     });
   }
-
-  useEffect(() => {
-    if (year === "2040") navigate("/summary");
-  }, [year]);
 
   function restart() {
     setYear("2025");
@@ -57,15 +58,7 @@ export function Application() {
 
   return (
     <ApplicationContext
-      value={{
-        year,
-        proceed,
-        restart,
-        fullData,
-        data,
-        phaseOut,
-        setPhaseOut,
-      }}
+      value={{ year, proceed, restart, phaseOut, setPhaseOut }}
     >
       <ApplicationHeader />
       <main>

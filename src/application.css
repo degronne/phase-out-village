@@ -8,7 +8,27 @@ a {
 }
 
 dialog {
-  margin: revert;
+  margin: auto;
+}
+
+dialog::backdrop {
+  background-color: rgb(0 0 0 / 0.35);
+}
+
+.tutorial-modal {
+  width: min(640px, 92vw);
+  max-height: 85vh;
+  padding: 1rem 1.25rem;
+  border-radius: 0.25rem;
+  border: 1px solid currentColor;
+}
+
+@media (max-width: 600px) {
+  .tutorial-modal {
+    width: 94vw;
+    max-height: 88vh;
+    padding: 0.75rem 0.75rem;
+  }
 }
 
 &:disabled {
@@ -119,11 +139,24 @@ td {
   -webkit-overflow-scrolling: touch;
 }
 
+dialog .button-row {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  button {
+    font-size: 1.25rem;
+  }
+}
+
 .oilfield-map {
   display: grid;
   height: 100%;
   grid-template-rows: 1fr 1fr;
   min-height: 0; /* Fix for Safari grid sizing issues */
+
+  .map-container {
+    height: 100%;
+  }
 
   .details {
     overflow-y: scroll;
@@ -173,20 +206,18 @@ td {
   }
 }
 
-.game-over {
-  .charts {
-    display: grid;
-    @media (width < 1000px) {
-      width: 90vw;
-    }
+.charts {
+  display: grid;
+  @media (width < 1000px) {
+    width: 90vw;
+  }
 
-    @media (width > 600px) {
-      grid-template-columns: 1fr 1fr;
-    }
+  @media (width > 600px) {
+    grid-template-columns: 1fr 1fr;
+  }
 
-    > div {
-      height: 250px;
-    }
+  > div {
+    height: 250px;
   }
 }
 
@@ -222,4 +253,25 @@ td {
 
 .production-chart {
   height: min(80vh, 600px);
+}
+
+.data {
+  thead th {
+    position: sticky;
+    top: 0;
+    background-color: var(--lime);
+  }
+  tr th.rowHeader {
+    position: sticky;
+    left: 0;
+    background-color: var(--lime);
+    z-index: 1;
+  }
+  tr:nth-child(even) {
+    background-color: rgb(253, 252, 236);
+  }
+  td.estimate {
+    font-style: italic;
+    color: red;
+  }
 }

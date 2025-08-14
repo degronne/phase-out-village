@@ -1,118 +1,85 @@
-import React, { useContext, useMemo } from "react";
-import { calculateEmissions, PhaseOutSchedule } from "../../data";
+import React from "react";
 import { Bar } from "react-chartjs-2";
-import { ApplicationContext } from "../../applicationContext";
+import {
+  gameData,
+  numberSeries,
+  PhaseOutSchedule,
+  totalProduction,
+} from "../../data/gameData";
 
 export function EmissionStackedBarChart({
   phaseOut,
 }: {
   phaseOut: PhaseOutSchedule;
 }) {
-  const { data } = useContext(ApplicationContext);
-  const allFields = Object.keys(data);
+  const userData = numberSeries(totalProduction(phaseOut), "emission");
 
-  function calculateTotal(plan: "baseline" | "user") {
-    const allEmissions = allFields.map((field) =>
-      calculateEmissions(
-        data[field],
-        plan === "user" ? phaseOut[field] : undefined,
-      ),
-    );
+  const reductionData = numberSeries(totalProduction(), "emission").map(
+    (base, i) => Math.max((base ?? 0) - (userData[i] ?? 0), 0),
+  );
 
-    const allYearsSet = new Set<string>();
-    allEmissions.forEach((series) => {
-      series.forEach(([year]) => allYearsSet.add(year));
-    });
-
-    const allYearsSorted = Array.from(allYearsSet).sort();
-
-    const summed = allYearsSorted.map((year) => {
-      let total = 0;
-      for (const series of allEmissions) {
-        const match = series.find(([y]) => y === year);
-        if (match) total += match[1] ?? 0;
-      }
-
-      return { x: year, y: total };
-    });
-
-    return summed;
-  }
-
-  const userPlan = useMemo(() => calculateTotal("user"), [data, phaseOut]);
-  const baseline = useMemo(() => calculateTotal("baseline"), [data]);
-
-  const labels = baseline.map((d) => d.x);
-
-  const userData = userPlan.map((d) => d.y);
-  const baselineData = baseline.map((d) => d.y);
-
-  const reductionData = baselineData.map((base, i) => {
-    const user = userData[i] ?? 0;
-    return Math.max(base - user, 0);
-  });
-
-  const chartData = {
-    labels,
-    datasets: [
-      {
-        label: "Din plan",
-        data: userData,
-        backgroundColor: "#4a90e2",
-        stack: "stack1",
-      },
-      {
-        label: "Reduksjon",
-        data: reductionData,
-        backgroundColor: "rgba(200, 0, 0, 0.3)",
-        borderColor: "rgba(200, 0, 0, 0.8)",
-        borderWidth: 1,
-        stack: "stack1",
-      },
-    ],
-  };
-
-  const options = {
-    maintainAspectRatio: false,
-    animation: {
-      duration: 0,
-    },
-    plugins: {
-      title: {
-        display: true,
-        text: "Total årlig utslipp med reduksjon markert",
-        padding: { bottom: 20 },
-      },
-      legend: { display: true },
-      tooltip: {
-        callbacks: {
-          label: function (context: any) {
-            const value = context.parsed.y;
-            return `${context.dataset.label}: ${value.toLocaleString("nb-NO")} tonn`;
+  return (
+    <Bar
+      options={{
+        maintainAspectRatio: false,
+        animation: {
+          duration: 0,
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: "Total årlig utslipp med reduksjon markert",
+            padding: { bottom: 20 },
+          },
+          legend: { display: true },
+          tooltip: {
+            callbacks: {
+              label: function (context: any) {
+                const value = context.parsed.y;
+                return `${context.dataset.label}: ${value.toLocaleString("nb-NO")} tonn`;
+              },
+            },
           },
         },
-      },
-    },
-    scales: {
-      x: {
-        stacked: true,
-        title: { display: true, text: "År" },
-      },
-      y: {
-        stacked: true,
-        beginAtZero: true,
-        title: { display: true, text: "CO₂-utslipp (tonn)" },
-        ticks: {
-          callback: function (value: any) {
-            const n = Number(value);
-            return window.innerWidth < 600
-              ? `${(n / 1_000_000).toFixed(0)}M`
-              : n.toLocaleString("nb-NO");
+        scales: {
+          x: {
+            stacked: true,
+            title: { display: true, text: "År" },
+          },
+          y: {
+            stacked: true,
+            beginAtZero: true,
+            title: { display: true, text: "CO₂-utslipp (tonn)" },
+            ticks: {
+              callback: function (value: any) {
+                const n = Number(value);
+                return window.innerWidth < 600
+                  ? `${(n / 1_000_000).toFixed(0)}M`
+                  : n.toLocaleString("nb-NO");
+              },
+            },
           },
         },
-      },
-    },
-  };
-
-  return <Bar options={options} data={chartData} />;
+      }}
+      data={{
+        labels: gameData.gameYears,
+        datasets: [
+          {
+            label: "Utfasingsplan",
+            data: userData,
+            backgroundColor: "#4a90e2",
+            stack: "stack1",
+          },
+          {
+            label: "Reduksjon",
+            data: reductionData,
+            backgroundColor: "rgba(200, 0, 0, 0.3)",
+            borderColor: "rgba(200, 0, 0, 0.8)",
+            borderWidth: 1,
+            stack: "stack1",
+          },
+        ],
+      }}
+    />
+  );
 }

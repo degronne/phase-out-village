@@ -1,14 +1,19 @@
 import React, { useContext } from "react";
 import { ApplicationContext } from "../../applicationContext";
-import { calculateEmissions } from "../../data";
 import { Line } from "react-chartjs-2";
 import { isEstimated } from "../charts/isEstimated";
+import {
+  gameData,
+  toTimeseries,
+  truncatedDataset,
+  yearsInRange,
+} from "../../data/gameData";
 
 export function EmissionsForFieldChart({ field }: { field: string }) {
-  const { data, phaseOut } = useContext(ApplicationContext);
+  const { phaseOut } = useContext(ApplicationContext);
 
-  const userPlan = calculateEmissions(data[field], phaseOut[field]);
-  const baseLine = calculateEmissions(data[field], undefined);
+  const fieldDataset = gameData.data[field];
+  const years = yearsInRange(2012, 2040);
   return (
     <Line
       options={{
@@ -44,11 +49,15 @@ export function EmissionsForFieldChart({ field }: { field: string }) {
         },
       }}
       data={{
-        labels: baseLine.map(([y]) => y),
+        labels: years,
         datasets: [
           {
             label: "Din plan",
-            data: userPlan,
+            data: toTimeseries(
+              truncatedDataset(fieldDataset, phaseOut[field]),
+              "emission",
+              years,
+            ),
             borderColor: "#4a90e2",
             segment: {
               borderDash: (ctx) => (isEstimated(ctx.p1) ? [5, 5] : undefined),
@@ -60,7 +69,7 @@ export function EmissionsForFieldChart({ field }: { field: string }) {
           },
           {
             label: "Referanse",
-            data: baseLine,
+            data: toTimeseries(fieldDataset, "emission", years),
             borderColor: "orange",
             segment: {
               borderDash: (ctx) => (isEstimated(ctx.p1) ? [5, 5] : undefined),

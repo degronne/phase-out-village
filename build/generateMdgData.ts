@@ -1,5 +1,6 @@
 import fs from "fs";
-import { PhaseOutSchedule, Year } from "../src/data";
+import { Year } from "../src/data/types";
+import { PhaseOutSchedule } from "../src/data/gameData";
 
 const data = JSON.parse(fs.readFileSync("tmp/dataMdg.json") as any);
 
@@ -22,6 +23,6 @@ const compactJson = JSON.stringify(result, null, 2).replace(
 );
 
 console.log(`
-import { PhaseOutSchedule } from "../data";
+import { PhaseOutSchedule } from "../data/gameData";
 
 export const mdgPlan: PhaseOutSchedule = ${compactJson} as const;`);

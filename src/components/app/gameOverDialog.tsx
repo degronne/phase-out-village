@@ -4,13 +4,16 @@ import { ProductionReductionChart } from "../production/productionReductionChart
 import { ApplicationContext } from "../../applicationContext";
 import { mdgPlan } from "../../generated/dataMdg";
 import { EmissionStackedBarChart } from "../emissions/emissionStackedBarChart";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export function GameOverDialog() {
   const { phaseOut, restart } = useContext(ApplicationContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/map";
+
   return (
-    <Dialog open={true}>
+    <Dialog open={true} onClose={() => navigate(from)}>
       <div className={"game-over"}>
         <h2>Hvordan gikk det?</h2>
         <h3>Din plan</h3>
@@ -31,11 +34,13 @@ export function GameOverDialog() {
             <EmissionStackedBarChart phaseOut={mdgPlan} />
           </div>
         </div>
-        <div>
-          <button onClick={() => navigate("/map")}>Se over din plan</button>
-        </div>
-        <div>
-          <button onClick={restart}>Prøv på nytt</button>
+        <div className="button-row">
+          <div>
+            <button onClick={() => navigate("/map")}>Se over din plan</button>
+          </div>
+          <div>
+            <button onClick={restart}>Prøv på nytt</button>
+          </div>
         </div>
       </div>
     </Dialog>

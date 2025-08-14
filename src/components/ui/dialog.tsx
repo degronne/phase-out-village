@@ -4,10 +4,12 @@ export function Dialog({
   children,
   onClose,
   open,
+  className,
 }: {
   open: boolean;
   children: ReactNode;
   onClose?: () => void;
+  className?: string;
 }) {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   useLayoutEffect(() => {
@@ -36,5 +38,9 @@ export function Dialog({
     if (open) dialogRef.current?.showModal();
     else dialogRef.current?.close();
   }, [open]);
-  return <dialog ref={dialogRef}>{children}</dialog>;
+  return (
+    <dialog ref={dialogRef} className={className}>
+      {children}
+    </dialog>
+  );
 }

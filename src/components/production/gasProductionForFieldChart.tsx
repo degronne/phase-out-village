@@ -1,14 +1,13 @@
 import React, { useContext } from "react";
 import { ApplicationContext } from "../../applicationContext";
-import { calculateGasProduction } from "../../data";
 import { Line } from "react-chartjs-2";
 import { isEstimated } from "../charts/isEstimated";
+import { gameData, toTimeseries, truncatedDataset } from "../../data/gameData";
 
 export function GasProductionForFieldChart({ field }: { field: string }) {
-  const { data, phaseOut } = useContext(ApplicationContext);
+  const { phaseOut } = useContext(ApplicationContext);
+  const dataset = gameData.data[field];
 
-  const userPlan = calculateGasProduction(data[field], phaseOut[field]);
-  const baseLine = calculateGasProduction(data[field], undefined);
   return (
     <Line
       options={{
@@ -17,7 +16,7 @@ export function GasProductionForFieldChart({ field }: { field: string }) {
           legend: { display: false },
           title: {
             display: true,
-            text: `Årlig gassproduksjon fra ${field}`,
+            text: `Årlig gasseksport fra ${field}`,
           },
           tooltip: {
             callbacks: {
@@ -41,11 +40,14 @@ export function GasProductionForFieldChart({ field }: { field: string }) {
         },
       }}
       data={{
-        labels: baseLine.map(([y, ..._]) => y),
+        labels: Object.keys(dataset),
         datasets: [
           {
             label: "Din plan",
-            data: userPlan,
+            data: toTimeseries(
+              truncatedDataset(dataset, phaseOut[field]),
+              "productionGas",
+            ),
             borderColor: "#4a90e2",
             segment: {
               borderDash: (ctx) => {
@@ -59,7 +61,7 @@ export function GasProductionForFieldChart({ field }: { field: string }) {
           },
           {
             label: "Referanse",
-            data: baseLine,
+            data: toTimeseries(dataset, "productionGas"),
             borderColor: "orange",
             segment: {
               borderDash: (ctx) => (isEstimated(ctx.p1) ? [5, 5] : undefined),

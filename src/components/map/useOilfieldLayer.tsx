@@ -4,14 +4,15 @@ import { Point } from "ol/geom";
 import { createEmpty, extend, getCenter } from "ol/extent";
 import { Map, MapBrowserEvent } from "ol";
 import { useContext, useEffect, useMemo, useState } from "react";
-import { OilfieldValues, slugify } from "../../data";
-import { aggregateOilFields } from "../../data/aggregateOilFields";
+import { slugify } from "../../data/slugify";
+import { aggregateOilFields } from "../../generated/aggregateOilFields";
 import { useNavigate } from "react-router-dom";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import { BASE_URL } from "../../../config";
 import { GeoJSON } from "ol/format";
 import { ApplicationContext } from "../../applicationContext";
+import { gameData } from "../../data/gameData";
 
 const oilfieldSource = new VectorSource({
   url: `${BASE_URL}/geojson/oilfields.geojson`,
@@ -97,7 +98,7 @@ export function useOilfieldLayer(map: Map, slug: string | undefined) {
   const selectOilField = useMemo(
     () => () => {
       const view = map.getView()!;
-      const field = OilfieldValues.find((s) => slugify(s) === slug);
+      const field = gameData.allFields.find((s) => slugify(s) === slug);
 
       if (!field) {
         // If no field found, show all oilfields

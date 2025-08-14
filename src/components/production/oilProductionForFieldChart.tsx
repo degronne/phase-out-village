@@ -1,26 +1,13 @@
 import React, { useContext } from "react";
 import { ApplicationContext } from "../../applicationContext";
-import { oilProduction } from "../../data";
 import { Line } from "react-chartjs-2";
 import { isEstimated } from "../charts/isEstimated";
+import { gameData, toTimeseries, truncatedDataset } from "../../data/gameData";
 
 export function OilProductionForFieldChart({ field }: { field: string }) {
-  const { data, phaseOut } = useContext(ApplicationContext);
+  const { phaseOut } = useContext(ApplicationContext);
+  const dataset = gameData.data[field];
 
-  const userPlan = Object.entries(
-    oilProduction(data[field], phaseOut, field),
-  ).map(([year, { value, estimate }]) => ({
-    x: year,
-    y: value,
-    estimate,
-  }));
-  const baseLine = Object.entries(oilProduction(data[field], {}, field)).map(
-    ([year, { value, estimate }]) => ({
-      x: year,
-      y: value,
-      estimate,
-    }),
-  );
   return (
     <Line
       options={{
@@ -29,7 +16,7 @@ export function OilProductionForFieldChart({ field }: { field: string }) {
           legend: { display: false },
           title: {
             display: true,
-            text: `Årlig oljeproduksjon fra ${field}`,
+            text: `Årlig olje/væskeproduksjon fra ${field}`,
           },
           tooltip: {
             callbacks: {
@@ -53,11 +40,14 @@ export function OilProductionForFieldChart({ field }: { field: string }) {
         },
       }}
       data={{
-        labels: baseLine.map(({ x }) => x),
+        labels: Object.keys(dataset),
         datasets: [
           {
             label: "Din plan",
-            data: userPlan,
+            data: toTimeseries(
+              truncatedDataset(dataset, phaseOut[field]),
+              "productionOil",
+            ),
             borderColor: "#4a90e2",
             segment: {
               borderDash: (ctx) => (isEstimated(ctx.p1) ? [5, 5] : undefined),
@@ -69,7 +59,7 @@ export function OilProductionForFieldChart({ field }: { field: string }) {
           },
           {
             label: "Referanse",
-            data: baseLine,
+            data: toTimeseries(dataset, "productionOil"),
             borderColor: "orange",
             segment: {
               borderDash: (ctx) => (isEstimated(ctx.p1) ? [5, 5] : undefined),
