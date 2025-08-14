@@ -2,6 +2,7 @@ import React from "react";
 import { Bar } from "react-chartjs-2";
 import {
   gameData,
+  numberSeries,
   PhaseOutSchedule,
   totalProduction,
 } from "../../data/gameData";
@@ -11,13 +12,11 @@ export function EmissionStackedBarChart({
 }: {
   phaseOut: PhaseOutSchedule;
 }) {
-  const userData = Object.values(totalProduction(phaseOut)).map(
-    ({ emission }) => emission?.value || 0,
-  );
+  const userData = numberSeries(totalProduction(phaseOut), "emission");
 
-  const reductionData = Object.values(totalProduction())
-    .map(({ emission }) => emission?.value || 0)
-    .map((base, i) => Math.max(base - (userData[i] ?? 0), 0));
+  const reductionData = numberSeries(totalProduction(), "emission").map(
+    (base, i) => Math.max((base ?? 0) - (userData[i] ?? 0), 0),
+  );
 
   return (
     <Bar

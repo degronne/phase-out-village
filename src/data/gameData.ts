@@ -153,6 +153,13 @@ export function toTimeseries(
   );
 }
 
+export function numberSeries<KEYS extends string>(
+  dataset: Partial<Record<Year, Record<KEYS, DataValue | undefined>>>,
+  field: KEYS,
+): (number | undefined)[] {
+  return Object.values(dataset).map((data) => data[field]?.value);
+}
+
 export function sumOverYears<T extends string>(
   result: Partial<Record<Year, Record<T, DataValue | undefined>>>,
   datafield: T,

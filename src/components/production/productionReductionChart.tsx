@@ -1,25 +1,69 @@
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import React from "react";
+import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
 import {
+  gameData,
+  numberSeries,
   PhaseOutSchedule,
   totalProduction,
-  xyDataSeries,
 } from "../../data/gameData";
+
+function createStipedPattern(
+  color: string,
+  background: string,
+): CanvasPattern | string {
+  const stripes = document.createElement("canvas");
+  stripes.width = 10;
+  stripes.height = 10;
+  const ctx = stripes.getContext("2d");
+
+  if (!ctx) return color;
+
+  ctx.fillStyle = background;
+  ctx.fillRect(0, 0, stripes.width, stripes.height);
+
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(0, 10);
+  ctx.lineTo(10, 0);
+  ctx.stroke();
+
+  return ctx.createPattern(stripes, "repeat") as CanvasPattern;
+}
 
 export function ProductionReductionChart({
   phaseOut,
 }: {
   phaseOut: PhaseOutSchedule;
 }) {
+  const textColor = usePrefersDarkMode() ? "#fff" : "#000";
+
+  const userPlan = totalProduction(phaseOut);
+  const baseline = totalProduction();
+
+  const remainingOil = numberSeries(userPlan, "productionOil");
+
+  const reductionOil = numberSeries(baseline, "productionOil").map((base, i) =>
+    Math.max((base ?? 0) - (remainingOil[i] ?? 0), 0),
+  );
+
+  const remainingGas = numberSeries(userPlan, "productionGas");
+
+  const reductionGas = numberSeries(baseline, "productionGas").map((base, i) =>
+    Math.max((base ?? 0) - (remainingGas[i] ?? 0), 0),
+  );
+
   return (
-    <Line
+    <Bar
       options={{
         maintainAspectRatio: false,
         plugins: {
-          legend: { display: true },
+          legend: { display: true, labels: { color: textColor } },
           title: {
             display: true,
             text: "Total produksjon fra alle felter",
+            color: textColor,
             padding: {
               bottom: 20,
             },
@@ -28,19 +72,33 @@ export function ProductionReductionChart({
             callbacks: {
               label: function (context: any) {
                 const value = context.parsed.y;
-                return `Produksjon: ${value.toLocaleString("nb-NO")}M Sm3`;
+                return `${context.dataset.label}: ${value.toLocaleString("nb-NO")}M Sm3`;
               },
             },
           },
         },
         scales: {
+          x: {
+            stacked: true,
+            type: "linear",
+            title: {
+              display: true,
+              text: "År",
+              color: textColor,
+            },
+            ticks: {
+              color: textColor,
+            },
+          },
           y: {
             beginAtZero: true,
             title: {
               display: true,
               text: "Millioner Sm3 o.e.",
+              color: textColor,
             },
             ticks: {
+              color: textColor,
               callback: function (value: any) {
                 const num = Number(value);
                 if (window.innerWidth < 600) {
@@ -52,64 +110,42 @@ export function ProductionReductionChart({
               },
             },
           },
-          x: {
-            type: "linear",
-            title: {
-              display: true,
-              text: "År",
-            },
-            min: 2014,
-            max: 2040,
-            ticks: {
-              stepSize: 2,
-              callback: (tickValue) => {
-                return typeof tickValue === "number"
-                  ? tickValue.toString()
-                  : tickValue;
-              },
-            },
-          },
         },
       }}
       data={{
+        labels: gameData.gameYears,
         datasets: [
           {
-            label: "Utfasingsplan",
-            data: xyDataSeries(totalProduction(phaseOut), "totalProduction"),
+            label: "Gjenværende oljeproduksjon",
+            data: remainingOil,
             borderColor: "#4a90e2",
-            segment: {
-              borderDash: (ctx) => {
-                const point = ctx.p1 as { raw?: { x: number | string } };
-                const year = Number(point.raw?.x);
-                return year > 2022 ? [5, 5] : undefined;
-              },
-            },
-            pointStyle: (ctx) => {
-              const point = ctx.raw as { x: number | string };
-              return Number(point.x) > 2022 ? "star" : "circle";
-            },
-            backgroundColor: "rgba(74, 144, 226, 0.2)",
-            tension: 0.3,
-            fill: true,
+            backgroundColor: usePrefersDarkMode() ? "#2A5D8F" : "#4DA3FF",
+            stack: "PLAN",
           },
           {
-            label: "Referanse (uten tiltak)",
-            data: xyDataSeries(totalProduction({}), "totalProduction"),
+            label: "Gjenværende gasseksport",
+            data: remainingGas,
+            borderColor: "#E24A4A",
+            backgroundColor: usePrefersDarkMode() ? "#D64545" : "#FF3333",
+            stack: "PLAN",
+          },
+          {
+            label: "Redusjon olje",
+            data: reductionOil,
             borderColor: "orange",
-            segment: {
-              borderDash: (ctx) => {
-                const point = ctx.p1 as { raw?: { x: number | string } };
-                const year = Number(point.raw?.x);
-                return year > 2022 ? [5, 5] : undefined;
-              },
-            },
-            pointStyle: (ctx) => {
-              const point = ctx.raw as { x: number | string };
-              return Number(point.x) > 2022 ? "star" : "circle";
-            },
-            backgroundColor: "rgba(255, 165, 0, 0.2)",
-            tension: 0.3,
-            fill: true,
+            backgroundColor: usePrefersDarkMode()
+              ? createStipedPattern("#2A5D8F", "transparent")
+              : createStipedPattern("#4DA3FF", "transparent"),
+            stack: "PLAN",
+          },
+          {
+            label: "Redusjon gass",
+            data: reductionGas,
+            borderColor: "orange",
+            backgroundColor: usePrefersDarkMode()
+              ? createStipedPattern("#D64545", "transparent")
+              : createStipedPattern("#FF3333", "transparent"),
+            stack: "PLAN",
           },
         ],
       }}
