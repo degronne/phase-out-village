@@ -5,7 +5,7 @@ import { createEmpty, extend, getCenter } from "ol/extent";
 import { Map, MapBrowserEvent } from "ol";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { slugify } from "../../data/slugify";
-import { aggregateOilFields } from "../../data/aggregateOilFields";
+import { aggregateOilFields } from "../../generated/aggregateOilFields";
 import { useNavigate } from "react-router-dom";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
