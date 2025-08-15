@@ -81,6 +81,7 @@ export function CombinedProductionForFieldChart({ field }: { field: string }) {
       <Bar
         options={{
           responsive: true,
+          maintainAspectRatio: false,
           plugins: {
             legend: { display: false, labels: { color: textColor } },
             title: {
