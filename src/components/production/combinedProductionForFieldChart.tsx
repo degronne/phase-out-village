@@ -6,6 +6,7 @@ import {
   gameData,
   toTimeseries,
   truncatedDataset,
+  yearsInRange,
 } from "../../data/gameData";
 
 export function CombinedProductionForFieldChart({ field }: { field: string }) {
@@ -14,6 +15,8 @@ export function CombinedProductionForFieldChart({ field }: { field: string }) {
   const textColor = usePrefersDarkMode() ? "#fff" : "#000";
 
   const dataset = gameData.data[field];
+
+  const years = yearsInRange(2012, 2040);
 
   const productionOil = toTimeseries(
     truncatedDataset(dataset, phaseOut[field]),
@@ -112,7 +115,7 @@ export function CombinedProductionForFieldChart({ field }: { field: string }) {
           },
         }}
         data={{
-          labels: Object.keys(dataset),
+          labels: years,
           datasets: [
             {
               label: "Olje/Væskeproduksjon",
