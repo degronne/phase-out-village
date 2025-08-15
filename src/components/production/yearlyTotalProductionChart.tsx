@@ -39,6 +39,7 @@ export function YearlyTotalProductionChart() {
     <Bar
       options={{
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           title: { display: true, text: "Inndeling av olje og gass", color: textColor },
           tooltip: { mode: "index", intersect: false },
@@ -68,13 +69,13 @@ export function YearlyTotalProductionChart() {
           {
             label: "Olje/væskeproduksjon",
             data: oilValues,
-            backgroundColor:  usePrefersDarkMode() ? "rgba(54,162,235,0.6)" : "#FF3333",
+            backgroundColor:  usePrefersDarkMode() ? "rgba(54,162,235,0.6)" : "#4DA3FF",
             stack: "production",
           },
           {
             label: "Gasseksport",
             data: gasValues,
-            backgroundColor:  usePrefersDarkMode() ? "rgba(255,99,132,0.6)" : "#4DA3FF",
+            backgroundColor:  usePrefersDarkMode() ? "rgba(255,99,132,0.6)" : "#FF3333",
             stack: "production",
           },
         ],
