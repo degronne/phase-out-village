@@ -115,7 +115,7 @@ export function CombinedProductionForFieldChart({ field }: { field: string }) {
           labels: Object.keys(dataset),
           datasets: [
             {
-              label: "Oljeproduksjon",
+              label: "Olje/Væskeproduksjon",
               data: productionOil,
               borderColor: "#4a90e2",
               backgroundColor: usePrefersDarkMode() ? "#2A5D8F" : "#4DA3FF",
@@ -123,7 +123,7 @@ export function CombinedProductionForFieldChart({ field }: { field: string }) {
               order: 1,
             },
             {
-              label: "Gassproduksjon",
+              label: "Gasseksport",
               data: productionGas,
               borderColor: "#E24A4A",
               backgroundColor: usePrefersDarkMode() ? "#D64545" : "#FF3333",
@@ -131,7 +131,7 @@ export function CombinedProductionForFieldChart({ field }: { field: string }) {
               order: 3,
             },
             {
-              label: "Reduksjon Olje",
+              label: "Reduksjon Olje/Væske",
               data: reductionOil,
               borderColor: "orange",
               backgroundColor: usePrefersDarkMode()
