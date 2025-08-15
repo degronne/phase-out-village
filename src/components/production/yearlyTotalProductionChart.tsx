@@ -69,13 +69,13 @@ export function YearlyTotalProductionChart() {
           {
             label: "Olje/væskeproduksjon",
             data: oilValues,
-            backgroundColor:  usePrefersDarkMode() ? "rgba(54,162,235,0.6)" : "#4DA3FF",
+            backgroundColor:  usePrefersDarkMode() ? "#2A5D8F" : "#4DA3FF",
             stack: "production",
           },
           {
             label: "Gasseksport",
             data: gasValues,
-            backgroundColor:  usePrefersDarkMode() ? "rgba(255,99,132,0.6)" : "#FF3333",
+            backgroundColor:  usePrefersDarkMode() ? "#D64545" : "#FF3333",
             stack: "production",
           },
         ],
