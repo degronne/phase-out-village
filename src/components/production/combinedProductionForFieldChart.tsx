@@ -16,8 +16,6 @@ export function CombinedProductionForFieldChart({ field }: { field: string }) {
 
   const dataset = gameData.data[field];
 
-  const years = yearsInRange(2012, 2040);
-
   const productionOil = toTimeseries(
     truncatedDataset(dataset, phaseOut[field]),
     "productionOil",
@@ -45,6 +43,16 @@ export function CombinedProductionForFieldChart({ field }: { field: string }) {
     x: year.x,
     y: baselineGas[i].y - (year.y ?? 0),
   }));
+
+  function calcYears(){
+    if(productionOil[0].x <= productionGas[0].x){
+      return parseInt(productionGas[0].x);
+    }else{
+      return parseInt(productionOil[0].x);
+    }
+  } 
+
+  const years = yearsInRange(calcYears(), 2040);
 
   function createStipedPattern(
     color: string,
