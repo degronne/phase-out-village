@@ -61,10 +61,24 @@ export function PhaseOutDialog({
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    // First update the phase out state
     setPhaseOut((phaseOut) => ({ ...phaseOut, ...draft }));
-    proceed();
+
+    // Close the dialog first
     close();
+
+    // Then proceed with navigation in the next tick
+    setTimeout(() => {
+      proceed();
+    }, 0);
   }
+
+  // function handleSubmit(e: FormEvent) {
+  //   e.preventDefault();
+  //   setPhaseOut((phaseOut) => ({ ...phaseOut, ...draft }));
+  //   proceed();
+  //   close();
+  // }
 
   const periodEnd = (parseInt(year) + 3).toString();
 

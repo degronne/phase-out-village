@@ -42,13 +42,29 @@ export function Application() {
   const navigate = useNavigate();
 
   function proceed() {
-    setYear((y) => {
-      const year = parseInt(y);
-      const nextYear = Math.min(year + 4 - (year % 4), 2040);
-      if (nextYear === 2040) navigate("/summary");
-      return nextYear.toString() as Year;
-    });
+    // First calculate the next year
+    const currentYear = parseInt(year);
+    const nextYear = Math.min(currentYear + 4 - (currentYear % 4), 2040);
+    const nextYearStr = nextYear.toString() as Year;
+
+    // Update the year state
+    setYear(nextYearStr);
+
+    // Navigate to summary if we've reached 2040
+    if (nextYear === 2040) {
+      // Use setTimeout to defer navigation to the next tick
+      setTimeout(() => navigate("/summary"), 0);
+    }
   }
+
+  // function proceed() {
+  //   setYear((y) => {
+  //     const year = parseInt(y);
+  //     const nextYear = Math.min(year + 4 - (year % 4), 2040);
+  //     if (nextYear === 2040) navigate("/summary");
+  //     return nextYear.toString() as Year;
+  //   });
+  // }
 
   function restart() {
     setYear("2025");
