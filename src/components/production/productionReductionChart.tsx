@@ -54,6 +54,8 @@ export function ProductionReductionChart({
     Math.max((base ?? 0) - (remainingGas[i] ?? 0), 0),
   );
 
+  console.log(gameData.gameYears);
+
   return (
     <Bar
       options={{
@@ -80,7 +82,6 @@ export function ProductionReductionChart({
         scales: {
           x: {
             stacked: true,
-            type: "linear",
             title: {
               display: true,
               text: "År",
