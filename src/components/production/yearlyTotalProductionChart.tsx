@@ -12,6 +12,7 @@ import { Bar } from "react-chartjs-2";
 import { ApplicationContext } from "../../applicationContext";
 import { totalProduction } from "../../data/gameData";
 import { Year } from "../../data/types";
+import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
 
 ChartJS.register(
   CategoryScale,
@@ -26,6 +27,7 @@ export function YearlyTotalProductionChart() {
   const { phaseOut } = useContext(ApplicationContext);
   const production = totalProduction(phaseOut);
   const years = Object.keys(production) as Year[];
+  const textColor = usePrefersDarkMode() ? "#fff" : "#000";
   const gasValues = Object.values(production).map(
     ({ productionGas }) => productionGas?.value,
   );
@@ -37,20 +39,27 @@ export function YearlyTotalProductionChart() {
     <Bar
       options={{
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
-          title: { display: true, text: "Inndeling av olje og gass" },
+          title: { display: true, text: "Inndeling av olje og gass", color: textColor },
           tooltip: { mode: "index", intersect: false },
-          legend: { position: "top" },
+          legend: { position: "top", labels:{color: textColor} },
         },
         interaction: { mode: "index", intersect: false },
         scales: {
           x: {
             stacked: true,
-            title: { display: true, text: "År" },
+            title: { display: true, text: "År", color: textColor },
+            ticks:{
+              color: textColor,
+            }
           },
           y: {
             stacked: true,
-            title: { display: true, text: "Millioner. Sm3 o.e." },
+            title: { display: true, text: "Millioner. Sm3 o.e.", color: textColor },
+            ticks: {
+              color: textColor,
+            }
           },
         },
       }}
@@ -60,13 +69,13 @@ export function YearlyTotalProductionChart() {
           {
             label: "Olje/væskeproduksjon",
             data: oilValues,
-            backgroundColor: "rgba(255,99,132,0.6)",
+            backgroundColor:  usePrefersDarkMode() ? "#2A5D8F" : "#4DA3FF",
             stack: "production",
           },
           {
             label: "Gasseksport",
             data: gasValues,
-            backgroundColor: "rgba(54,162,235,0.6)",
+            backgroundColor:  usePrefersDarkMode() ? "#D64545" : "#FF3333",
             stack: "production",
           },
         ],
