@@ -64,11 +64,6 @@ button {
     background-color: var(--skog);
     color: var(--lime);
   }
-  button {
-    color: var(--lime);
-    border-color: var(--lime);
-    background-color: var(--skog);
-  }
 }
 
 td {
