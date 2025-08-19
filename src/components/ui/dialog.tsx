@@ -13,7 +13,7 @@ export function Dialog({
 }) {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
 
@@ -53,10 +53,54 @@ export function Dialog({
     if (onClose) dialog.addEventListener("close", onClose);
 
     return () => {
-      if (onClose) dialog.removeEventListener("close", onClose);
       dialog.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [onClose]);
+
+  // useLayoutEffect(() {
+  //   const dialog = dialogRef.current;
+  //   if (!dialog) return;
+  //
+  //   function handleKeyDown(e: KeyboardEvent) {
+  //     const d = dialogRef.current;
+  //     if (!d) return;
+  //     if (e.key === "Escape") {
+  //       e.stopPropagation();
+  //       d.close();
+  //       return;
+  //     }
+  //     if (e.key === "Tab") {
+  //       const focusables = Array.from(
+  //         d.querySelectorAll<HTMLElement>(
+  //           'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])',
+  //         ),
+  //       ).filter((el) => !el.hasAttribute("disabled") && el.tabIndex !== -1);
+  //       if (focusables.length === 0) return;
+  //       const first = focusables[0];
+  //       const last = focusables[focusables.length - 1];
+  //       const active = document.activeElement as HTMLElement | null;
+  //       if (e.shiftKey) {
+  //         if (active === first || !d.contains(active)) {
+  //           last.focus();
+  //           e.preventDefault();
+  //         }
+  //       } else {
+  //         if (active === last || !d.contains(active)) {
+  //           first.focus();
+  //           e.preventDefault();
+  //         }
+  //       }
+  //     }
+  //   }
+  //
+  //   dialog.addEventListener("keydown", handleKeyDown);
+  //   if (onClose) dialog.addEventListener("close", onClose);
+  //
+  //   return () => {
+  //     if (onClose) dialog.removeEventListener("close", onClose);
+  //     dialog.removeEventListener("keydown", handleKeyDown);
+  //   };
+  // }, []);
 
   useEffect(() => {
     const dialog = dialogRef.current;
