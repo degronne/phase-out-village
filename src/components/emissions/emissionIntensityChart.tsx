@@ -17,7 +17,7 @@ import {
   oilEquivalentToBarrel,
   PhaseOutSchedule,
 } from "../../data/gameData";
-import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
+import { useLightDark } from "../../hooks/useLightDark";
 
 ChartJS.register(
   LinearScale,
@@ -54,7 +54,7 @@ export function EmissionIntensityChart({
       pointRadius: 6,
     }));
 
-    const textColor = usePrefersDarkMode() ? "#fff" : "#000";
+    const textColor = useLightDark("#fff", "#000");
 
   return (
     <Scatter

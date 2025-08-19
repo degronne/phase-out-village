@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { ApplicationContext } from "../../applicationContext";
 import { Bar } from "react-chartjs-2";
-import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
+import { useLightDark } from "../../hooks/useLightDark";
 import {
   gameData,
   toTimeseries,
@@ -12,7 +12,7 @@ import {
 export function CombinedProductionForFieldChart({ field }: { field: string }) {
   const { phaseOut } = useContext(ApplicationContext);
 
-  const textColor = usePrefersDarkMode() ? "#fff" : "#000";
+  const textColor = useLightDark("#fff", "#000");
 
   const dataset = gameData.data[field];
 
@@ -130,7 +130,7 @@ export function CombinedProductionForFieldChart({ field }: { field: string }) {
               label: "Olje/Væskeproduksjon",
               data: productionOil,
               borderColor: "#4a90e2",
-              backgroundColor: usePrefersDarkMode() ? "#2A5D8F" : "#4DA3FF",
+              backgroundColor: useLightDark("#2A5D8F", "#4DA3FF"),
               stack: "plan",
               order: 1,
             },
@@ -138,7 +138,7 @@ export function CombinedProductionForFieldChart({ field }: { field: string }) {
               label: "Gasseksport",
               data: productionGas,
               borderColor: "#E24A4A",
-              backgroundColor: usePrefersDarkMode() ? "#D64545" : "#FF3333",
+              backgroundColor: useLightDark("#D64545", "#FF3333") ,
               stack: "plan",
               order: 3,
             },
@@ -146,9 +146,7 @@ export function CombinedProductionForFieldChart({ field }: { field: string }) {
               label: "Reduksjon Olje/Væske",
               data: reductionOil,
               borderColor: "orange",
-              backgroundColor: usePrefersDarkMode()
-                ? createStipedPattern("#2A5D8F", "transparent")
-                : createStipedPattern("#4DA3FF", "transparent"),
+              backgroundColor: createStipedPattern(useLightDark("#2A5D8F", "#4DA3FF"), "transparent"),
               stack: "plan",
               order: 2,
             },
@@ -156,9 +154,7 @@ export function CombinedProductionForFieldChart({ field }: { field: string }) {
               label: "Reduksjon Gass",
               data: reductionGas,
               borderColor: "orange",
-              backgroundColor: usePrefersDarkMode()
-                ? createStipedPattern("#D64545", "transparent")
-                : createStipedPattern("#FF3333", "transparent"),
+              backgroundColor: createStipedPattern(useLightDark("#D64545", "#FF3333"), "transparent"),
               stack: "plan",
               order: 4,
             },

@@ -8,11 +8,11 @@ import {
   truncatedDataset,
   yearsInRange,
 } from "../../data/gameData";
-import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
+import { useLightDark } from "../../hooks/useLightDark";
 
 export function EmissionsForFieldChart({ field }: { field: string }) {
   const { phaseOut } = useContext(ApplicationContext);
-  const textColor = usePrefersDarkMode() ? "#fff" : "#000";
+  const textColor = useLightDark("#fff", "#000");
 
   const fieldDataset = gameData.data[field];
   const years = yearsInRange(2012, 2040);

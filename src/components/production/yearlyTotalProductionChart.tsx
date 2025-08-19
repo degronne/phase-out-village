@@ -12,7 +12,7 @@ import { Bar } from "react-chartjs-2";
 import { ApplicationContext } from "../../applicationContext";
 import { totalProduction } from "../../data/gameData";
 import { Year } from "../../data/types";
-import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
+import { useLightDark } from "../../hooks/useLightDark";
 
 ChartJS.register(
   CategoryScale,
@@ -27,7 +27,7 @@ export function YearlyTotalProductionChart() {
   const { phaseOut } = useContext(ApplicationContext);
   const production = totalProduction(phaseOut);
   const years = Object.keys(production) as Year[];
-  const textColor = usePrefersDarkMode() ? "#fff" : "#000";
+  const textColor = useLightDark("#fff", "#000");
   const gasValues = Object.values(production).map(
     ({ productionGas }) => productionGas?.value,
   );
@@ -69,13 +69,13 @@ export function YearlyTotalProductionChart() {
           {
             label: "Olje/væskeproduksjon",
             data: oilValues,
-            backgroundColor:  usePrefersDarkMode() ? "#2A5D8F" : "#4DA3FF",
+            backgroundColor:  useLightDark("#2A5D8F", "#4DA3FF"),
             stack: "production",
           },
           {
             label: "Gasseksport",
             data: gasValues,
-            backgroundColor:  usePrefersDarkMode() ? "#D64545" : "#FF3333",
+            backgroundColor:  useLightDark("#D64545", "#FF3333"),
             stack: "production",
           },
         ],
