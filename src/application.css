@@ -238,6 +238,9 @@ dialog .button-row {
     position: sticky;
     top: 0;
     background-color: var(--lime);
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--gran);
+    }
   }
   tr th.rowHeader {
     position: sticky;
@@ -247,9 +250,15 @@ dialog .button-row {
   }
   tr:nth-child(even) {
     background-color: rgb(253, 252, 236);
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--gran);
+    }
   }
   td.estimate {
     font-style: italic;
     color: red;
+    @media (prefers-color-scheme: dark) {
+      color: hotpink;
+    }
   }
 }
