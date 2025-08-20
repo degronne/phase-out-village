@@ -41,25 +41,33 @@ export function YearlyTotalProductionChart() {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          title: { display: true, text: "Inndeling av olje og gass", color: textColor },
+          title: {
+            display: true,
+            text: "Inndeling av olje og gass",
+            color: textColor,
+          },
           tooltip: { mode: "index", intersect: false },
-          legend: { position: "top", labels:{color: textColor} },
+          legend: { position: "top", labels: { color: textColor } },
         },
         interaction: { mode: "index", intersect: false },
         scales: {
           x: {
             stacked: true,
             title: { display: true, text: "År", color: textColor },
-            ticks:{
+            ticks: {
               color: textColor,
-            }
+            },
           },
           y: {
             stacked: true,
-            title: { display: true, text: "Millioner. Sm3 o.e.", color: textColor },
+            title: {
+              display: true,
+              text: "Millioner. Sm3 o.e.",
+              color: textColor,
+            },
             ticks: {
               color: textColor,
-            }
+            },
           },
         },
       }}
@@ -69,13 +77,13 @@ export function YearlyTotalProductionChart() {
           {
             label: "Olje/væskeproduksjon",
             data: oilValues,
-            backgroundColor:  usePrefersDarkMode() ? "#2A5D8F" : "#4DA3FF",
+            backgroundColor: usePrefersDarkMode() ? "#2A5D8F" : "#4DA3FF",
             stack: "production",
           },
           {
             label: "Gasseksport",
             data: gasValues,
-            backgroundColor:  usePrefersDarkMode() ? "#D64545" : "#FF3333",
+            backgroundColor: usePrefersDarkMode() ? "#D64545" : "#FF3333",
             stack: "production",
           },
         ],

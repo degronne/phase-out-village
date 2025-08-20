@@ -44,13 +44,13 @@ export function CombinedProductionForFieldChart({ field }: { field: string }) {
     y: baselineGas[i].y - (year.y ?? 0),
   }));
 
-  function calcYears(){
-    if(productionOil[0].x <= productionGas[0].x){
+  function calcYears() {
+    if (productionOil[0].x <= productionGas[0].x) {
       return parseInt(productionGas[0].x);
-    }else{
+    } else {
       return parseInt(productionOil[0].x);
     }
-  } 
+  }
 
   const years = yearsInRange(calcYears(), 2040);
 

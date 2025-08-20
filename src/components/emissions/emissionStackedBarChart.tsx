@@ -34,7 +34,7 @@ export function EmissionStackedBarChart({
             color: textColor,
             padding: { bottom: 20 },
           },
-          legend: { display: true, labels: {color: textColor} },
+          legend: { display: true, labels: { color: textColor } },
           tooltip: {
             callbacks: {
               label: function (context: any) {
@@ -48,12 +48,16 @@ export function EmissionStackedBarChart({
           x: {
             stacked: true,
             title: { display: true, text: "År", color: textColor },
-            ticks:{ color: textColor },
+            ticks: { color: textColor },
           },
           y: {
             stacked: true,
             beginAtZero: true,
-            title: { display: true, text: "CO₂-utslipp (tonn)", color: textColor },
+            title: {
+              display: true,
+              text: "CO₂-utslipp (tonn)",
+              color: textColor,
+            },
             ticks: {
               color: textColor,
               callback: function (value: any) {
