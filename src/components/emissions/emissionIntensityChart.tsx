@@ -17,6 +17,7 @@ import {
   oilEquivalentToBarrel,
   PhaseOutSchedule,
 } from "../../data/gameData";
+import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
 
 ChartJS.register(
   LinearScale,
@@ -53,6 +54,8 @@ export function EmissionIntensityChart({
       pointRadius: 6,
     }));
 
+  const textColor = usePrefersDarkMode() ? "#fff" : "#000";
+
   return (
     <Scatter
       options={{
@@ -65,6 +68,7 @@ export function EmissionIntensityChart({
           title: {
             display: true,
             text: `Utslippsintensitet vs Produksjon i ${year}`,
+            color: textColor,
             padding: { bottom: 20 },
           },
           tooltip: {
@@ -107,16 +111,26 @@ export function EmissionIntensityChart({
         },
         scales: {
           x: {
-            title: { display: true, text: "Millioner fat produsert" },
+            title: {
+              display: true,
+              text: "Millioner fat produsert",
+              color: textColor,
+            },
             beginAtZero: true,
             min: 0,
             max: 100,
+            ticks: { color: textColor },
           },
           y: {
-            title: { display: true, text: "Utslippsintensitet (kg CO2e/BOE)" },
+            title: {
+              display: true,
+              text: "Utslippsintensitet (kg CO2e/BOE)",
+              color: textColor,
+            },
             beginAtZero: true,
             min: 0,
             max: 100,
+            ticks: { color: textColor },
           },
         },
       }}

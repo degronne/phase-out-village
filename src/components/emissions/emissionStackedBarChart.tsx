@@ -6,6 +6,7 @@ import {
   PhaseOutSchedule,
   totalProduction,
 } from "../../data/gameData";
+import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
 
 export function EmissionStackedBarChart({
   phaseOut,
@@ -17,6 +18,7 @@ export function EmissionStackedBarChart({
   const reductionData = numberSeries(totalProduction(), "emission").map(
     (base, i) => Math.max((base ?? 0) - (userData[i] ?? 0), 0),
   );
+  const textColor = usePrefersDarkMode() ? "#fff" : "#000";
 
   return (
     <Bar
@@ -29,9 +31,10 @@ export function EmissionStackedBarChart({
           title: {
             display: true,
             text: "Total årlig utslipp med reduksjon markert",
+            color: textColor,
             padding: { bottom: 20 },
           },
-          legend: { display: true },
+          legend: { display: true, labels: { color: textColor } },
           tooltip: {
             callbacks: {
               label: function (context: any) {
@@ -44,13 +47,19 @@ export function EmissionStackedBarChart({
         scales: {
           x: {
             stacked: true,
-            title: { display: true, text: "År" },
+            title: { display: true, text: "År", color: textColor },
+            ticks: { color: textColor },
           },
           y: {
             stacked: true,
             beginAtZero: true,
-            title: { display: true, text: "CO₂-utslipp (tonn)" },
+            title: {
+              display: true,
+              text: "CO₂-utslipp (tonn)",
+              color: textColor,
+            },
             ticks: {
+              color: textColor,
               callback: function (value: any) {
                 const n = Number(value);
                 return window.innerWidth < 600

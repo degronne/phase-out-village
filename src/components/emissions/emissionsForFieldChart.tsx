@@ -8,9 +8,11 @@ import {
   truncatedDataset,
   yearsInRange,
 } from "../../data/gameData";
+import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
 
 export function EmissionsForFieldChart({ field }: { field: string }) {
   const { phaseOut } = useContext(ApplicationContext);
+  const textColor = usePrefersDarkMode() ? "#fff" : "#000";
 
   const fieldDataset = gameData.data[field];
   const years = yearsInRange(2012, 2040);
@@ -23,6 +25,7 @@ export function EmissionsForFieldChart({ field }: { field: string }) {
           title: {
             display: true,
             text: `Årlig utslipp fra ${field}`,
+            color: textColor,
           },
           tooltip: {
             callbacks: {
@@ -38,12 +41,19 @@ export function EmissionsForFieldChart({ field }: { field: string }) {
             title: {
               display: true,
               text: "Tonn Co2",
+              color: textColor,
             },
             beginAtZero: true,
             ticks: {
+              color: textColor,
               callback: function (value: any) {
                 return `${value}`;
               },
+            },
+          },
+          x: {
+            ticks: {
+              color: textColor,
             },
           },
         },

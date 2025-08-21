@@ -69,7 +69,7 @@ export function calculateFieldData(
   }
 
   const fieldDevelopment: (typeof development)[OilfieldName] | undefined =
-    development[field + "disable"];
+    development[field];
   const annualOilDevelopment = fieldDevelopment?.oil || 0.9;
   const annualGasDevelopment = fieldDevelopment?.gas || 0.9;
   const annualEmissionDevelopment = fieldDevelopment?.emissions || 0.97;
