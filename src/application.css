@@ -23,6 +23,12 @@ dialog::backdrop {
   border: 1px solid currentColor;
 }
 
+.phaseout-input-checkbox {
+  margin-right: 0.3rem;
+  vertical-align: middle;
+  margin-bottom: 0.3rem;
+}
+
 @media (max-width: 600px) {
   .tutorial-modal {
     width: 94vw;
@@ -43,12 +49,15 @@ dialog {
   color-scheme: light dark;
   background-color: var(--lime);
   color: var(--skog);
+  margin: 2px;
 }
 
 button {
   color: var(--skog);
   background-color: var(--lime);
   border-color: var(--skog);
+  margin-top: 0.04rem;
+  margin-bottom: 0.05rem;
   &:disabled {
     color: revert;
   }
@@ -64,10 +73,13 @@ button {
     background-color: var(--skog);
     color: var(--lime);
   }
-  button {
+  .close-phaseout-button {
     color: var(--lime);
-    border-color: var(--lime);
     background-color: var(--skog);
+    border-color: var(--lime);
+    &:disabled {
+      color: revert;
+    }
   }
 }
 
@@ -243,6 +255,9 @@ dialog .button-row {
     position: sticky;
     top: 0;
     background-color: var(--lime);
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--gran);
+    }
   }
   tr th.rowHeader {
     position: sticky;
@@ -252,9 +267,15 @@ dialog .button-row {
   }
   tr:nth-child(even) {
     background-color: rgb(253, 252, 236);
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--gran);
+    }
   }
   td.estimate {
     font-style: italic;
     color: red;
+    @media (prefers-color-scheme: dark) {
+      color: hotpink;
+    }
   }
 }

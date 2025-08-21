@@ -181,6 +181,7 @@ export const data: OilFieldDataset = {
     "2022": { productionOil: 1.11, emission: 145713, emissionIntensity: 20.96 },
     "2023": { productionOil: 1.27, emission: 158325, emissionIntensity: 19.85 },
     "2024": { productionOil: 1.61, emission: 147493, emissionIntensity: 14.53 },
+    "2025": { productionOil: 3, emission: 146252, emissionIntensity: 7.75 },
   },
   Brage: {
     "1993": { productionOil: 1.07, productionGas: 0.02 },
@@ -344,6 +345,30 @@ export const data: OilFieldDataset = {
       emission: 195277,
       emissionIntensity: 26.58,
     },
+    "2025": {
+      productionOil: 0.9,
+      productionGas: 0.2,
+      emission: 189419,
+      emissionIntensity: 27.38,
+    },
+    "2026": {
+      productionOil: 0.86,
+      productionGas: 0.18,
+      emission: 183736,
+      emissionIntensity: 28.09,
+    },
+    "2027": {
+      productionOil: 0.81,
+      productionGas: 0.16,
+      emission: 100000,
+      emissionIntensity: 16.39,
+    },
+    "2028": {
+      productionOil: 0.78,
+      productionGas: 0.15,
+      emission: 15000,
+      emissionIntensity: 2.56,
+    },
   },
   "Edvard Grieg": {
     "2014": { emission: 5689 },
@@ -400,6 +425,12 @@ export const data: OilFieldDataset = {
       productionOil: 4.96,
       productionGas: 0.77,
       emission: 19306,
+      emissionIntensity: 0.54,
+    },
+    "2025": {
+      productionOil: 6.54,
+      productionGas: 0.76,
+      emission: 25000,
       emissionIntensity: 0.54,
     },
   },
@@ -517,6 +548,12 @@ export const data: OilFieldDataset = {
       productionGas: 1.81,
       emission: 618230,
       emissionIntensity: 14.14,
+    },
+    "2025": {
+      productionOil: 4.66,
+      productionGas: 2,
+      emission: 608572,
+      emissionIntensity: 14.53,
     },
   },
   Eldfisk: {
@@ -703,6 +740,12 @@ export const data: OilFieldDataset = {
       emission: 107787,
       emissionIntensity: 2.25,
     },
+    "2025": {
+      productionOil: 3.15,
+      productionGas: 3.59,
+      emission: 120000,
+      emissionIntensity: 2.83,
+    },
   },
   Goliat: {
     "2016": { productionOil: 2.95, emission: 214190, emissionIntensity: 11.54 },
@@ -745,6 +788,7 @@ export const data: OilFieldDataset = {
     "2022": { productionOil: 2.57, emission: 203254, emissionIntensity: 12.57 },
     "2023": { productionOil: 2.63, emission: 219538, emissionIntensity: 13.26 },
     "2024": { productionOil: 5.43, emission: 207815, emissionIntensity: 6.09 },
+    "2025": { productionOil: 5, emission: 199768, emissionIntensity: 6.35 },
   },
   Gullfaks: {
     "1986": { productionOil: 0.04 },
@@ -846,6 +890,12 @@ export const data: OilFieldDataset = {
       emission: 545841,
       emissionIntensity: 9.63,
     },
+    "2025": {
+      productionOil: 4.54,
+      productionGas: 4.84,
+      emission: 520000,
+      emissionIntensity: 8.81,
+    },
   },
   Heidrun: {
     "1995": { productionOil: 1.06 },
@@ -938,6 +988,12 @@ export const data: OilFieldDataset = {
       emission: 375487,
       emissionIntensity: 8.77,
     },
+    "2025": {
+      productionOil: 2.6,
+      productionGas: 4,
+      emission: 352065,
+      emissionIntensity: 8.48,
+    },
   },
   "Johan Castberg": {
     "2020": { emission: 18954 },
@@ -945,6 +1001,10 @@ export const data: OilFieldDataset = {
     "2022": { emission: 15306 },
     "2023": {},
     "2024": { emission: 91587 },
+    "2025": { productionOil: 6, emission: 300000, emissionIntensity: 7.95 },
+    "2026": { productionOil: 10, emission: 300000, emissionIntensity: 4.77 },
+    "2027": { productionOil: 10, emission: 300000, emissionIntensity: 4.77 },
+    "2028": { productionOil: 10, emission: 300000, emissionIntensity: 4.77 },
   },
   "Johan Sverdrup": {
     "2016": { emission: 27926 },
@@ -985,6 +1045,18 @@ export const data: OilFieldDataset = {
       productionGas: 1.34,
       emission: 51943,
       emissionIntensity: 0.19,
+    },
+    "2025": {
+      productionOil: 42,
+      productionGas: 1.3,
+      emission: 44124,
+      emissionIntensity: 0.16,
+    },
+    "2026": {
+      productionOil: 42,
+      productionGas: 1.3,
+      emission: 42800,
+      emissionIntensity: 0.16,
     },
   },
   Kristin: {
@@ -1151,6 +1223,12 @@ export const data: OilFieldDataset = {
       emission: 192072,
       emissionIntensity: 7.82,
     },
+    "2025": {
+      productionOil: 0.7,
+      productionGas: 3,
+      emission: 192738,
+      emissionIntensity: 8.28,
+    },
   },
   "Martin Linge": {
     "2013": { emission: 592 },
@@ -1245,6 +1323,30 @@ export const data: OilFieldDataset = {
       emission: 176995,
       emissionIntensity: 11.52,
     },
+    "2025": {
+      productionOil: 2,
+      productionGas: 1,
+      emission: 190000,
+      emissionIntensity: 10.06,
+    },
+    "2026": {
+      productionOil: 1.9,
+      productionGas: 0.95,
+      emission: 184300,
+      emissionIntensity: 10.28,
+    },
+    "2027": {
+      productionOil: 1.81,
+      productionGas: 0.9,
+      emission: 150000,
+      emissionIntensity: 8.8,
+    },
+    "2028": {
+      productionOil: 1.71,
+      productionGas: 0.86,
+      emission: 100000,
+      emissionIntensity: 6.19,
+    },
   },
   Norne: {
     "1997": { productionOil: 0.42 },
@@ -1334,6 +1436,18 @@ export const data: OilFieldDataset = {
       productionGas: 1.14,
       emission: 222606,
       emissionIntensity: 20.18,
+    },
+    "2025": {
+      productionOil: 0.93,
+      productionGas: 1.56,
+      emission: 292902,
+      emissionIntensity: 18.7,
+    },
+    "2026": {
+      productionOil: 2,
+      productionGas: 2,
+      emission: 310000,
+      emissionIntensity: 12.32,
     },
   },
   "Ormen Lange": {
@@ -1451,6 +1565,42 @@ export const data: OilFieldDataset = {
       emission: 1048432,
       emissionIntensity: 12.85,
     },
+    "2025": {
+      productionOil: 4.59,
+      productionGas: 8.5,
+      emission: 1018666,
+      emissionIntensity: 12.37,
+    },
+    "2026": {
+      productionOil: 4.4,
+      productionGas: 8.5,
+      emission: 900000,
+      emissionIntensity: 11.09,
+    },
+    "2027": {
+      productionOil: 4.21,
+      productionGas: 8.5,
+      emission: 750000,
+      emissionIntensity: 9.38,
+    },
+    "2028": {
+      productionOil: 4.04,
+      productionGas: 8.5,
+      emission: 742500,
+      emissionIntensity: 9.41,
+    },
+    "2029": {
+      productionOil: 3.87,
+      productionGas: 8.5,
+      emission: 735075,
+      emissionIntensity: 9.45,
+    },
+    "2030": {
+      productionOil: 3.71,
+      productionGas: 8.5,
+      emission: 727724,
+      emissionIntensity: 9.48,
+    },
   },
   Skarv: {
     "2012": { emission: 83647 },
@@ -1520,6 +1670,30 @@ export const data: OilFieldDataset = {
       productionGas: 6.45,
       emission: 372115,
       emissionIntensity: 7.16,
+    },
+    "2025": {
+      productionOil: 2.09,
+      productionGas: 6.5,
+      emission: 337697,
+      emissionIntensity: 6.25,
+    },
+    "2026": {
+      productionOil: 1.57,
+      productionGas: 4.88,
+      emission: 327566,
+      emissionIntensity: 8.07,
+    },
+    "2027": {
+      productionOil: 1.17,
+      productionGas: 3.66,
+      emission: 317739,
+      emissionIntensity: 10.46,
+    },
+    "2028": {
+      productionOil: 2.5,
+      productionGas: 7,
+      emission: 360000,
+      emissionIntensity: 6.02,
     },
   },
   Sleipner: {
@@ -1615,6 +1789,12 @@ export const data: OilFieldDataset = {
       emission: 626128,
       emissionIntensity: 13.65,
     },
+    "2025": {
+      productionOil: 2,
+      productionGas: 5,
+      emission: 550000,
+      emissionIntensity: 12.49,
+    },
   },
   Snorre: {
     "1992": { productionOil: 1.65 },
@@ -1685,6 +1865,7 @@ export const data: OilFieldDataset = {
     "2022": { productionOil: 7.38, emission: 551658, emissionIntensity: 11.88 },
     "2023": { productionOil: 6.54, emission: 459419, emissionIntensity: 11.17 },
     "2024": { productionOil: 5.76, emission: 401378, emissionIntensity: 11.08 },
+    "2025": { productionOil: 7, emission: 420000, emissionIntensity: 9.54 },
   },
   Snøhvit: {
     "2007": { productionOil: 0.12, productionGas: 0.14 },
@@ -1764,6 +1945,48 @@ export const data: OilFieldDataset = {
       productionGas: 6.41,
       emission: 851896,
       emissionIntensity: 17.91,
+    },
+    "2025": {
+      productionOil: 1.3,
+      productionGas: 6.1,
+      emission: 900000,
+      emissionIntensity: 19.34,
+    },
+    "2026": {
+      productionOil: 1.17,
+      productionGas: 6.1,
+      emission: 900000,
+      emissionIntensity: 19.68,
+    },
+    "2027": {
+      productionOil: 1.05,
+      productionGas: 6.1,
+      emission: 900000,
+      emissionIntensity: 20.01,
+    },
+    "2028": {
+      productionOil: 0.95,
+      productionGas: 6.1,
+      emission: 900000,
+      emissionIntensity: 20.3,
+    },
+    "2029": {
+      productionOil: 0.85,
+      productionGas: 6.1,
+      emission: 900000,
+      emissionIntensity: 20.59,
+    },
+    "2030": {
+      productionOil: 0.77,
+      productionGas: 6.1,
+      emission: 500000,
+      emissionIntensity: 11.57,
+    },
+    "2031": {
+      productionOil: 0.69,
+      productionGas: 6.1,
+      emission: 95000,
+      emissionIntensity: 2.22,
     },
   },
   Statfjord: {
@@ -1873,6 +2096,12 @@ export const data: OilFieldDataset = {
       emission: 769624,
       emissionIntensity: 43.08,
     },
+    "2025": {
+      productionOil: 2.5,
+      productionGas: 0.76,
+      emission: 734673,
+      emissionIntensity: 35.83,
+    },
   },
   Troll: {
     "1990": { productionOil: 1.05 },
@@ -1970,6 +2199,36 @@ export const data: OilFieldDataset = {
       emission: 473286,
       emissionIntensity: 1.53,
     },
+    "2025": {
+      productionOil: 3.5,
+      productionGas: 41,
+      emission: 500000,
+      emissionIntensity: 1.79,
+    },
+    "2026": {
+      productionOil: 3.19,
+      productionGas: 41,
+      emission: 500000,
+      emissionIntensity: 1.8,
+    },
+    "2027": {
+      productionOil: 2.92,
+      productionGas: 41,
+      emission: 225000,
+      emissionIntensity: 0.81,
+    },
+    "2028": {
+      productionOil: 2.7,
+      productionGas: 41,
+      emission: 225000,
+      emissionIntensity: 0.82,
+    },
+    "2029": {
+      productionOil: 2.5,
+      productionGas: 41,
+      emission: 225000,
+      emissionIntensity: 0.82,
+    },
   },
   Ula: {
     "1986": { productionOil: 0.92, productionGas: 0.04 },
@@ -2011,6 +2270,7 @@ export const data: OilFieldDataset = {
     "2022": { productionOil: 1.33, emission: 176392, emissionIntensity: 21.11 },
     "2023": { productionOil: 1.14, emission: 183927, emissionIntensity: 25.53 },
     "2024": { productionOil: 0.79, emission: 183927, emissionIntensity: 37.16 },
+    "2025": { productionOil: 0.7, emission: 191641, emissionIntensity: 43.53 },
   },
   Valhall: {
     "1982": { productionOil: 0.09 },
@@ -2116,6 +2376,30 @@ export const data: OilFieldDataset = {
       emission: 33822,
       emissionIntensity: 1.76,
     },
+    "2025": {
+      productionOil: 2.39,
+      productionGas: 0.37,
+      emission: 28603,
+      emissionIntensity: 1.65,
+    },
+    "2026": {
+      productionOil: 2.16,
+      productionGas: 0.33,
+      emission: 28317,
+      emissionIntensity: 1.81,
+    },
+    "2027": {
+      productionOil: 1.93,
+      productionGas: 0.3,
+      emission: 28034,
+      emissionIntensity: 2,
+    },
+    "2028": {
+      productionOil: 4.5,
+      productionGas: 1.8,
+      emission: 30000,
+      emissionIntensity: 0.76,
+    },
   },
   Visund: {
     "1999": { productionOil: 0.63 },
@@ -2204,6 +2488,40 @@ export const data: OilFieldDataset = {
       emission: 148741,
       emissionIntensity: 4.75,
     },
+    "2025": {
+      productionOil: 1.14,
+      productionGas: 4.54,
+      emission: 172270,
+      emissionIntensity: 4.82,
+    },
+    "2026": {
+      productionOil: 2,
+      productionGas: 3.63,
+      emission: 167102,
+      emissionIntensity: 4.72,
+    },
+  },
+  Yggdrasil: {
+    "2025": {},
+    "2026": {},
+    "2027": {
+      productionOil: 5,
+      productionGas: 3,
+      emission: 40000,
+      emissionIntensity: 0.79,
+    },
+    "2028": {
+      productionOil: 9,
+      productionGas: 5,
+      emission: 40000,
+      emissionIntensity: 0.45,
+    },
+    "2029": {
+      productionOil: 9,
+      productionGas: 5,
+      emission: 40000,
+      emissionIntensity: 0.45,
+    },
   },
   Yme: {
     "1996": { productionOil: 1.19 },
@@ -2235,6 +2553,7 @@ export const data: OilFieldDataset = {
     "2022": { productionOil: 0.53, emission: 130375, emissionIntensity: 39.01 },
     "2023": { productionOil: 1.08, emission: 115007, emissionIntensity: 16.88 },
     "2024": { productionOil: 1.2, emission: 102383, emissionIntensity: 13.54 },
+    "2025": { productionOil: 1.1, emission: 110000, emissionIntensity: 15.9 },
   },
   Åsgard: {
     "1999": { productionOil: 3.9 },
