@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Dialog } from "../ui/dialog";
 
 const steps = [
   {
@@ -91,12 +92,18 @@ const steps = [
   },
 ];
 
-export function TutorialDialog({ onClose }: { onClose?: () => void }) {
+export function TutorialDialog({
+  onClose,
+  open,
+}: {
+  onClose?: () => void;
+  open: boolean;
+}) {
   const [index, setIndex] = useState(0);
   const last = index === steps.length - 1;
 
   return (
-    <div>
+    <Dialog open={open} onClose={onClose}>
       <div
         style={{
           display: "flex",
@@ -145,6 +152,6 @@ export function TutorialDialog({ onClose }: { onClose?: () => void }) {
           </button>
         )}
       </div>
-    </div>
+    </Dialog>
   );
 }
