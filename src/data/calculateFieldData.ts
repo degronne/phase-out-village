@@ -74,10 +74,32 @@ export function calculateFieldData(
   const annualGasDevelopment = fieldDevelopment?.gas || 0.9;
   const annualEmissionDevelopment = fieldDevelopment?.emissions || 0.97;
 
-  let currentOil = calculateAverage(data, "productionOil") || 0;
-  let currentGas = calculateAverage(data, "productionGas") || 0;
-  let currentEmission = calculateAverage(data, "emission") || 0;
-  for (let year = parseInt(years[years.length - 1]) + 1; year <= 2040; year++) {
+  const averageYears = Object.keys(data)
+    .filter((year) => data[year] !== undefined)
+    .sort((a, b) => b.localeCompare(a))
+    .slice(0, 5);
+
+  if (averageYears.length === 0) return dataset;
+
+  const lastYear = averageYears[averageYears.length - 1];
+
+  let currentOil = data[lastYear].productionOil!;
+  let currentGas = data[lastYear].productionGas || 0;
+  let currentEmission = data[lastYear].emission || 0;
+
+  if (lastYear === "2024") {
+    currentOil =
+      years.map((y) => data[y].productionOil || 0).reduce((a, b) => a + b, 0) /
+      years.length;
+    currentGas =
+      years.map((y) => data[y].productionGas || 0).reduce((a, b) => a + b, 0) /
+      years.length;
+    currentEmission =
+      years.map((y) => data[y].emission || 0).reduce((a, b) => a + b, 0) /
+      years.length;
+  }
+
+  for (let year = parseInt(lastYear) + 1; year <= 2040; year++) {
     currentOil = Math.round(currentOil * annualOilDevelopment * 100) / 100;
     currentGas = Math.round(currentGas * annualGasDevelopment * 100) / 100;
     if (currentGas + currentOil < 0.2) break;
@@ -92,23 +114,4 @@ export function calculateFieldData(
   }
 
   return dataset;
-}
-
-export function calculateAverage(
-  yearlyData: Record<
-    string,
-    Partial<Record<Exclude<DataField, "totalProduction">, number>>
-  >,
-  resourceKey: Exclude<DataField, "totalProduction">,
-): number | null {
-  const values = Object.keys(yearlyData)
-    .map(Number)
-    .filter((year) => yearlyData[year]?.[resourceKey] !== undefined)
-    .sort((a, b) => b - a)
-    .map((year) => yearlyData[year]![resourceKey]!)
-    .slice(0, 5);
-
-  if (values.length === 0) return null;
-
-  return values.reduce((a, b) => a + b, 0) / values.length;
 }
