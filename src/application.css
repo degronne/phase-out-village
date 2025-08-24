@@ -23,6 +23,12 @@ dialog::backdrop {
   border: 1px solid currentColor;
 }
 
+.phaseout-input-checkbox {
+  margin-right: 0.3rem;
+  vertical-align: middle;
+  margin-bottom: 0.3rem;
+}
+
 @media (max-width: 600px) {
   .tutorial-modal {
     width: 94vw;
@@ -43,12 +49,15 @@ dialog {
   color-scheme: light dark;
   background-color: var(--lime);
   color: var(--skog);
+  margin: 2px;
 }
 
 button {
   color: var(--skog);
   background-color: var(--lime);
   border-color: var(--skog);
+  margin-top: 0.04rem;
+  margin-bottom: 0.05rem;
   &:disabled {
     color: revert;
   }
@@ -63,6 +72,14 @@ button {
   dialog {
     background-color: var(--skog);
     color: var(--lime);
+  }
+  .close-phaseout-button {
+    color: var(--lime);
+    background-color: var(--skog);
+    border-color: var(--lime);
+    &:disabled {
+      color: revert;
+    }
   }
 }
 

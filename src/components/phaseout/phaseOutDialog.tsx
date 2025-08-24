@@ -189,6 +189,7 @@ export function PhaseOutDialog({
               >
                 <label>
                   <input
+                    className="phaseout-input-checkbox"
                     disabled={isDisabled}
                     type="checkbox"
                     onChange={(e) => {
