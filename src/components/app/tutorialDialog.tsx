@@ -105,7 +105,9 @@ export function TutorialDialog({ onClose }: { onClose?: () => void }) {
         }}
       >
         <h2>{steps[index].title}</h2>
-        <button onClick={onClose}>✖</button>
+        <button type="button" onClick={onClose}>
+          ✖
+        </button>
       </div>
       <div style={{ marginTop: "0.5rem", marginBottom: "1rem" }}>
         {steps[index].body}
@@ -120,6 +122,7 @@ export function TutorialDialog({ onClose }: { onClose?: () => void }) {
         }}
       >
         <button
+          type="button"
           onClick={() => setIndex((i) => Math.max(0, i - 1))}
           disabled={index === 0}
         >
@@ -129,9 +132,12 @@ export function TutorialDialog({ onClose }: { onClose?: () => void }) {
           Steg {index + 1} / {steps.length}
         </span>
         {last ? (
-          <button onClick={onClose}>Ferdig</button>
+          <button type="button" onClick={onClose}>
+            Ferdig
+          </button>
         ) : (
           <button
+            type="button"
             onClick={() => setIndex((i) => Math.min(steps.length - 1, i + 1))}
             disabled={index >= steps.length - 1}
           >
