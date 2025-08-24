@@ -24,14 +24,14 @@ export function calculateFieldData(
     ),
   ].sort();
 
-  function createDataValues({
-    productionOil,
-    productionGas,
-    emission,
-  }: Pick<
-    FieldDataValues,
-    "productionGas" | "productionOil" | "emission"
-  >): FieldDataValues {
+  function createDataValues(
+    year: Year,
+    {
+      productionOil,
+      productionGas,
+      emission,
+    }: Pick<FieldDataValues, "productionGas" | "productionOil" | "emission">,
+  ): FieldDataValues {
     const totalProduction = {
       value: (productionGas?.value || 0) + (productionOil?.value || 0),
     };
@@ -45,6 +45,25 @@ export function calculateFieldData(
             ) / 100,
         }
       : undefined;
+    // Ugly: This code should be made more elegant, but this will have to do for now
+    if (year.localeCompare("2024") >= 0) {
+      return {
+        totalProduction: { value: totalProduction.value, estimate: true },
+        productionGas: productionGas
+          ? { value: productionGas.value, estimate: true }
+          : undefined,
+        productionOil: productionOil
+          ? { value: productionOil.value, estimate: true }
+          : undefined,
+        emission: emission
+          ? { value: emission.value, estimate: true }
+          : undefined,
+        emissionIntensity: emissionIntensity
+          ? { value: emissionIntensity.value, estimate: true }
+          : undefined,
+      };
+    }
+
     return {
       totalProduction,
       productionGas,
@@ -61,7 +80,7 @@ export function calculateFieldData(
       ? { value: data[year].emission }
       : undefined;
 
-    dataset[year] = createDataValues({
+    dataset[year] = createDataValues(year, {
       productionGas,
       productionOil,
       emission,
@@ -104,13 +123,16 @@ export function calculateFieldData(
     currentGas = Math.round(currentGas * annualGasDevelopment * 100) / 100;
     if (currentGas + currentOil < 0.2) break;
     currentEmission = Math.round(currentEmission * annualEmissionDevelopment);
-    dataset[year.toString() as Year] = createDataValues({
-      productionGas:
-        currentGas !== 0 ? { value: currentGas, estimate: true } : undefined,
-      productionOil:
-        currentOil !== 0 ? { value: currentOil, estimate: true } : undefined,
-      emission: { value: currentEmission, estimate: true },
-    });
+    dataset[year.toString() as Year] = createDataValues(
+      year.toString() as Year,
+      {
+        productionGas:
+          currentGas !== 0 ? { value: currentGas, estimate: true } : undefined,
+        productionOil:
+          currentOil !== 0 ? { value: currentOil, estimate: true } : undefined,
+        emission: { value: currentEmission, estimate: true },
+      },
+    );
   }
 
   return dataset;
