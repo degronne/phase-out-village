@@ -81,7 +81,7 @@ export function calculateFieldData(
 
   if (averageYears.length === 0) return dataset;
 
-  const lastYear = averageYears[averageYears.length - 1];
+  const lastYear = averageYears[0];
 
   let currentOil = data[lastYear].productionOil!;
   let currentGas = data[lastYear].productionGas || 0;
