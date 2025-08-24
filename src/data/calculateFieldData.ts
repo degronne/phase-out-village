@@ -108,14 +108,17 @@ export function calculateFieldData(
 
   if (lastYear === "2024") {
     currentOil =
-      years.map((y) => data[y].productionOil || 0).reduce((a, b) => a + b, 0) /
-      years.length;
+      averageYears
+        .map((y) => data[y].productionOil || 0)
+        .reduce((a, b) => a + b, 0) / averageYears.length;
     currentGas =
-      years.map((y) => data[y].productionGas || 0).reduce((a, b) => a + b, 0) /
-      years.length;
+      averageYears
+        .map((y) => data[y].productionGas || 0)
+        .reduce((a, b) => a + b, 0) / averageYears.length;
     currentEmission =
-      years.map((y) => data[y].emission || 0).reduce((a, b) => a + b, 0) /
-      years.length;
+      averageYears
+        .map((y) => data[y].emission || 0)
+        .reduce((a, b) => a + b, 0) / averageYears.length;
   }
 
   for (let year = parseInt(lastYear) + 1; year <= 2040; year++) {
