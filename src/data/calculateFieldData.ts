@@ -46,7 +46,7 @@ export function calculateFieldData(
         }
       : undefined;
     // Ugly: This code should be made more elegant, but this will have to do for now
-    if (year.localeCompare("2024") >= 0) {
+    if (year.localeCompare("2024") > 0) {
       return {
         totalProduction: { value: totalProduction.value, estimate: true },
         productionGas: productionGas
