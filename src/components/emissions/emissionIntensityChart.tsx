@@ -111,18 +111,26 @@ export function EmissionIntensityChart({
         },
         scales: {
           x: {
-            title: { display: true, text: "Millioner fat produsert", color: textColor },
+            title: {
+              display: true,
+              text: "Millioner fat produsert",
+              color: textColor,
+            },
             beginAtZero: true,
             min: 0,
             max: 100,
-            ticks:{ color: textColor }
+            ticks: { color: textColor },
           },
           y: {
-            title: { display: true, text: "Utslippsintensitet (kg CO2e/BOE)", color: textColor },
+            title: {
+              display: true,
+              text: "Utslippsintensitet (kg CO2e/BOE)",
+              color: textColor,
+            },
             beginAtZero: true,
             min: 0,
             max: 100,
-            ticks:{ color: textColor }
+            ticks: { color: textColor },
           },
         },
       }}

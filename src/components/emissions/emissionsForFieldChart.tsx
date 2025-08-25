@@ -54,8 +54,8 @@ export function EmissionsForFieldChart({ field }: { field: string }) {
           x: {
             ticks: {
               color: textColor,
-            }
-          }
+            },
+          },
         },
       }}
       data={{
