@@ -1,0 +1,184 @@
+:root {
+  --ob-text: #111827;
+  --ob-muted: #374151;
+  --ob-primary: #166534; /* grønn */
+  --ob-primary-hover: #14532d;
+  --ob-surface: #f3f4f6;
+  --ob-dot: #d1d5db;
+}
+
+.ob-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  color: var(--ob-text);
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .ob-wrap {
+    width: 480px;
+    height: 90vh;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.ob-skip {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--ob-surface);
+  border: 0;
+  color: #111;
+  cursor: pointer;
+}
+.ob-skip:hover {
+  background: #e5e7eb;
+}
+
+.ob-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  z-index: 50;
+}
+
+.ob-scroller {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+.ob-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.ob-slide {
+  scroll-snap-align: center;
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  padding: 24px 16px calc(80px + env(safe-area-inset-bottom, 0px)) 16px;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.ob-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 20%;
+}
+
+.ob-icon {
+  width: 160px;
+  height: 160px;
+  margin-bottom: 16px;
+  object-fit: contain;
+  color: var(--ob-primary);
+}
+
+.ob-title {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  margin: 8px 0 10px;
+}
+
+.ob-text {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ob-muted);
+  max-width: 40ch;
+  padding: 016px;
+}
+.ob-text a {
+  color: var(--ob-primary);
+  text-decoration: underline;
+}
+
+.ob-controls {
+  width: 100%;
+  max-width: 80%;
+  z-index: 1;
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: max(16px, calc(env(safe-area-inset-bottom, 0px) + 116px));
+  margin-bottom: 30%;
+}
+
+.ob-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.ob-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--ob-dot);
+  border: 0;
+  cursor: pointer;
+}
+.ob-dot.is-active {
+  width: 24px;
+  background: var(--ob-primary);
+  transition: all 160ms;
+}
+
+.ob-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ob-btn {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 0;
+  cursor: pointer;
+}
+.ob-btn-primary {
+  background: var(--ob-primary);
+  color: #fff;
+}
+.ob-btn-primary:hover {
+  background: var(--ob-primary-hover);
+}
+
+.ob-btn-secondary {
+  background: var(--ob-surface);
+  color: #374151;
+}
+.ob-btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.ob-btn-secondary:not(:disabled):hover {
+  background: #e5e7eb;
+}
