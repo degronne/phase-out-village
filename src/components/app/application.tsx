@@ -22,9 +22,7 @@ function ApplicationRoutes() {
     <Routes>
       <Route
         path={"/onboardingDialog"}
-        element={
-          <OnboardingDialog open={true} onClose={() => {}} storageKey="" />
-        }
+        element={<OnboardingDialog open={true} onClose={() => {}} />}
       />
       <Route path={"/"} element={<FrontPage />} />
 

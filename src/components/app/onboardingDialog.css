@@ -123,8 +123,7 @@
   position: absolute;
   left: 24px;
   right: 24px;
-  bottom: max(16px, calc(env(safe-area-inset-bottom, 0px) + 116px));
-  margin-bottom: 30%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 36px);
 }
 
 .ob-dots {

@@ -42,6 +42,7 @@
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.7.0",
+    "swiper": "^11.2.10",
     "xlsx": "^0.18.5"
   },
   "browserslist": [

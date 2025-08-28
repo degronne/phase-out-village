@@ -1,26 +1,42 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import onboardingDialog from "../app/onboardingDialog";
+// /src/components/app/frontPage.tsx
+
+// import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import OnboardingDialog from "../app/onboardingDialog";
 import "./onboardingDialog.css";
 
 const STORAGE_KEY = "onboarding_seen_v1";
 
 export function FrontPage() {
   // const navigate = useNavigate();
-  const [show, setShow] = useState(false);
+  // const [show, setShow] = useState(false);
+  const [onboardingOpen, setOnboardingOpen] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem(STORAGE_KEY) !== "1";
+    } catch {
+      return true;
+    }
+  });
 
-  useEffect(() => {
-    const seen = localStorage.getItem(STORAGE_KEY) === "1";
-    setShow(!seen);
-  }, []);
+  const handleOnboardingClose = () => {
+    try {
+      localStorage.setItem(STORAGE_KEY, "1");
+    } catch {}
+    setOnboardingOpen(false);
+  };
+
+  // useEffect(() => {
+  //   const seen = localStorage.getItem(STORAGE_KEY) === "1";
+  // setShow(!seen);
+  // }, []);
 
   return (
     <>
-      {onboardingDialog({
-        open: show,
-        onClose: () => setShow(false),
-        storageKey: STORAGE_KEY,
-      })}
+      <OnboardingDialog
+        open={onboardingOpen}
+        onClose={handleOnboardingClose}
+        storageKey={STORAGE_KEY}
+      />
     </>
   );
 }
