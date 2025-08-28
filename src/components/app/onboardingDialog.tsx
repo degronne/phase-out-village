@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { TutorialDialog } from "./tutorialDialog";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -66,6 +67,7 @@ const OnboardingDialog = ({
 }) => {
   const [swiper, setSwiper] = useState<any>(null);
   const [index, setIndex] = useState(0);
+  const [showTutorialDialog, setShowTutorialDialog] = useState(false);
 
   if (!open) return null;
 
@@ -109,6 +111,23 @@ const OnboardingDialog = ({
                       alt={slide.alt ?? slide.title}
                       className="ob-icon"
                     />
+                  )}
+                  {i === 3 && (
+                    <>
+                      <button
+                        className="ob-btn ob-btn-tutorial"
+                        onClick={() => setShowTutorialDialog(true)}
+                        style={{ marginTop: "16px" }}
+                      >
+                        Hvordan spiller jeg?
+                      </button>
+                      {showTutorialDialog && (
+                        <TutorialDialog
+                          open={showTutorialDialog}
+                          onClose={() => setShowTutorialDialog(false)}
+                        />
+                      )}
+                    </>
                   )}
                 </div>
               </section>

@@ -25,6 +25,7 @@
     --ob-primary-hover: var(--gran);
     --ob-surface: var(--skog);
     --ob-dot: #374151;
+    /* --ob-btn-tutorial: #fff; */
   }
 }
 
@@ -213,6 +214,27 @@
   background: #e5e7eb;
 }
 
+.ob-btn-tutorial {
+  background: #fff;
+  color: var(--gran);
+  border: 2px solid var(--gran);
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.06);
+  padding: 0.6em 1.4em;
+  font-size: 1rem;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    box-shadow 0.2s;
+}
+.ob-btn-tutorial:hover {
+  background: var(--lime);
+  color: var(--skog);
+  box-shadow: 0 4px 16px rgba(44, 62, 80, 0.12);
+}
+
 @media (prefers-color-scheme: dark) {
   .ob-wrap {
     background: #0b1220; /* deeper dark surface */
@@ -233,5 +255,16 @@
   }
   .ob-btn-secondary:not(:disabled):hover {
     background: #1f2937;
+  }
+  .ob-btn-tutorial {
+    background: #222; /* subtle dark, not pure black */
+    color: var(--lime);
+    border: 2px solid var(--lime);
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.18);
+  }
+  .ob-btn-tutorial:hover {
+    background: var(--gran);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(44, 62, 80, 0.28);
   }
 }
