@@ -57,10 +57,12 @@ const OnboardingDialog = ({
   open,
   onClose,
   storageKey = "onboarding_seen_v1",
+  themeClassName = "ob-theme-brand",
 }: {
   open: boolean;
   onClose: () => void;
   storageKey?: string;
+  themeClassName?: string; // e.g. "ob-theme-brand" or "ob-theme-neutral"
 }) => {
   const [swiper, setSwiper] = useState<any>(null);
   const [index, setIndex] = useState(0);
@@ -69,7 +71,7 @@ const OnboardingDialog = ({
 
   return (
     <div className="ob-overlay" role="dialog" aria-modal="true">
-      <div className="ob-wrap">
+      <div className={"ob-wrap" + (themeClassName ? ` ${themeClassName}` : "")}>
         <button
           className="ob-skip"
           onClick={() => {

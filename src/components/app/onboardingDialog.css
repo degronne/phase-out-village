@@ -7,6 +7,38 @@
   --ob-dot: #d1d5db;
 }
 
+/* Brand-aligned theme: maps to app variables */
+.ob-wrap.ob-theme-brand {
+  --ob-text: var(--skog);
+  --ob-muted: var(--skog);
+  --ob-primary: var(--gran);
+  --ob-primary-hover: var(--gran);
+  --ob-surface: var(--lime);
+  --ob-dot: #d1d5db;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ob-wrap.ob-theme-brand {
+    --ob-text: var(--lime);
+    --ob-muted: var(--lime);
+    --ob-primary: var(--gran);
+    --ob-primary-hover: var(--gran);
+    --ob-surface: var(--skog);
+    --ob-dot: #374151;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ob-text: #e5e7eb; /* gray-200 */
+    --ob-muted: #9ca3af; /* gray-400 */
+    --ob-primary: #22c55e; /* green-500 */
+    --ob-primary-hover: #16a34a; /* green-600 */
+    --ob-surface: #111827; /* gray-900 */
+    --ob-dot: #374151; /* gray-700 */
+  }
+}
+
 .ob-wrap {
   position: relative;
   width: 100%;
@@ -179,4 +211,27 @@
 }
 .ob-btn-secondary:not(:disabled):hover {
   background: #e5e7eb;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ob-wrap {
+    background: #0b1220; /* deeper dark surface */
+    color: var(--ob-text);
+  }
+  .ob-overlay {
+    background: rgba(0, 0, 0, 0.7);
+  }
+  .ob-skip {
+    color: var(--ob-text);
+  }
+  .ob-skip:hover {
+    background: #1f2937;
+  }
+  .ob-btn-secondary {
+    background: #111827;
+    color: var(--ob-text);
+  }
+  .ob-btn-secondary:not(:disabled):hover {
+    background: #1f2937;
+  }
 }
