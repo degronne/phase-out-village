@@ -1,6 +1,6 @@
 import { Bar } from "react-chartjs-2";
 import React from "react";
-import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
+import { useLightDark } from "../../hooks/useLightDark";
 import {
   gameData,
   numberSeries,
@@ -37,7 +37,7 @@ export function ProductionReductionChart({
 }: {
   phaseOut: PhaseOutSchedule;
 }) {
-  const textColor = usePrefersDarkMode() ? "#fff" : "#000";
+  const textColor = useLightDark("#fff", "#000");
 
   const userPlan = totalProduction(phaseOut);
   const baseline = totalProduction();
@@ -120,32 +120,28 @@ export function ProductionReductionChart({
             label: "Gjenværende oljeproduksjon",
             data: remainingOil,
             borderColor: "#4a90e2",
-            backgroundColor: usePrefersDarkMode() ? "#2A5D8F" : "#4DA3FF",
+            backgroundColor: useLightDark("#2A5D8F", "#4DA3FF"),
             stack: "PLAN",
           },
           {
             label: "Gjenværende gasseksport",
             data: remainingGas,
             borderColor: "#E24A4A",
-            backgroundColor: usePrefersDarkMode() ? "#D64545" : "#FF3333",
+            backgroundColor: useLightDark("#D64545", "#FF3333"),
             stack: "PLAN",
           },
           {
             label: "Redusjon olje",
             data: reductionOil,
             borderColor: "orange",
-            backgroundColor: usePrefersDarkMode()
-              ? createStipedPattern("#2A5D8F", "transparent")
-              : createStipedPattern("#4DA3FF", "transparent"),
+            backgroundColor: createStipedPattern(useLightDark("#2A5D8F", "#4DA3FF"), "transparent"),
             stack: "PLAN",
           },
           {
             label: "Redusjon gass",
             data: reductionGas,
             borderColor: "orange",
-            backgroundColor: usePrefersDarkMode()
-              ? createStipedPattern("#D64545", "transparent")
-              : createStipedPattern("#FF3333", "transparent"),
+            backgroundColor: createStipedPattern(useLightDark("#D64545", "#FF3333"), "transparent"),
             stack: "PLAN",
           },
         ],
