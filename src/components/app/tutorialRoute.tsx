@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Dialog } from "../ui/dialog";
 import { TutorialDialog } from "./tutorialDialog";
+import { ErrorBoundary } from "../ui/ErrorBoundary";
 
 export function TutorialRoute() {
   const navigate = useNavigate();
@@ -20,7 +21,9 @@ export function TutorialRoute() {
       onClose={() => navigate(from)}
       className="tutorial-modal"
     >
-      <TutorialDialog onClose={() => navigate(from)} />
+      <ErrorBoundary>
+        <TutorialDialog onClose={() => navigate(from)} />
+      </ErrorBoundary>
     </Dialog>
   );
 }
