@@ -15,15 +15,12 @@ import { Year } from "../../data/types";
 import { DataViewRoute } from "../dataView/dataViewRoute";
 import { PhaseOutSchedule } from "../../data/gameData";
 import { TutorialRoute } from "./tutorialRoute";
-import OnboardingDialog from "../app/onboardingDialog";
+import { OnboardingRoute } from "./onboardingRoute";
 
 function ApplicationRoutes() {
   return (
     <Routes>
-      <Route
-        path={"/onboardingDialog"}
-        element={<OnboardingDialog open={true} onClose={() => {}} />}
-      />
+      <Route path={"/onboarding"} element={<OnboardingRoute />} />
       <Route path={"/"} element={<FrontPage />} />
 
       <Route path={"/phaseout"} element={<PhaseOutRoute />} />

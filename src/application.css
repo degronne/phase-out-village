@@ -57,13 +57,12 @@ dialog {
   color-scheme: light dark;
   background-color: var(--lime);
   color: var(--skog);
-  margin: 2px;
 }
 
 @media (max-width: 600px) {
   :root,
   dialog {
-    width: 100vw;
+    width: 80vw;
   }
 }
 
