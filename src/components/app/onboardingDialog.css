@@ -149,13 +149,14 @@
 }
 
 .ob-controls {
-  width: 100%;
-  max-width: 80%;
-  z-index: 1;
+  width: min(480px, 90vw);
+  max-width: 100%;
+  z-index: 1000;
   position: absolute;
-  left: 24px;
-  right: 24px;
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 36px);
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+  pointer-events: auto;
 }
 
 .ob-dots {
@@ -182,8 +183,9 @@
 .ob-nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: space-around;
+  gap: 20%;
+  margin-top: 10%;
 }
 
 .ob-btn {
