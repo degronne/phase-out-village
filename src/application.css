@@ -9,6 +9,14 @@ a {
 
 dialog {
   margin: auto;
+  /* max-width: 60vw; */
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 dialog::backdrop {
@@ -17,6 +25,7 @@ dialog::backdrop {
 
 .tutorial-modal {
   width: min(640px, 92vw);
+  width: 100%;
   max-height: 85vh;
   padding: 1rem 1.25rem;
   border-radius: 0.25rem;
@@ -40,7 +49,6 @@ dialog::backdrop {
 &:disabled {
   color: revert;
 }
-
 :root,
 dialog {
   --skog: #133600;
@@ -50,6 +58,13 @@ dialog {
   background-color: var(--lime);
   color: var(--skog);
   margin: 2px;
+}
+
+@media (max-width: 600px) {
+  :root,
+  dialog {
+    width: 100vw;
+  }
 }
 
 button {
