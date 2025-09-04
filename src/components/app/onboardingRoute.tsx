@@ -1,9 +1,9 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { TutorialDialog } from "./tutorialDialog";
+import OnboardingDialog from "./onboardingDialog";
 import { ErrorBoundary } from "../ui/ErrorBoundary";
 
-export function TutorialRoute() {
+export function OnboardingRoute() {
   const navigate = useNavigate();
   const location = useLocation();
   const rawFrom = (location.state as any)?.from;
@@ -16,7 +16,7 @@ export function TutorialRoute() {
 
   return (
     <ErrorBoundary>
-      <TutorialDialog open={true} onClose={() => navigate(from)} />
+      <OnboardingDialog open={true} onClose={() => navigate(from)} />
     </ErrorBoundary>
   );
 }

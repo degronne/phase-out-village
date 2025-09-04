@@ -42,9 +42,9 @@ function ActionCard() {
       </div>
       <div>
         <button
-          onClick={() => navigate("/tutorial", { state: { from: location } })}
+          onClick={() => navigate("/onboarding", { state: { from: location } })}
         >
-          Hvordan spiller jeg?
+          Åpne introduksjon
         </button>
       </div>
       <div>
