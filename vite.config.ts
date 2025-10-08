@@ -1,11 +1,10 @@
 import { defineConfig } from "vite";
-import { BASE_URL } from "./config";
-
-// @ts-ignore
 import legacy from "@vitejs/plugin-legacy";
 
+const base = process.env.REPO_BASE || "/";
+
 export default defineConfig({
-  base: BASE_URL,
+  base,
   plugins: [
     legacy({
       targets: ["defaults", "ios >= 12"],

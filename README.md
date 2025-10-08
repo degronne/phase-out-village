@@ -47,3 +47,12 @@ This game is a pure frontend application developed with React. OpenLayers are us
 charts. The game is optimized for mobile display format.
 
 The development language is English. The UI language is Norwegian.
+
+## How to contribute
+
+1. Fork the repository
+2. In your GitHub repo go to Settings > Secrets and variables > Actions > Variables and add a "New repository variable"
+3. Set the variable name to `REPO_BASE` and the value to `/phase-out-village/` (unless you named your fork something else)
+4. Under Settings > Actions > General, select Allow all actions and reusable workflows
+5. Under Settings > Pages, Change "Source" under Build and deployment to GitHub Actions
+6. When you make a change to any file in the repository, the Action will build and deploy to your branch name

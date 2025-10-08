@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Dialog } from "../ui/dialog";
 import { useNavigate } from "react-router-dom";
 
+import arild from "./arild-hermstad.png";
+
 const OLJEPLAN_LINK = "https://mdg.no/oljeplan";
 
 export function FrontPage() {
@@ -23,10 +25,7 @@ export function FrontPage() {
           </p>
 
           <p>
-            <img
-              src={"/arild-hermstad.png"}
-              alt={"MDG partileder Arild Hermstad"}
-            />
+            <img src={arild} alt={"MDG partileder Arild Hermstad"} />
             Klimautvalget 2050 har derfor anbefalt Norge å lage en «strategi for
             sluttfasen av norsk petroleumsvirksomhet», og{" "}
             <a href={OLJEPLAN_LINK}>MDG har laget en slik plan</a> som faser ut

@@ -9,13 +9,12 @@ import { aggregateOilFields } from "../../generated/aggregateOilFields";
 import { useNavigate } from "react-router-dom";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
-import { BASE_URL } from "../../../config";
 import { GeoJSON } from "ol/format";
 import { ApplicationContext } from "../../applicationContext";
 import { gameData } from "../../data/gameData";
 
 const oilfieldSource = new VectorSource({
-  url: `${BASE_URL}/geojson/oilfields.geojson`,
+  url: `${import.meta.env.BASE_URL}geojson/oilfields.geojson`,
   format: new GeoJSON(),
 });
 
