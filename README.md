@@ -53,6 +53,8 @@ The development language is English. The UI language is Norwegian.
 1. Fork the repository
 2. In your GitHub repo go to Settings > Secrets and variables > Actions > Variables and add a "New repository variable"
 3. Set the variable name to `REPO_BASE` and the value to `/phase-out-village/` (unless you named your fork something else)
-4. Under Settings > Actions > General, select Allow all actions and reusable workflows
-5. Under Settings > Pages, Change "Source" under Build and deployment to GitHub Actions
-6. When you make a change to any file in the repository, the Action will build and deploy to your branch name
+4. Under Settings > Pages, Change "Source" under Build and deployment to GitHub Actions
+5. Under Actions, press "I understand my worflows, go ahead and enable them"
+6. Under Actions, select the Deploy workflow on the left and click Run workflow to deploy the site
+7. On the front page, click ⚙️ in the About section to the right and check "Use your GitHub Pages website" as website
+8. You can now click the link to view your deployed site
