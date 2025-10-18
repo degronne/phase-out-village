@@ -14,6 +14,7 @@ export function calculateFieldData(
     Partial<Record<Exclude<DataField, "totalProduction">, number>>
   >,
 ): DatasetForSingleField {
+  
   const dataset: DatasetForSingleField = {};
 
   const years = [
