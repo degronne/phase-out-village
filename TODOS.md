@@ -1,1 +1,0 @@
-- [] Make the text on the names in the maps easier to read (at the moment it's almost impossible)
