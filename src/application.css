@@ -12,7 +12,7 @@ dialog {
 }
 
 dialog::backdrop {
-  background-color: rgb(0 0 0 / 0.35);
+  background-color: rgb(0 0 0 / 0.50);
 }
 
 .tutorial-modal {
