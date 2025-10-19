@@ -8,6 +8,10 @@ import {
   totalProduction,
 } from "../../data/gameData";
 
+/**
+ * Displays a summary card showing total production and reduction percentage.
+ * Converts production to barrels and compares baseline vs. current phase-out plan.
+ */
 export function ProductionSummaryCard() {
   const { phaseOut } = useContext(ApplicationContext);
 

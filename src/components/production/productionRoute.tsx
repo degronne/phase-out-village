@@ -4,6 +4,12 @@ import { ProductionPerFieldPage } from "./productionPerFieldPage";
 import { YearlyTotalProductionChart } from "./yearlyTotalProductionChart";
 import { ProductionSummaryPage } from "./productionSummaryPage";
 
+/**
+ * Defines the routing for the production section of the app.
+ * - "/" -> Production summary page
+ * - "/composition" -> Yearly total production chart with navigation links
+ * - "/oilPerField" -> Production per field page
+ */
 export function ProductionRoute() {
   return (
     <div>
