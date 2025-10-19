@@ -56,6 +56,11 @@ export function Application() {
     "phaseOutSchedule",
     {},
   );
+  // Persist the current phase-out draft selection
+  const [phaseOutDraft, setPhaseOutDraft] = useSessionState<PhaseOutSchedule>(
+    "phaseOutDraftSchedule",
+    {},
+  );
   const navigate = useNavigate();
 
   /**
@@ -90,7 +95,7 @@ export function Application() {
   return (
     // Context provider: makes the app state and control functions available to children
     <ApplicationContext
-      value={{ year, proceed, restart, phaseOut, setPhaseOut }}
+      value={{ year, proceed, restart, phaseOut, setPhaseOut, phaseOutDraft, setPhaseOutDraft }}
     >
       <ApplicationHeader />
       <main>

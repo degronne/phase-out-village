@@ -17,12 +17,21 @@ export function useSessionState<T>(
   key: string,
   defaultValue: T,
 ): [T, Dispatch<SetStateAction<T>>] {
-  // Load initial state from sessionStorage (if present).
+
+  // Load the initial value once:
+  // - If a value exists in sessionStorage, parse and use it.
+  // - Otherwise, fall back to the provided defaultValue.
   const [value, setValue] = useState<T>(() => {
     const storedValue = sessionStorage.getItem(key);
     return (storedValue ? JSON.parse(storedValue!) : defaultValue) as T;
   });
-  // Persist state changes to sessionStorage.
+
+  // Whenever 'value' changes, store the new version in sessionStorage.
+  // This means:
+  // - Normal updates are persisted.
+  // - If you call setValue({}) or setValue(null), that new value overwrites
+  //   the previous one in sessionStorage (effectively "clearing" it).
   useEffect(() => sessionStorage.setItem(key, JSON.stringify(value)), [value]);
+  
   return [value, setValue];
 }
