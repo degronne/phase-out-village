@@ -119,7 +119,7 @@ export function TutorialDialog({ onClose }: { onClose?: () => void }) {
         }}
       >
         <h2>{steps[index].title}</h2>
-        <button onClick={onClose}>✖</button>
+        <button onClick={onClose} style={{ borderRadius: '1rem'}}>✖</button>
       </div>
       <div style={{ marginTop: "0.5rem", marginBottom: "1rem" }}>
         {steps[index].body}
