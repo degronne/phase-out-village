@@ -12,14 +12,14 @@ dialog {
 }
 
 dialog::backdrop {
-  background-color: rgb(0 0 0 / 0.35);
+  background-color: rgb(0 0 0 / 0.50);
 }
 
 .tutorial-modal {
   width: min(640px, 92vw);
   max-height: 85vh;
-  padding: 1rem 1.25rem;
-  border-radius: 0.25rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 1rem;
   border: 1px solid currentColor;
 }
 
