@@ -49,9 +49,14 @@ button {
   color: var(--skog);
   background-color: var(--lime);
   border-color: var(--skog);
+  cursor: pointer;
   &:disabled {
-    color: revert;
+    color: grey;
+    cursor: not-allowed;
   }
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  
 }
 
 @media (prefers-color-scheme: dark) {
