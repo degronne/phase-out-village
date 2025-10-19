@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 
+/**
+ * Steps for the tutorial dialog. Each step has:
+ * - title: heading of the tutorial step
+ * - body: JSX content for the step
+ */
 const steps = [
   {
     title: "Målet",
@@ -91,6 +96,15 @@ const steps = [
   },
 ];
 
+/**
+ * TutorialDialog component renders a modal dialog showing tutorial steps.
+ *
+ * Props:
+ * - onClose: optional callback when the tutorial is finished or closed.
+ *
+ * Handles navigation through steps with "Tilbake" and "Neste" buttons.
+ * Disables navigation buttons at start/end.
+ */
 export function TutorialDialog({ onClose }: { onClose?: () => void }) {
   const [index, setIndex] = useState(0);
   const last = index === steps.length - 1;

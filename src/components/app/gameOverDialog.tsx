@@ -6,6 +6,21 @@ import { mdgPlan } from "../../generated/dataMdg";
 import { EmissionStackedBarChart } from "../emissions/emissionStackedBarChart";
 import { useLocation, useNavigate } from "react-router-dom";
 
+/**
+ * GameOverDialog renders a modal shown at the end of the game.
+ * 
+ * Displays:
+ * - The player's plan (fields phased out) with production and emission charts.
+ * - MDG's plan for comparison (using predefined `mdgPlan` data).
+ * 
+ * Provides buttons to:
+ * - Review your plan on the map.
+ * - Restart the game.
+ *
+ * Uses:
+ * - ApplicationContext to get `phaseOut` schedule and `restart` function.
+ * - React Router `useNavigate` and `useLocation` for navigation.
+ */
 export function GameOverDialog() {
   const { phaseOut, restart } = useContext(ApplicationContext);
   const navigate = useNavigate();

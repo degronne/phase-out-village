@@ -4,12 +4,20 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { EmissionSummaryCard } from "../emissions/emissionSummaryCard";
 import { ProductionSummaryCard } from "../production/productionSummaryCard";
 
+/**
+ * ActionCard component renders a card with actions depending on the current game year.
+ * Shows different buttons depending on whether the game has ended (year 2040) or not.
+ *
+ * Uses ApplicationContext to access current year and restart function.
+ * Uses React Router's `useNavigate` and `useLocation` to navigate between routes.
+ */
 function ActionCard() {
   const { year, restart } = useContext(ApplicationContext);
   const navigate = useNavigate();
   const location = useLocation();
   const gameEnded = year === "2040";
 
+  // // If the game has ended, show summary and restart buttons
   if (gameEnded)
     return (
       <div>
@@ -27,6 +35,7 @@ function ActionCard() {
       </div>
     );
 
+  // Otherwise, show current period, buttons to select phase-out fields, tutorial, and restart
   return (
     <div>
       Periode: {year}-{parseInt(year) + 3}
@@ -54,6 +63,15 @@ function ActionCard() {
   );
 }
 
+/**
+ * ApplicationHeader component renders the top section of the app.
+ * Includes:
+ * - ActionCard with available actions
+ * - Summary of fields phased out (from phaseOut schedule)
+ * - EmissionSummaryCard and ProductionSummaryCard
+ *
+ * Uses ApplicationContext to get `phaseOut` data.
+ */
 export function ApplicationHeader() {
   const { phaseOut } = useContext(ApplicationContext);
   return (
