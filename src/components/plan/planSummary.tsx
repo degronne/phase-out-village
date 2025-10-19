@@ -3,6 +3,10 @@ import { ApplicationContext } from "../../applicationContext";
 import { ProductionReductionChart } from "../production/productionReductionChart";
 import { EmissionStackedBarChart } from "../emissions/emissionStackedBarChart";
 
+/**
+ * Displays a summary of the user's plan, including charts for
+ * production reduction and emission over time based on the phase-out schedule.
+ */
 export function PlanSummary() {
   const { phaseOut } = useContext(ApplicationContext);
   return (

@@ -15,12 +15,22 @@ import {
 } from "../../data/gameData";
 import { InfoTag } from "../ui/InfoTag";
 
+/** Keys that can be used to sort oil fields in PhaseOutDialog. */
 type SortKey =
   | "alphabetical"
   | "totalProduction"
   | "emission"
   | "emissionIntensity";
 
+/**
+ * Sums values of a given data field for a set of oil fields in a given year.
+ *
+ * @param data - The dataset containing all fields and years
+ * @param fields - List of oil fields to sum
+ * @param year - Year for which to sum values
+ * @param dataField - The type of data to sum (productionOil, productionGas, or emission)
+ * @returns Total value rounded to 2 decimals
+ */
 function sumFieldValues(
   data: DatasetForAllFields,
   fields: OilfieldName[],
@@ -30,9 +40,21 @@ function sumFieldValues(
   const value = fields
     .map((field) => data[field]?.[year]?.[dataField]?.value ?? 0)
     .reduce((sum, value) => sum + value, 0);
-  return Math.round(value * 100) / 100;
+  return Math.round(value * 100) / 100; // Round to two decimals
 }
 
+/**
+ * Dialog for selecting which oil fields to phase out in the current 4-year period.
+ *
+ * Features:
+ * - Sort oil fields by alphabetical order, total production, emissions, or emission intensity
+ * - Select/deselect fields to add them to the draft phase-out plan
+ * - View charts for the most recently selected field
+ * - Display totals for oil/gas production reduction and emission reduction
+ *
+ * @param close - Function to close the dialog
+ * @param from - Path to navigate back to after closing
+ */
 export function PhaseOutDialog({
   close,
   from,
@@ -43,14 +65,18 @@ export function PhaseOutDialog({
   const { year, proceed, phaseOut, setPhaseOut } =
     useContext(ApplicationContext);
 
+  // Draft selection state for the current period
   const [draft, setDraft] = useState<PhaseOutSchedule>({});
   const [, setSelectedOrder] = useState<OilfieldName[]>([]);
   const navigate = useNavigate();
 
   const [sortKey, setSortKey] = useState<SortKey>("alphabetical");
 
+  // Latest selected field for displaying charts
   const [latestSelectedField, setLatestSelectedField] =
     useState<OilfieldName>();
+
+  // Memoized data for the chart of the latest selected field
   const fieldForChart = useMemo(
     () =>
       latestSelectedField
@@ -59,6 +85,7 @@ export function PhaseOutDialog({
     [latestSelectedField],
   );
 
+  // Handles submission: merges draft into main phaseOut state and proceeds to next period
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setPhaseOut((phaseOut) => ({ ...phaseOut, ...draft }));
@@ -68,6 +95,7 @@ export function PhaseOutDialog({
 
   const periodEnd = (parseInt(year) + 3).toString();
 
+  // Fills draft selection with fields according to MDG plan
   function handleMdgPlanClick(e: FormEvent) {
     e.preventDefault();
     const period = [
@@ -85,6 +113,7 @@ export function PhaseOutDialog({
     setDraft(fields);
   }
 
+  // Removes a field from the draft plan
   function removeField(field: OilfieldName) {
     setDraft((d) =>
       fromEntries(Object.entries(d).filter(([f]) => f !== field)),
@@ -97,12 +126,14 @@ export function PhaseOutDialog({
     });
   }
 
+  // Adds a field to the draft plan
   function addField(field: OilfieldName) {
     setDraft((d) => ({ ...d, [field]: year }));
     setSelectedOrder((prev) => [...prev.filter((f) => f !== field), field]);
     setLatestSelectedField(field);
   }
 
+  // Toggles a field on/off in the draft plan
   function toggle(field: OilfieldName, checked: boolean) {
     if (checked) {
       addField(field);
@@ -111,6 +142,7 @@ export function PhaseOutDialog({
     }
   }
 
+  // Sort oil fields based on sort key and whether already phased out
   const sortedFields = Object.keys(gameData.data).sort((a, b) => {
     const aIsDisabled = a in phaseOut;
     const bIsDisabled = b in phaseOut;
@@ -130,6 +162,7 @@ export function PhaseOutDialog({
     );
   });
 
+  // Calculate total production/emission reductions for draft fields
   const totalOilProduction = sumFieldValues(
     gameData.data,
     Object.keys(draft),
@@ -151,6 +184,8 @@ export function PhaseOutDialog({
 
   return (
     <form className="phaseout-dialog" onSubmit={handleSubmit}>
+
+      {/* Dialog header with close button and sort dropdown */}
       <div className="phaseout-dialog-header">
         <button
           type="button"
@@ -175,6 +210,8 @@ export function PhaseOutDialog({
           </label>
         </div>
       </div>
+
+      {/* Checkbox list for selecting fields */}
       <div className="phaseout-checkboxes">
         <h3 className="phaseout-header">
           Velg felter for avvikling {year}-{periodEnd}
@@ -203,6 +240,8 @@ export function PhaseOutDialog({
           })}
         </ul>
       </div>
+
+      {/* Chart and totals for latest selected field */}
       <div className="dialog-information-container">
         {latestSelectedField && fieldForChart && (
           <div className="phaseout-latest-oilfield">
