@@ -62,11 +62,13 @@ export function PhaseOutDialog({
   close: () => void;
   from: string;
 }) {
-  const { year, proceed, phaseOut, setPhaseOut } =
+  const { year, proceed, phaseOut, setPhaseOut, phaseOutDraft, setPhaseOutDraft } =
     useContext(ApplicationContext);
 
   // Draft selection state for the current period
-  const [draft, setDraft] = useState<PhaseOutSchedule>({});
+  // const [draft, setDraft] = useState<PhaseOutSchedule>({});
+  const draft = phaseOutDraft;
+  const setDraft = setPhaseOutDraft;
   const [, setSelectedOrder] = useState<OilfieldName[]>([]);
   const navigate = useNavigate();
 
@@ -89,6 +91,7 @@ export function PhaseOutDialog({
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setPhaseOut((phaseOut) => ({ ...phaseOut, ...draft }));
+    setPhaseOutDraft({}); // Clear the draft after submit
     proceed();
     close();
   }

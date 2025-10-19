@@ -21,6 +21,9 @@ export const ApplicationContext = React.createContext<{
   restart(): void;
   phaseOut: PhaseOutSchedule;
   setPhaseOut: Dispatch<SetStateAction<PhaseOutSchedule>>;
+  /** Draft phase-out selections for the current period (not yet committed) */
+  phaseOutDraft: PhaseOutSchedule;
+  setPhaseOutDraft: Dispatch<SetStateAction<PhaseOutSchedule>>;
 }>({
   // Default context values
   year: "2025",
@@ -28,4 +31,6 @@ export const ApplicationContext = React.createContext<{
   restart: () => {},
   phaseOut: {},
   setPhaseOut: () => {},
+  phaseOutDraft: {},
+  setPhaseOutDraft: () => {},
 });
