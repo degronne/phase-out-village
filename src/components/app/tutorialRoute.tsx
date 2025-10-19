@@ -31,7 +31,7 @@ export function TutorialRoute() {
     <Dialog
       open={true}
       onClose={() => navigate(from)}
-      className="tutorial-modal"
+      className={`tutorial-modal`}
     >
       <TutorialDialog onClose={() => navigate(from)} />
     </Dialog>
