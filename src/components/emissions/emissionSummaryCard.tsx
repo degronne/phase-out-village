@@ -3,6 +3,7 @@ import { ApplicationContext } from "../../applicationContext";
 import { Link } from "react-router-dom";
 import { gameData, sumOverYears, totalProduction } from "../../data/gameData";
 
+/** Summary card displaying total emissions and percentage reduction. */
 export function EmissionSummaryCard() {
   const { phaseOut } = useContext(ApplicationContext);
 

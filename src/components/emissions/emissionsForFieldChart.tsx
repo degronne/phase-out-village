@@ -10,6 +10,11 @@ import {
 } from "../../data/gameData";
 import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
 
+/**
+ * Line chart showing annual emissions for a specific oil field.
+ *
+ * @param props.field - Name of the oil field.
+ */
 export function EmissionsForFieldChart({ field }: { field: string }) {
   const { phaseOut } = useContext(ApplicationContext);
   const textColor = usePrefersDarkMode() ? "#fff" : "#000";

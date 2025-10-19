@@ -3,6 +3,11 @@ import { EmissionStackedBarChart } from "./emissionStackedBarChart";
 import { Link } from "react-router-dom";
 import { PhaseOutSchedule } from "../../data/gameData";
 
+/**
+ * Page showing the stacked bar chart for total annual emissions.
+ *
+ * @param props.phaseOut - Object describing phased-out fields.
+ */
 export function EmissionStackedBarRoute({
   phaseOut,
 }: {

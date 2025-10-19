@@ -3,6 +3,7 @@ import { ApplicationContext } from "../../applicationContext";
 import { Link } from "react-router-dom";
 import { EmissionIntensityChart } from "./emissionIntensityChart";
 
+/** Page showing the emission intensity chart and navigation links. */
 export function EmissionIntensityPage() {
   const { phaseOut, year } = useContext(ApplicationContext);
   return (

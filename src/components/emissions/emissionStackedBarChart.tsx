@@ -8,6 +8,11 @@ import {
 } from "../../data/gameData";
 import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
 
+/**
+ * Stacked bar chart showing total annual emissions and reductions.
+ *
+ * @param props.phaseOut - Object describing phased-out fields.
+ */
 export function EmissionStackedBarChart({
   phaseOut,
 }: {
