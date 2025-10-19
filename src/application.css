@@ -7,20 +7,29 @@ a {
   color: unset;
 }
 
+ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
 dialog {
   margin: auto;
 }
 
 dialog::backdrop {
-  background-color: rgb(0 0 0 / 0.35);
+  background-color: rgb(0 0 0 / 0.50);
 }
 
 .tutorial-modal {
   width: min(640px, 92vw);
   max-height: 85vh;
-  padding: 1rem 1.25rem;
-  border-radius: 0.25rem;
+  min-height: 196px;
+  padding: 1.25rem 1.5rem;
+  border-radius: 1rem;
   border: 1px solid currentColor;
+  display: flex;
+  flex-direction: column;
 }
 
 @media (max-width: 600px) {
@@ -49,9 +58,15 @@ button {
   color: var(--skog);
   background-color: var(--lime);
   border-color: var(--skog);
+  cursor: pointer;
   &:disabled {
-    color: revert;
+    color: grey;
+    cursor: not-allowed;
+    user-select: none;
   }
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  
 }
 
 @media (prefers-color-scheme: dark) {
