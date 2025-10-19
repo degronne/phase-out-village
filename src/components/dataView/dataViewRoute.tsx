@@ -7,6 +7,7 @@ import * as XLSX from "xlsx";
 import { dataFieldToExcel, oilFieldToExcel } from "./exportToExcel";
 import { gameData } from "../../data/gameData";
 
+/** Table showing oil production for all fields */
 function OilProductionTable() {
   return (
     <>
@@ -16,6 +17,7 @@ function OilProductionTable() {
   );
 }
 
+/** Table showing gas production for all fields */
 function GasProductionTable() {
   return (
     <>
@@ -25,6 +27,7 @@ function GasProductionTable() {
   );
 }
 
+/** Table showing emissions for all fields */
 function EmissionTable() {
   return (
     <>
@@ -34,6 +37,7 @@ function EmissionTable() {
   );
 }
 
+/** Wrapper for displaying a single field's table */
 function FieldTableWrapper() {
   const { oilFieldSlug } = useParams();
   const field = gameData.allFields.find((s) => slugify(s) === oilFieldSlug);
@@ -50,7 +54,9 @@ function FieldTableWrapper() {
   );
 }
 
+/** Overview page for all data tables and export options */
 function FieldOverview() {
+  /** Export all data fields to a single Excel file */
   function handleClickAllDataFieldsToExcel() {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(
@@ -71,6 +77,7 @@ function FieldOverview() {
     XLSX.writeFile(workbook, `phaseout-all-fields.xlsx`);
   }
 
+  /** Export each oil field to separate sheets in an Excel file */
   function handleClickAllOilFieldsToExcel() {
     const workbook = XLSX.utils.book_new();
     for (const oilField of Object.keys(gameData.data)) {
@@ -115,6 +122,7 @@ function FieldOverview() {
   );
 }
 
+/** Main route for all data-related views */
 export function DataViewRoute() {
   return (
     <div className={"data"}>
@@ -123,6 +131,7 @@ export function DataViewRoute() {
         <Route path={"/oil"} element={<OilProductionTable />} />
         <Route path={"/gas"} element={<GasProductionTable />} />
         <Route path={"/emission"} element={<EmissionTable />} />
+        {/* Route for a single oil field, using the slug from the URL */}
         <Route path={"/:oilFieldSlug"} element={<FieldTableWrapper />} />
       </Routes>
     </div>

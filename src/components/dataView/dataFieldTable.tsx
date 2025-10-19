@@ -5,11 +5,16 @@ import React from "react";
 import { dataFieldToExcel } from "./exportToExcel";
 import { gameData, yearsInRange } from "../../data/gameData";
 
+/**
+ * Table showing data for a specific data field (productionOil, productionGas, emission)
+ * and allows exporting that data to Excel.
+ */
 export function DataFieldTable({
   dataField,
 }: {
   dataField: "productionOil" | "productionGas" | "emission";
 }) {
+  /** Handles Excel export for the given dataField */
   function handleExportClick() {
     const worksheet = XLSX.utils.json_to_sheet(dataFieldToExcel(dataField));
     const workbook = XLSX.utils.book_new();
