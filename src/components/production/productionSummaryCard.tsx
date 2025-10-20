@@ -27,13 +27,15 @@ export function ProductionSummaryCard() {
 
   const reduction = Math.round(((baseline - result) / baseline) * 100);
   return (
-    <div>
+    <div style={{ padding: "0.5rem", paddingTop: "0.25rem" }}>
       <Link to="/production">
         Produksjon {gameData.gameYears[0]}-
         {gameData.gameYears[gameData.gameYears.length - 1]}:
-      </Link>{" "}
-      {Math.round(result * oilEquivalentToBarrel)}&nbsp;millioner&nbsp;fat{" "}
-      <span title={baseline.toFixed(2)}>(-{reduction}%)</span>
+      </Link>
+      <div>
+        {Math.round(result * oilEquivalentToBarrel)}&nbsp;millioner&nbsp;fat{" "}
+        <span title={baseline.toFixed(2)}>(-{reduction}%)</span>
+      </div>
     </div>
   );
 }

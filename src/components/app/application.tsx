@@ -89,6 +89,7 @@ export function Application() {
   function restart() {
     setYear("2025");
     setPhaseOut({});
+    setPhaseOutDraft({});
     navigate("/");
   }
 

@@ -13,13 +13,15 @@ export function EmissionSummaryCard() {
   const reduction = Math.round(((baseline - result) / baseline) * 100);
 
   return (
-    <div>
+    <div style={{ padding: "0.5rem", paddingTop: "0.25rem" }}>
       <Link to="/emissions">
         Utslipp {years[0]}-{years[years.length - 1]}:
-      </Link>{" "}
-      {Math.round(result / 1_000_000)}
-      &nbsp;millioner&nbsp;tonn&nbsp;CO₂{" "}
-      <span title={baseline.toString()}> (-{reduction}%)</span>
+      </Link>
+      <div>
+        {Math.round(result / 1_000_000)}
+        &nbsp;millioner&nbsp;tonn&nbsp;CO₂{" "}
+        <span title={baseline.toString()}> (-{reduction}%)</span>
+      </div>
     </div>
   );
 }
