@@ -114,7 +114,8 @@ export function ApplicationHeader() {
           <Link to={"/plan"}>Din plan:</Link>
         </strong>
         <div>
-          {Object.keys(phaseOut).length} <Link to="/map">oljefelter</Link>{" "}
+          {/* {Object.keys(phaseOut).length} <Link to="/map">oljefelter</Link>{" "} */}
+          {Object.keys(phaseOut).length} oljefelter{" "}
           avviklet
         </div>
       </div>

@@ -31,9 +31,11 @@ export function ProductionSummaryCard() {
       <Link to="/production">
         Produksjon {gameData.gameYears[0]}-
         {gameData.gameYears[gameData.gameYears.length - 1]}:
-      </Link>{" "}
-      {Math.round(result * oilEquivalentToBarrel)}&nbsp;millioner&nbsp;fat{" "}
-      <span title={baseline.toFixed(2)}>(-{reduction}%)</span>
+      </Link>
+      <div>
+        {Math.round(result * oilEquivalentToBarrel)}&nbsp;millioner&nbsp;fat{" "}
+        <span title={baseline.toFixed(2)}>(-{reduction}%)</span>
+      </div>
     </div>
   );
 }
