@@ -54,29 +54,15 @@ function ActionCard() {
           title={`Kart`}
           style={{ display: "flex", flex: 0, flexDirection: "column", gap: "0.25rem", aspectRatio: "1 / 1", padding: "0.75rem", width: "64px", height: "64px" }}
         >
-          <FaMap style={{ placeSelf: "center",  width: "100%", height: "100%", }} />
-          {/* <div>Instrukser</div> */}
+          <FaMap style={{ placeSelf: "center", width: "100%", height: "100%", }} />
         </button>
-
-        {gameEnded || (
-          <button
-            disabled={gameEnded}
-            onClick={() => navigate("/phaseout", { state: { from: location } })}
-            title={`Velg felter for avvikling`}
-            style={{ display: "flex", flex: 0, flexDirection: "column", gap: "0.25rem", aspectRatio: "1 / 1", padding: "0.75rem", width: "64px", height: "64px" }}
-          >
-            <FaRecycle style={{ placeSelf: "center", width: "100%", height: "100%", }} />
-            {/* <div>Avvikle felt</div> */}
-          </button>
-        )}
 
         <button
           onClick={() => navigate("/tutorial", { state: { from: location } })}
           title={`Hvordan spiller jeg?`}
           style={{ display: "flex", flex: 0, flexDirection: "column", gap: "0.25rem", aspectRatio: "1 / 1", padding: "0.75rem", width: "64px", height: "64px" }}
         >
-          <MdInfo style={{ placeSelf: "center",  width: "100%", height: "100%", }} />
-          {/* <div>Instrukser</div> */}
+          <MdInfo style={{ placeSelf: "center", width: "100%", height: "100%", }} />
         </button>
 
         <button
@@ -85,7 +71,6 @@ function ActionCard() {
           style={{ display: "flex", flex: 0, flexDirection: "column", gap: "0.25rem", aspectRatio: "1 / 1", padding: "0.75rem", width: "64px", height: "64px" }}
         >
           <FaRedo style={{ placeSelf: "center", width: "100%", height: "100%", }} />
-          {/* <div>Start på nytt</div> */}
         </button>
 
 
@@ -105,19 +90,74 @@ function ActionCard() {
  * Uses ApplicationContext to get `phaseOut` data.
  */
 export function ApplicationHeader() {
-  const { phaseOut } = useContext(ApplicationContext);
+  const { year, phaseOut, phaseOutDraft } = useContext(ApplicationContext);
+  const location = useLocation();
+  const gameEnded = year === "2040";
+  const navigate = useNavigate();
   return (
     <header>
       <ActionCard />
-      <div style={{ padding: "0.5rem", paddingTop: "0.25rem" }}>
-        <strong>
-          <Link to={"/plan"}>Din plan:</Link>
-        </strong>
-        <div>
-          {/* {Object.keys(phaseOut).length} <Link to="/map">oljefelter</Link>{" "} */}
-          {Object.keys(phaseOut).length} oljefelter{" "}
-          avviklet
+      <div style={{ display: "flex", flex: 1, flexDirection: "column", padding: "0.5rem", paddingTop: "0.25rem" }}>
+        <Link
+          to={"/plan"}
+          style={{ marginBottom: "0.25rem" }}
+        >
+          <strong>Din plan:</strong>
+        </Link>
+
+        <div
+          style={{ display: "flex", flex: 1, gap: "0.5rem", }}
+        >
+
+          <div
+            style={{ display: "flex", flex: 1, gap: "0.5rem", }}
+          >
+
+            {gameEnded || (
+              <button
+                disabled={gameEnded}
+                onClick={() => navigate("/phaseout", { state: { from: location } })}
+                title={`Velg felter for avvikling`}
+                style={{ display: "flex", flex: 0, flexDirection: "column", gap: "0.25rem", aspectRatio: "1 / 1", padding: "0.75rem", width: "64px", height: "64px" }}
+              >
+                <FaRecycle style={{ placeSelf: "center", width: "100%", height: "100%", }} />
+              </button>
+            )}
+
+            <div
+              style={{ display: "flex", flex: 1, flexDirection: "column", maxHeight: "64px", overflowY: "auto", borderRadius: "0.5rem", }}
+            >
+              <div 
+                style={{ padding: "0.25rem", }}
+              >
+                Valgte oljefelt ({Object.keys(phaseOutDraft).length}):
+              </div>
+              <div
+                style={{ padding: "0.25rem", color: "white", }}
+              >
+                {Object.keys(phaseOutDraft).join(", ")}
+              </div>
+            </div>
+
+          </div>
+
+          <div style={{ height: "100%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div>
+
+          <div
+            style={{ display: "flex", flex: 0, flexDirection: "column", placeSelf: "center", width: "auto", }}
+          >
+            <div
+              style={{ placeSelf: "center", fontWeight: "bold" }}
+            >
+              {Object.keys(phaseOut).length}
+            </div>
+            <div>
+              oljefelter avviklet
+            </div>
+          </div>
+
         </div>
+
       </div>
       <EmissionSummaryCard />
       <ProductionSummaryCard />
