@@ -59,10 +59,10 @@ button {
   background-color: var(--lime);
   border-color: var(--skog);
   cursor: pointer;
+  user-select: none;
   &:disabled {
     color: grey;
     cursor: not-allowed;
-    user-select: none;
   }
   border-radius: 0.5rem;
   padding: 0.3rem 0.6rem;
