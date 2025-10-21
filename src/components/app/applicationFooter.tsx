@@ -3,6 +3,7 @@ import { FaRecycle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ApplicationContext } from "../../applicationContext";
 import { MdEdit } from "react-icons/md";
+import { gameData } from "../../data/gameData";
 
 export function ApplicationFooter() {
 
@@ -45,33 +46,42 @@ export function ApplicationFooter() {
 
           <div style={{ height: "100%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div>
 
-          {gameEnded || (
-            <button
-              disabled={gameEnded}
-              onClick={() => navigate("/phaseout", { state: { from: location } })}
-              title={`Velg felter for avvikling`}
-              style={{ display: "flex", alignItems: "center", gap: "0.25rem", padding: "0.75rem", height: "64px" }}
+          {/* <div style={{ display: "flex", flex: 0, flexDirection: "column", placeSelf: "center", width: "auto", marginRight: "0.5rem" }}>
+            <div
+              style={{ placeSelf: "center", fontWeight: "bold", }}
             >
-              <MdEdit style={{ placeSelf: "center", width: "32px", height: "32px", }} />
-              <div style={{ fontSize: "1.5em" }}>
-                Velg oljefelt å stenge
-              </div>
-            </button>
-          )}
+              {Object.keys(phaseOut).length} / {gameData.allFields.length}
+            </div>
+            <div>
+              oljefelter avviklet
+            </div>
+          </div> */}
 
-          {gameEnded || (
-            <button
-              disabled={gameEnded}
-              onClick={() => runPhaseOut()}
-              title={`Kjør avvikling!`}
-              style={{ display: "flex", alignItems: "center", gap: "0.25rem", padding: "0.75rem", height: "64px" }}
-            >
-              <FaRecycle style={{ placeSelf: "center", width: "32px", height: "32px", }} />
-              <div style={{ fontSize: "1.5em" }}>
-                Avvikle!
-              </div>
-            </button>
-          )}
+          {/* <div style={{ height: "100%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div> */}
+
+          <button
+            disabled={gameEnded}
+            onClick={() => navigate("/phaseout", { state: { from: location } })}
+            title={`Velg felter for avvikling`}
+            style={{ display: "flex", alignItems: "center", gap: "0.25rem", padding: "0.75rem", height: "64px" }}
+          >
+            <MdEdit style={{ placeSelf: "center", width: "32px", height: "32px", }} />
+            <div style={{ fontSize: "1.5em" }}>
+              Velg oljefelt å stenge
+            </div>
+          </button>
+
+          <button
+            disabled={gameEnded}
+            onClick={() => runPhaseOut()}
+            title={`Kjør avvikling!`}
+            style={{ display: "flex", alignItems: "center", gap: "0.25rem", padding: "0.75rem", height: "64px" }}
+          >
+            <FaRecycle style={{ placeSelf: "center", width: "32px", height: "32px", }} />
+            <div style={{ fontSize: "1.5em" }}>
+              Avvikle!
+            </div>
+          </button>
 
         </div>
       )}

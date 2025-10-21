@@ -13,13 +13,16 @@ export function OilFieldMapList() {
   return (
     <div>
       <h1>Oljefelter</h1>
+      <div style={{ paddingLeft: "1rem", paddingBottom: "1rem", fontSize: "1.5rem" }}>
+        Avviklet: {(Object.keys(phaseOut).length)} / {gameData.allFields.length}
+      </div>
       <ul>
         {gameData.allFields.map((o) => (
-          <li key={o}>
+          <li key={o} style={{ color: phaseOut[o] ? "grey" : "inherit" }}>
             <Link to={`/map/${slugify(o)}`}>{o}</Link> {/* Link to the map view for this oil field */}
             
             {/* Show the year this field is scheduled to be phased out in the user's plan */}
-            {phaseOut[o] && ` (din plan: avvikles i ${phaseOut[o]})`}
+            {phaseOut[o] && ` (avviklet i ${phaseOut[o]})`}
           </li>
         ))}
       </ul>
