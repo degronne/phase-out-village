@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { EmissionSummaryCard } from "../emissions/emissionSummaryCard";
 import { ProductionSummaryCard } from "../production/productionSummaryCard";
 import { FaPlay, FaInfoCircle, FaRedo, FaRecycle, FaMap } from "react-icons/fa";
-import { MdInfo } from "react-icons/md";
+import { MdBarChart, MdInfo } from "react-icons/md";
 
 /**
  * ActionCard component renders a card with actions depending on the current game year.
@@ -41,9 +41,9 @@ function ActionCard() {
   return (
     <div style={{ display: "flex", flex: 1, flexDirection: "column", padding: "0.5rem", paddingTop: "0.25rem" }}>
 
-      <div style={{ marginBottom: "0.25rem" }}>
+      {/* <div style={{ marginBottom: "0.25rem" }}>
         Periode: {year}-{parseInt(year) + 3}
-      </div>
+      </div> */}
 
       <div
         style={{ display: "flex", flex: 1, gap: "0.5rem", margin: 0 }}
@@ -52,12 +52,26 @@ function ActionCard() {
         <button
           onClick={() => navigate("/map", { state: { from: location } })}
           title={`Kart`}
-          style={{ display: "flex", flex: 0, flexDirection: "column", gap: "0.25rem", aspectRatio: "1 / 1", padding: "0.75rem", width: "64px", height: "64px" }}
+          style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.75rem", height: "64px" }}
         >
-          <FaMap style={{ placeSelf: "center", width: "100%", height: "100%", }} />
+          <FaMap style={{ placeSelf: "center", width: "90%", height: "90%", }} />
+          <div style={{ fontSize: "1.5em" }}>
+            Kart
+          </div>
         </button>
 
         <button
+          onClick={() => navigate("/plan", { state: { from: location } })}
+          title={`Plan`}
+          style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.75rem", height: "64px" }}
+        >
+          <MdBarChart style={{ placeSelf: "center", width: "100%", height: "100%", }} />
+          <div style={{ fontSize: "1.5em" }}>
+            Plan
+          </div>
+        </button>
+
+        {/* <button
           onClick={() => navigate("/tutorial", { state: { from: location } })}
           title={`Hvordan spiller jeg?`}
           style={{ display: "flex", flex: 0, flexDirection: "column", gap: "0.25rem", aspectRatio: "1 / 1", padding: "0.75rem", width: "64px", height: "64px" }}
@@ -71,7 +85,7 @@ function ActionCard() {
           style={{ display: "flex", flex: 0, flexDirection: "column", gap: "0.25rem", aspectRatio: "1 / 1", padding: "0.75rem", width: "64px", height: "64px" }}
         >
           <FaRedo style={{ placeSelf: "center", width: "100%", height: "100%", }} />
-        </button>
+        </button> */}
 
 
       </div>
@@ -90,14 +104,50 @@ function ActionCard() {
  * Uses ApplicationContext to get `phaseOut` data.
  */
 export function ApplicationHeader() {
-  const { year, phaseOut, phaseOutDraft } = useContext(ApplicationContext);
+  const { year, restart, phaseOut, phaseOutDraft } = useContext(ApplicationContext);
   const location = useLocation();
   const gameEnded = year === "2040";
   const navigate = useNavigate();
   return (
     <header>
-      <ActionCard />
-      <div style={{ display: "flex", flex: 1, flexDirection: "column", padding: "0.5rem", paddingTop: "0.25rem" }}>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+
+        <a href="https://mdg.no/politikk/utfasing">
+          <img
+            src={
+              "https://d1nizz91i54auc.cloudfront.net/_service/505811/display/img_version/8880781/t/1750686348/img_name/68683_505811_ba2eeb201a.png.webp"
+            }
+            alt={"MDG - det ER mulig"}
+          />
+        </a>
+
+        <div>
+          <ActionCard />
+        </div>
+
+        <div>
+          <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
+            <button
+              onClick={() => navigate("/tutorial", { state: { from: location } })}
+              title={`Hvordan spiller jeg?`}
+              style={{ display: "flex", flex: 0, flexDirection: "column", gap: "0.25rem", aspectRatio: "1 / 1", padding: "0.75rem", width: "64px", height: "64px" }}
+            >
+              <MdInfo style={{ placeSelf: "center", width: "100%", height: "100%", }} />
+            </button>
+
+            <button
+              onClick={restart}
+              title={`Start på nytt`}
+              style={{ display: "flex", flex: 0, flexDirection: "column", gap: "0.25rem", aspectRatio: "1 / 1", padding: "0.75rem", width: "64px", height: "64px" }}
+            >
+              <FaRedo style={{ placeSelf: "center", width: "100%", height: "100%", }} />
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      {/* <div style={{ display: "flex", flex: 1, flexDirection: "column", padding: "0.5rem", paddingTop: "0.25rem" }}>
         <Link
           to={"/plan"}
           style={{ marginBottom: "0.25rem" }}
@@ -127,7 +177,7 @@ export function ApplicationHeader() {
             <div
               style={{ display: "flex", flex: 1, flexDirection: "column", maxHeight: "64px", overflowY: "auto", borderRadius: "0.5rem", }}
             >
-              <div 
+              <div
                 style={{ padding: "0.25rem", }}
               >
                 Valgte oljefelt ({Object.keys(phaseOutDraft).length}):
@@ -158,9 +208,29 @@ export function ApplicationHeader() {
 
         </div>
 
-      </div>
-      <EmissionSummaryCard />
-      <ProductionSummaryCard />
+      </div> */}
+
+      {/* <EmissionSummaryCard />
+      <ProductionSummaryCard /> */}
+
+      {/* <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
+        <button
+          onClick={() => navigate("/tutorial", { state: { from: location } })}
+          title={`Hvordan spiller jeg?`}
+          style={{ display: "flex", flex: 0, flexDirection: "column", gap: "0.25rem", aspectRatio: "1 / 1", padding: "0.75rem", width: "64px", height: "64px" }}
+        >
+          <MdInfo style={{ placeSelf: "center", width: "100%", height: "100%", }} />
+        </button>
+
+        <button
+          onClick={restart}
+          title={`Start på nytt`}
+          style={{ display: "flex", flex: 0, flexDirection: "column", gap: "0.25rem", aspectRatio: "1 / 1", padding: "0.75rem", width: "64px", height: "64px" }}
+        >
+          <FaRedo style={{ placeSelf: "center", width: "100%", height: "100%", }} />
+        </button>
+      </div> */}
+
     </header>
   );
 }

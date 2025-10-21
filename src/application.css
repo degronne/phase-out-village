@@ -115,14 +115,14 @@ td {
   }
 
   @media (width > 800px) {
-    padding-inline: 1em;
+    /* padding-inline: 1em; */
   }
 
   > * {
-    margin: 0.25em;
-    padding: 0.1em 0.3em;
+/*     margin: 0.25em;
+    padding: 0.1em 0.3em; */
     border: 1px solid var(--lime);
-    border-radius: 0.25rem;
+    /* border-radius: 0.25rem; */
     background-color: var(--skog);
     color: var(--lime);
   }
