@@ -48,11 +48,26 @@ function ActionCard() {
 
   // Otherwise, show current period, buttons to select phase-out fields, tutorial, and restart
   return (
-    <div style={{ display: "flex", flex: 1, flexDirection: "column", padding: "0.5rem" }}>
+    <div style={{ height: "100%", display: "flex", flex: 1, flexDirection: "column", padding: "0.5rem" }}>
 
       <div
-        style={{ display: "flex", flex: 1, gap: "0.5rem", margin: 0 }}
+        style={{ display: "flex", alignItems: "center", flex: 1, gap: "0.5rem", margin: 0 }}
       >
+        {/* <div style={{ fontSize: "1em" }}>
+          <div>Året er nå {year}.</div>
+          <div>Hvilke oljefelt skal stenges?</div>
+        </div> */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", fontSize: "1.0em", marginRight: "0rem", border: "1px solid #e0ffb26e", paddingTop: "0.25rem", paddingBottom: "0.25rem", paddingLeft: "0.75rem", paddingRight: "0.75rem", borderRadius: "0.5rem" }}>
+          <div>
+            Året er:
+          </div>
+          <div style={{ fontSize: "1.25em" }}>
+            {year}
+          </div>
+        </div>
+
+        <div style={{ height: "75%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div>
+
         <button
           onClick={() => navigate("/map", { state: { from: location } })}
           title={`Kart`}

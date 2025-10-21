@@ -59,6 +59,11 @@ export function ApplicationFooter() {
 
           {/* <div style={{ height: "100%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div> */}
 
+          {/* <div style={{ display: "flex", flexDirection: "column", alignItems: "center", fontSize: "1.25em" }}>
+            <div>Året er nå {year}.</div>
+            <div>Hvilke oljefelt skal stenges?</div>
+          </div> */}
+
           <button
             disabled={gameEnded}
             onClick={() => navigate("/phaseout", { state: { from: location } })}
