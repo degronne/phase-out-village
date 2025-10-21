@@ -16,8 +16,8 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
     yearCurrent,
     yearEnd = 2040,
     height = 20,
-    colorFrom = "#c1e9c1ff",
-    colorTo = "#00fe15ff",
+    colorFrom = "#a0eca0ff",
+    colorTo = "#00ff15ff",
     showLabel = true,
 }) => {
     const percent = Math.round(Math.min(Math.max(value, 0), 100));
@@ -71,6 +71,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
 
 export function YearProgress() {
     const { year } = useContext(ApplicationContext);
+    const yearCurrent = parseInt(year);
     const percent = ((parseInt(year) - 2025) / (2040 - 2025)) * 100;
 
     return (

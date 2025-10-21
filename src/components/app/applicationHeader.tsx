@@ -8,6 +8,7 @@ import { MdBarChart, MdHelp, MdInfo, MdOutlineBarChart } from "react-icons/md";
 import logo from "./MDG_Logo_2025.png"
 import { BiSolidBarChartAlt2 } from "react-icons/bi";
 import { ProgressBar, YearProgress } from "../ui/progressionBar";
+import { FcViewDetails } from "react-icons/fc";
 
 /**
  * ActionCard component renders a card with actions depending on the current game year.
@@ -25,18 +26,31 @@ function ActionCard() {
   // // If the game has ended, show summary and restart buttons
   if (gameEnded)
     return (
-      <div>
-        År: 2040
-        <div>
-          <button
+      <div style={{ display: "flex", flex: 1, flexDirection: "column", padding: "0.5rem" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <div style={{ fontSize: "2em" }}>Året er nå 2040.</div>
+
+          {/* <button
             onClick={() => navigate("/summary", { state: { from: location } })}
           >
             Vis oppsummering
-          </button>
+          </button> */}
+
+        <button
+          onClick={() => navigate("/summary", { state: { from: location } })}
+          title={`Oppsummering`}
+          style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.75rem", height: "64px" }}
+        >
+          <FcViewDetails style={{ placeSelf: "center", width: "32px", height: "32px", }} />
+          <div style={{ fontSize: "1.5em" }}>
+            Oppsummering
+          </div>
+        </button>
+
         </div>
-        <div>
+        {/* <div>
           <button onClick={restart}>Start på nytt</button>
-        </div>
+        </div> */}
       </div>
     );
 
@@ -51,7 +65,6 @@ function ActionCard() {
       <div
         style={{ display: "flex", flex: 1, gap: "0.5rem", margin: 0 }}
       >
-
         <button
           onClick={() => navigate("/map", { state: { from: location } })}
           title={`Kart`}
@@ -148,6 +161,7 @@ export function ApplicationHeader() {
             <div style={{ height: "100%", display: "flex", flex: 1, justifyContent: "end", alignItems: "center", gap: "0.5rem" }}>
               <div style={{ height: "75%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div>
 
+              {gameEnded || (
               <button
                 onClick={() => navigate("/tutorial", { state: { from: location } })}
                 title={`Hvordan spiller jeg?`}
@@ -158,6 +172,7 @@ export function ApplicationHeader() {
                   Hjelp
                 </div>
               </button>
+              )}
 
               <button
                 onClick={restart}
@@ -169,6 +184,7 @@ export function ApplicationHeader() {
                   Restart
                 </div>
               </button>
+
             </div>
           </div>
 
