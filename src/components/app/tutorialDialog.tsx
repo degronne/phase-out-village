@@ -29,7 +29,7 @@ const steps = [
       <>
         <ul>
           <li>
-            Gå til <b>Kart</b> for å utforske feltene.
+            Gå til <strong>«Kart»</strong> for å utforske feltene.
           </li>
           <li>
             Klikk på et felt i kartet eller i
@@ -64,10 +64,10 @@ const steps = [
       <>
         <ul>
           <li>
-            Trykk «Velg felter for avvikling» i toppfeltet.
+            Trykk <strong>«Velg felter å stenge»</strong> nede til høyre.
           </li>
           <li>
-            Trykk «Fase ut valgte felter» for å gå til neste periode.
+            Trykk <strong>«Avvikle»</strong> for å gå til neste periode.
           </li>
         </ul>
       </>
@@ -83,7 +83,7 @@ const steps = [
             plan.
           </li>
           <li>
-            «Din plan» viser hvilke felt du allerede har avviklet.
+            <strong>«Plan»</strong> viser hvilke felt du allerede har avviklet.
           </li>
         </ul>
       </>
@@ -130,7 +130,7 @@ export function TutorialDialog({ onClose }: { onClose?: () => void }) {
         }}
       >
         <h2>{steps[index].title}</h2>
-        <button onClick={onClose} style={{ borderRadius: '1rem' }}>✖</button>
+        <button onClick={onClose} style={{ borderRadius: '1rem' }} title={`Lukk`}>✖</button>
       </div>
 
       <div style={{ display: "flex", flex: 1, flexDirection: "column", marginTop: "1rem", marginBottom: "1rem", overflowY: "auto" }}>

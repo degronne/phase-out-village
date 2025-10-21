@@ -12,11 +12,11 @@ import { ApplicationContext } from "../../applicationContext";
 export function ProductionSummaryPage() {
   const { phaseOut } = useContext(ApplicationContext);
   return (
-    <div className={"charts"}>
-      <div>
+    <div className={"charts"} style={{ gap: "2rem",}}>
+      <div style={{ border: "1px solid rgba(255,255,255,0.0)", borderRadius: "0.5rem", padding: "1rem"}}>
         <YearlyTotalProductionChart />
       </div>
-      <div>
+      <div style={{ border: "1px solid rgba(255,255,255,0.0)", borderRadius: "0.5rem", padding: "1rem"}}>
         <ProductionReductionChart phaseOut={phaseOut} />
       </div>
     </div>
