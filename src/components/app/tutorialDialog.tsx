@@ -130,7 +130,7 @@ export function TutorialDialog({ onClose }: { onClose?: () => void }) {
         }}
       >
         <h2>{steps[index].title}</h2>
-        <button onClick={onClose} style={{ borderRadius: '1rem' }}>✖</button>
+        <button onClick={onClose} style={{ borderRadius: '1rem' }} title={`Lukk`}>✖</button>
       </div>
 
       <div style={{ display: "flex", flex: 1, flexDirection: "column", marginTop: "1rem", marginBottom: "1rem", overflowY: "auto" }}>

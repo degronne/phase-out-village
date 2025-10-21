@@ -6,6 +6,7 @@ import { EmissionSummaryCard } from "../emissions/emissionSummaryCard";
 import { EmissionForAllFieldsPage } from "../emissions/emissionsForAllFieldsPage";
 import { EmissionSummaryPage } from "../emissions/emissionSummaryPage";
 import { ProductionSummaryPage } from "../production/productionSummaryPage";
+import { useNavigate, useLocation } from "react-router-dom";
 
 /**
  * Displays a summary of the user's plan, including charts for
@@ -13,8 +14,20 @@ import { ProductionSummaryPage } from "../production/productionSummaryPage";
  */
 export function PlanSummary() {
   const { phaseOut } = useContext(ApplicationContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "2rem", padding: "2rem", }}>
+      <div style={{ position: "absolute", placeSelf: "end",}}>
+        <button
+          onClick={() => navigate("/map", { state: { from: location } })}
+          title="Tilbake"
+        >
+          X
+        </button>
+      </div>
+      
       <h2>
         Din plan
       </h2>

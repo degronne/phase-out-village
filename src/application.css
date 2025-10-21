@@ -15,6 +15,7 @@ ul {
 
 dialog {
   margin: auto;
+  border-radius: 1rem;
 }
 
 dialog::backdrop {
@@ -121,7 +122,8 @@ td {
   > * {
 /*     margin: 0.25em;
     padding: 0.1em 0.3em; */
-    border: 1px solid var(--lime);
+    /* border: 1px solid var(--lime); */
+    border-bottom: 1px solid var(--lime);
     /* border-radius: 0.25rem; */
     background-color: var(--skog);
     color: var(--lime);
@@ -130,7 +132,8 @@ td {
 
 #app footer {
   background-color: var(--skog);
-  border: 1px solid var(--lime);
+  /* border: 1px solid var(--lime); */
+  border-top: 1px solid var(--lime);
 
   img {
     max-height: 7vh;
