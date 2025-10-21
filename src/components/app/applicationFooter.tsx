@@ -20,25 +20,6 @@ export function ApplicationFooter() {
 
   return (
     <footer>
-      {/* <a href="https://mdg.no/politikk/utfasing">
-        <img
-          src={
-            "https://d1nizz91i54auc.cloudfront.net/_service/505811/display/img_version/8880781/t/1750686348/img_name/68683_505811_ba2eeb201a.png.webp"
-          }
-          alt={"MDG - det ER mulig"}
-        />
-      </a> */}
-
-      {/* <div style={{ display: "flex", flex: 0, flexDirection: "column", placeSelf: "center", width: "auto", }}>
-            <div
-              style={{ placeSelf: "center", fontWeight: "bold" }}
-            >
-              {Object.keys(phaseOut).length}
-            </div>
-            <div>
-              oljefelter avviklet
-            </div>
-          </div> */}
 
       {gameEnded ? <div style={{ height: "64px" }}></div> : (
         <div style={{ display: "flex", flex: 1, gap: "0.5rem", }}>

@@ -116,15 +116,11 @@ td {
   }
 
   @media (width > 800px) {
-    /* padding-inline: 1em; */
+    
   }
 
   > * {
-    /*     margin: 0.25em;
-    padding: 0.1em 0.3em; */
-    /* border: 1px solid var(--lime); */
     border-bottom: 1px solid var(--lime);
-    /* border-radius: 0.25rem; */
     background-color: var(--skog);
     color: var(--lime);
   }
@@ -132,7 +128,6 @@ td {
 
 #app footer {
   background-color: var(--skog);
-  /* border: 1px solid var(--lime); */
   border-top: 1px solid var(--lime);
 
   img {

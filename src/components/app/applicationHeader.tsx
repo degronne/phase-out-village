@@ -30,37 +30,25 @@ function ActionCard() {
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <div style={{ fontSize: "2em" }}>Året er nå 2040.</div>
 
-          {/* <button
+          <button
             onClick={() => navigate("/summary", { state: { from: location } })}
+            title={`Oppsummering`}
+            style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.75rem", height: "64px" }}
           >
-            Vis oppsummering
-          </button> */}
-
-        <button
-          onClick={() => navigate("/summary", { state: { from: location } })}
-          title={`Oppsummering`}
-          style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.75rem", height: "64px" }}
-        >
-          <FcViewDetails style={{ placeSelf: "center", width: "32px", height: "32px", }} />
-          <div style={{ fontSize: "1.5em" }}>
-            Oppsummering
-          </div>
-        </button>
+            <FcViewDetails style={{ placeSelf: "center", width: "32px", height: "32px", }} />
+            <div style={{ fontSize: "1.5em" }}>
+              Oppsummering
+            </div>
+          </button>
 
         </div>
-        {/* <div>
-          <button onClick={restart}>Start på nytt</button>
-        </div> */}
+
       </div>
     );
 
   // Otherwise, show current period, buttons to select phase-out fields, tutorial, and restart
   return (
     <div style={{ display: "flex", flex: 1, flexDirection: "column", padding: "0.5rem" }}>
-
-      {/* <div style={{ marginBottom: "0.25rem" }}>
-        Periode: {year}-{parseInt(year) + 3}
-      </div> */}
 
       <div
         style={{ display: "flex", flex: 1, gap: "0.5rem", margin: 0 }}
@@ -86,23 +74,6 @@ function ActionCard() {
             Plan
           </div>
         </button>
-
-        {/* <button
-          onClick={() => navigate("/tutorial", { state: { from: location } })}
-          title={`Hvordan spiller jeg?`}
-          style={{ display: "flex", flex: 0, flexDirection: "column", gap: "0.25rem", aspectRatio: "1 / 1", padding: "0.75rem", width: "64px", height: "64px" }}
-        >
-          <MdInfo style={{ placeSelf: "center", width: "100%", height: "100%", }} />
-        </button>
-
-        <button
-          onClick={restart}
-          title={`Start på nytt`}
-          style={{ display: "flex", flex: 0, flexDirection: "column", gap: "0.25rem", aspectRatio: "1 / 1", padding: "0.75rem", width: "64px", height: "64px" }}
-        >
-          <FaRedo style={{ placeSelf: "center", width: "100%", height: "100%", }} />
-        </button> */}
-
 
       </div>
 
@@ -141,13 +112,7 @@ export function ApplicationHeader() {
                 alt={"MDG - det ER mulig"}
               />
             </a>
-            {/* <a href="https://mdg.no/politikk/utfasing">
-            <img
-              style={{ maxWidth: "64px" }}
-              src={logo}
-              alt={"MDG - det ER mulig"}
-            />
-          </a> */}
+
             <div style={{ height: "50%", width: "1px", backgroundColor: "white", marginRight: "1.5rem" }}></div>
             <div>Oljespillet</div>
           </div>
@@ -162,16 +127,16 @@ export function ApplicationHeader() {
               <div style={{ height: "75%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div>
 
               {gameEnded || (
-              <button
-                onClick={() => navigate("/tutorial", { state: { from: location } })}
-                title={`Hvordan spiller jeg?`}
-                style={{ display: "flex", alignItems: "center", gap: "0.25rem", padding: "0.75rem", height: "64px" }}
-              >
-                <MdHelp style={{ placeSelf: "center", width: "32px", height: "32px", }} />
-                <div style={{ fontSize: "1.5em" }}>
-                  Hjelp
-                </div>
-              </button>
+                <button
+                  onClick={() => navigate("/tutorial", { state: { from: location } })}
+                  title={`Hvordan spiller jeg?`}
+                  style={{ display: "flex", alignItems: "center", gap: "0.25rem", padding: "0.75rem", height: "64px" }}
+                >
+                  <MdHelp style={{ placeSelf: "center", width: "32px", height: "32px", }} />
+                  <div style={{ fontSize: "1.5em" }}>
+                    Hjelp
+                  </div>
+                </button>
               )}
 
               <button
@@ -190,96 +155,9 @@ export function ApplicationHeader() {
 
         </div>
 
-        {/* <div className="progress-container">
-          <div className="progress-bar" id="progress-bar"></div>
-        </div> */}
         <YearProgress />
 
       </div>
-
-      {/* <div style={{ display: "flex", flex: 1, flexDirection: "column", padding: "0.5rem", paddingTop: "0.25rem" }}>
-        <Link
-          to={"/plan"}
-          style={{ marginBottom: "0.25rem" }}
-        >
-          <strong>Din plan:</strong>
-        </Link>
-
-        <div
-          style={{ display: "flex", flex: 1, gap: "0.5rem", }}
-        >
-
-          <div
-            style={{ display: "flex", flex: 1, gap: "0.5rem", }}
-          >
-
-            {gameEnded || (
-              <button
-                disabled={gameEnded}
-                onClick={() => navigate("/phaseout", { state: { from: location } })}
-                title={`Velg felter for avvikling`}
-                style={{ display: "flex", flex: 0, flexDirection: "column", gap: "0.25rem", aspectRatio: "1 / 1", padding: "0.75rem", width: "64px", height: "64px" }}
-              >
-                <FaRecycle style={{ placeSelf: "center", width: "100%", height: "100%", }} />
-              </button>
-            )}
-
-            <div
-              style={{ display: "flex", flex: 1, flexDirection: "column", maxHeight: "64px", overflowY: "auto", borderRadius: "0.5rem", }}
-            >
-              <div
-                style={{ padding: "0.25rem", }}
-              >
-                Valgte oljefelt ({Object.keys(phaseOutDraft).length}):
-              </div>
-              <div
-                style={{ padding: "0.25rem", color: "white", }}
-              >
-                {Object.keys(phaseOutDraft).join(", ")}
-              </div>
-            </div>
-
-          </div>
-
-          <div style={{ height: "100%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div>
-
-          <div
-            style={{ display: "flex", flex: 0, flexDirection: "column", placeSelf: "center", width: "auto", }}
-          >
-            <div
-              style={{ placeSelf: "center", fontWeight: "bold" }}
-            >
-              {Object.keys(phaseOut).length}
-            </div>
-            <div>
-              oljefelter avviklet
-            </div>
-          </div>
-
-        </div>
-
-      </div> */}
-
-      {/* <EmissionSummaryCard />
-      <ProductionSummaryCard /> */}
-
-      {/* <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
-        <button
-          onClick={() => navigate("/tutorial", { state: { from: location } })}
-          title={`Hvordan spiller jeg?`}
-          style={{ display: "flex", flex: 0, flexDirection: "column", gap: "0.25rem", aspectRatio: "1 / 1", padding: "0.75rem", width: "64px", height: "64px" }}
-        >
-          <MdInfo style={{ placeSelf: "center", width: "100%", height: "100%", }} />
-        </button>
-
-        <button
-          onClick={restart}
-          title={`Start på nytt`}
-          style={{ display: "flex", flex: 0, flexDirection: "column", gap: "0.25rem", aspectRatio: "1 / 1", padding: "0.75rem", width: "64px", height: "64px" }}
-        >
-          <FaRedo style={{ placeSelf: "center", width: "100%", height: "100%", }} />
-        </button>
-      </div> */}
 
     </header>
   );
