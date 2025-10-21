@@ -19,7 +19,7 @@ dialog {
 }
 
 dialog::backdrop {
-  background-color: rgb(0 0 0 / 0.50);
+  background-color: rgb(0 0 0 / 0.5);
 }
 
 .tutorial-modal {
@@ -120,7 +120,7 @@ td {
   }
 
   > * {
-/*     margin: 0.25em;
+    /*     margin: 0.25em;
     padding: 0.1em 0.3em; */
     /* border: 1px solid var(--lime); */
     border-bottom: 1px solid var(--lime);

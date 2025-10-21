@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { ApplicationContext } from "../../applicationContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { EmissionSummaryCard } from "../emissions/emissionSummaryCard";
@@ -7,6 +7,7 @@ import { FaPlay, FaInfoCircle, FaRedo, FaRecycle, FaMap } from "react-icons/fa";
 import { MdBarChart, MdHelp, MdInfo, MdOutlineBarChart } from "react-icons/md";
 import logo from "./MDG_Logo_2025.png"
 import { BiSolidBarChartAlt2 } from "react-icons/bi";
+import { ProgressBar, YearProgress } from "../ui/progressionBar";
 
 /**
  * ActionCard component renders a card with actions depending on the current game year.
@@ -110,63 +111,73 @@ export function ApplicationHeader() {
   const location = useLocation();
   const gameEnded = year === "2040";
   const navigate = useNavigate();
+
   return (
     <header>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingLeft: "0.75rem", paddingRight: "0.75rem", paddingTop: "0.20rem", paddingBottom: "0.20rem" }}>
+      <div style={{ display: "flex", flexDirection: "column" }}>
 
-        <div style={{ height: "100%", display: "flex", flexDirection: "row", alignItems: "center" }}>
-          <a href="https://mdg.no/politikk/utfasing">
-            <img
-              style={{ maxWidth: "196px" }}
-              src={
-                "https://d1nizz91i54auc.cloudfront.net/_service/505811/display/img_version/8880781/t/1750686348/img_name/68683_505811_ba2eeb201a.png.webp"
-              }
-              alt={"MDG - det ER mulig"}
-            />
-          </a>
-          {/* <a href="https://mdg.no/politikk/utfasing">
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingLeft: "0.75rem", paddingRight: "0.75rem", paddingTop: "0.20rem", paddingBottom: "0.20rem" }}>
+
+          <div style={{ height: "100%", display: "flex", flexDirection: "row", alignItems: "center" }}>
+            <a href="https://mdg.no/politikk/utfasing">
+              <img
+                style={{ maxWidth: "196px" }}
+                src={
+                  "https://d1nizz91i54auc.cloudfront.net/_service/505811/display/img_version/8880781/t/1750686348/img_name/68683_505811_ba2eeb201a.png.webp"
+                }
+                alt={"MDG - det ER mulig"}
+              />
+            </a>
+            {/* <a href="https://mdg.no/politikk/utfasing">
             <img
               style={{ maxWidth: "64px" }}
               src={logo}
               alt={"MDG - det ER mulig"}
             />
           </a> */}
-          <div style={{ height: "50%", width: "1px", backgroundColor: "white", marginRight: "1.5rem" }}></div>
-          <div>Oljespillet</div>
-        </div>
-
-        <div>
-          <ActionCard />
-        </div>
-
-        <div>
-
-          <div style={{ height: "100%", display: "flex", flex: 1, justifyContent: "end", alignItems: "center", gap: "0.5rem" }}>
-            <div style={{ height: "75%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div>
-
-            <button
-              onClick={() => navigate("/tutorial", { state: { from: location } })}
-              title={`Hvordan spiller jeg?`}
-              style={{ display: "flex", alignItems: "center", gap: "0.25rem", padding: "0.75rem", height: "64px" }}
-            >
-              <MdHelp style={{ placeSelf: "center", width: "32px", height: "32px", }} />
-              <div style={{ fontSize: "1.5em"}}>
-                Hjelp
-              </div>
-            </button>
-
-            <button
-              onClick={restart}
-              title={`Start på nytt`}
-              style={{ display: "flex", alignItems: "center", gap: "0.25rem", padding: "0.75rem", height: "64px" }}
-            >
-              <FaRedo style={{ placeSelf: "center", width: "24px", height: "24px", }} />
-              <div style={{ fontSize: "1.5em"}}>
-                Restart
-              </div>
-            </button>
+            <div style={{ height: "50%", width: "1px", backgroundColor: "white", marginRight: "1.5rem" }}></div>
+            <div>Oljespillet</div>
           </div>
+
+          <div>
+            <ActionCard />
+          </div>
+
+          <div>
+
+            <div style={{ height: "100%", display: "flex", flex: 1, justifyContent: "end", alignItems: "center", gap: "0.5rem" }}>
+              <div style={{ height: "75%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div>
+
+              <button
+                onClick={() => navigate("/tutorial", { state: { from: location } })}
+                title={`Hvordan spiller jeg?`}
+                style={{ display: "flex", alignItems: "center", gap: "0.25rem", padding: "0.75rem", height: "64px" }}
+              >
+                <MdHelp style={{ placeSelf: "center", width: "32px", height: "32px", }} />
+                <div style={{ fontSize: "1.5em" }}>
+                  Hjelp
+                </div>
+              </button>
+
+              <button
+                onClick={restart}
+                title={`Start på nytt`}
+                style={{ display: "flex", alignItems: "center", gap: "0.25rem", padding: "0.75rem", height: "64px" }}
+              >
+                <FaRedo style={{ placeSelf: "center", width: "24px", height: "24px", }} />
+                <div style={{ fontSize: "1.5em" }}>
+                  Restart
+                </div>
+              </button>
+            </div>
+          </div>
+
         </div>
+
+        {/* <div className="progress-container">
+          <div className="progress-bar" id="progress-bar"></div>
+        </div> */}
+        <YearProgress />
 
       </div>
 
