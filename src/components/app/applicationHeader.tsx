@@ -4,8 +4,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { EmissionSummaryCard } from "../emissions/emissionSummaryCard";
 import { ProductionSummaryCard } from "../production/productionSummaryCard";
 import { FaPlay, FaInfoCircle, FaRedo, FaRecycle, FaMap } from "react-icons/fa";
-import { MdBarChart, MdHelp, MdInfo } from "react-icons/md";
+import { MdBarChart, MdHelp, MdInfo, MdOutlineBarChart } from "react-icons/md";
 import logo from "./MDG_Logo_2025.png"
+import { BiSolidBarChartAlt2 } from "react-icons/bi";
 
 /**
  * ActionCard component renders a card with actions depending on the current game year.
@@ -55,7 +56,7 @@ function ActionCard() {
           title={`Kart`}
           style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.75rem", height: "64px" }}
         >
-          <FaMap style={{ placeSelf: "center", width: "90%", height: "90%", }} />
+          <FaMap style={{ placeSelf: "center", width: "28px", height: "28px", }} />
           <div style={{ fontSize: "1.5em" }}>
             Kart
           </div>
@@ -66,7 +67,7 @@ function ActionCard() {
           title={`Plan`}
           style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.75rem", height: "64px" }}
         >
-          <MdBarChart style={{ placeSelf: "center", width: "100%", height: "100%", }} />
+          <BiSolidBarChartAlt2 style={{ placeSelf: "center", width: "32px", height: "32px", }} />
           <div style={{ fontSize: "1.5em" }}>
             Plan
           </div>
@@ -139,13 +140,16 @@ export function ApplicationHeader() {
         </div>
 
         <div>
-          <div style={{ display: "flex", flex: 1, justifyContent: "end", gap: "0.5rem" }}>
+
+          <div style={{ height: "100%", display: "flex", flex: 1, justifyContent: "end", alignItems: "center", gap: "0.5rem" }}>
+            <div style={{ height: "75%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div>
+
             <button
               onClick={() => navigate("/tutorial", { state: { from: location } })}
               title={`Hvordan spiller jeg?`}
               style={{ display: "flex", alignItems: "center", gap: "0.25rem", padding: "0.75rem", height: "64px" }}
             >
-              <MdHelp style={{ placeSelf: "center", width: "90%", height: "90%", }} />
+              <MdHelp style={{ placeSelf: "center", width: "32px", height: "32px", }} />
               <div style={{ fontSize: "1.5em"}}>
                 Hjelp
               </div>
@@ -156,7 +160,7 @@ export function ApplicationHeader() {
               title={`Start på nytt`}
               style={{ display: "flex", alignItems: "center", gap: "0.25rem", padding: "0.75rem", height: "64px" }}
             >
-              <FaRedo style={{ placeSelf: "center", width: "80%", height: "80%", }} />
+              <FaRedo style={{ placeSelf: "center", width: "24px", height: "24px", }} />
               <div style={{ fontSize: "1.5em"}}>
                 Restart
               </div>
