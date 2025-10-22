@@ -188,15 +188,21 @@ export function PhaseOutDialog({
   return (
     <form className="phaseout-dialog" onSubmit={handleSubmit}>
 
+      {/* <button
+        onClick={() => navigate(from)}
+        style={{ width: "fit-content", placeSelf: "end" }}
+      >X
+      </button> */}
+
       {/* Dialog header with close button and sort dropdown */}
       <div className="phaseout-dialog-header">
-        <button
+        {/* <button
           type="button"
           className="close-phaseout-button"
           onClick={() => navigate(from)}
         >
           ✖
-        </button>
+        </button> */}
         <div className="phaseout-sort-wrapper">
           <label className="phaseout-sort-dropdown">
             Sorter etter:{" "}
@@ -212,6 +218,13 @@ export function PhaseOutDialog({
             </select>
           </label>
         </div>
+
+        <button
+          onClick={() => navigate(from)}
+          style={{ placeSelf: "end" }}
+        >X
+        </button>
+
       </div>
 
       {/* Checkbox list for selecting fields */}
