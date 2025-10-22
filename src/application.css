@@ -69,6 +69,19 @@ button {
   padding: 0.3rem 0.6rem;
 }
 
+.main-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  height: 64px;
+  @media (width < 600px) {
+    padding: 0.5rem;
+    height: 48px;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     background-color: var(--gran);
@@ -107,16 +120,19 @@ td {
 
 #app header {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* grid-template-columns: 1fr 1fr; */
 
-  @media (width > 550px) {
+  grid-template-columns: unset;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+
+  /* @media (width > 550px) {
     grid-template-columns: unset;
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
-  }
+  } */
 
   @media (width > 800px) {
-    
   }
 
   > * {

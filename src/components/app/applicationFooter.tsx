@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ApplicationContext } from "../../applicationContext";
 import { MdEdit } from "react-icons/md";
 import { gameData } from "../../data/gameData";
+import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 
 export function ApplicationFooter() {
 
@@ -11,6 +12,7 @@ export function ApplicationFooter() {
   const draft = phaseOutDraft;
   const navigate = useNavigate();
   const location = useLocation();
+  const isSmall = useIsSmallScreen();
   const gameEnded = year === "2040";
 
   function runPhaseOut() {
@@ -46,33 +48,15 @@ export function ApplicationFooter() {
 
           <div style={{ height: "100%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div>
 
-          {/* <div style={{ display: "flex", flex: 0, flexDirection: "column", placeSelf: "center", width: "auto", marginRight: "0.5rem" }}>
-            <div
-              style={{ placeSelf: "center", fontWeight: "bold", }}
-            >
-              {Object.keys(phaseOut).length} / {gameData.allFields.length}
-            </div>
-            <div>
-              oljefelter avviklet
-            </div>
-          </div> */}
-
-          {/* <div style={{ height: "100%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div> */}
-
-          {/* <div style={{ display: "flex", flexDirection: "column", alignItems: "center", fontSize: "1.25em" }}>
-            <div>Året er nå {year}.</div>
-            <div>Hvilke oljefelt skal stenges?</div>
-          </div> */}
-
           <button
             disabled={gameEnded}
             onClick={() => navigate("/phaseout", { state: { from: location } })}
             title={`Velg felter for avvikling`}
-            style={{ display: "flex", alignItems: "center", gap: "0.25rem", padding: "0.75rem", height: "64px" }}
+            style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: isSmall ? "0.5rem" : "0.75rem", height: isSmall ? "48px" : "64px" }}
           >
             <MdEdit style={{ placeSelf: "center", width: "32px", height: "32px", }} />
-            <div style={{ fontSize: "1.5em" }}>
-              Velg oljefelt å stenge
+            <div style={{ fontSize: isSmall ? "1.25em" : "1.5em" }}>
+              { isSmall ? `Velg felt` : `Velg oljefelt å stenge`}
             </div>
           </button>
 
@@ -80,10 +64,10 @@ export function ApplicationFooter() {
             disabled={gameEnded}
             onClick={() => runPhaseOut()}
             title={`Kjør avvikling!`}
-            style={{ display: "flex", alignItems: "center", gap: "0.25rem", padding: "0.75rem", height: "64px" }}
+            style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: isSmall ? "0.5rem" : "0.75rem", height: isSmall ? "48px" : "64px" }}
           >
             <FaRecycle style={{ placeSelf: "center", width: "32px", height: "32px", }} />
-            <div style={{ fontSize: "1.5em" }}>
+            <div style={{ fontSize: isSmall ? "1.25em" : "1.5em" }}>
               Avvikle!
             </div>
           </button>
