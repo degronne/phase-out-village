@@ -29,7 +29,7 @@ export function ApplicationFooter() {
     <footer>
 
       {gameEnded ? <div style={{ height: "64px" }}></div> : (
-        <div style={{ display: "flex", flex: 1, gap: "0.5rem", }}>
+        <div style={{ display: "flex", flex: 1, alignItems: "center", gap: "0.5rem", }}>
 
           <div style={{ display: "flex", flex: 1, gap: "0.5rem", }}>
 
@@ -37,12 +37,12 @@ export function ApplicationFooter() {
               style={{ display: "flex", flex: 1, flexDirection: "column", maxHeight: "64px", overflowY: "auto", borderRadius: "0.5rem", }}
             >
               <div
-                style={{ padding: "0.25rem", }}
+                style={{ padding: "0.0rem", }}
               >
                 Valgte oljefelt ({Object.keys(phaseOutDraft).length}):
               </div>
               <div
-                style={{ padding: "0.25rem", color: "white", }}
+                style={{ padding: "0.0rem", color: "white", }}
               >
                 {Object.keys(phaseOutDraft).join(", ")}
               </div>

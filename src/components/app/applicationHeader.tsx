@@ -127,6 +127,7 @@ export function ApplicationHeader() {
 
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingLeft: "0.75rem", paddingRight: "0.75rem", paddingTop: "0.20rem", paddingBottom: "0.20rem" }}>
 
+          {isSmall ? null : (
           <div style={{ height: "100%", display: "flex", flexDirection: "row", alignItems: "center" }}>
 
             {isSmall ? null : (
@@ -163,6 +164,7 @@ export function ApplicationHeader() {
             } */}
 
           </div>
+          )}
 
           <div>
             <ActionCard />
