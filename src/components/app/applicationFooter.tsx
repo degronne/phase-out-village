@@ -5,6 +5,7 @@ import { ApplicationContext } from "../../applicationContext";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { gameData } from "../../data/gameData";
 import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
+import { RxReset } from "react-icons/rx";
 
 export function ApplicationFooter() {
 
@@ -56,21 +57,26 @@ export function ApplicationFooter() {
             disabled={gameEnded}
             onClick={() => navigate("/phaseout", { state: { from: location } })}
             title={`Velg felter for avvikling`}
-            style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: isSmall ? "0.5rem" : "0.75rem", height: isSmall ? "48px" : "64px" }}
+            className={`main-button`}
+            style={{ backgroundColor: location.pathname.includes("/phaseout") ? "cyan" : "#e0ffb2" }}
+            // style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: isSmall ? "0.5rem" : "0.75rem", height: isSmall ? "48px" : "64px" }}
           >
             <MdEdit style={{ placeSelf: "center", width: "32px", height: "32px", }} />
             <div style={{ display: isSmall ? "none" : "block", fontSize: isSmall ? "1.25em" : "1.5em" }}>
-              { isSmall ? `Velg felt` : `Velg oljefelt å stenge`}
+              { isSmall ? `Velg felt` : `Velg oljefelt å avvikle`}
             </div>
           </button>
+
+          {/* <div style={{ height: "100%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div> */}
 
           <button
             disabled={gameEnded}
             onClick={() => clearSelection()}
             title={`Tilbakestill valgte oljefelt`}
-            style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: isSmall ? "0.5rem" : "0.75rem", height: isSmall ? "48px" : "64px" }}
+            className={`main-button`}
+            // style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: isSmall ? "0.5rem" : "0.75rem", height: isSmall ? "48px" : "64px" }}
           >
-            <MdDelete style={{ placeSelf: "center", width: "32px", height: "32px", }} />
+            <RxReset style={{ placeSelf: "center", width: "32px", height: "32px", }} />
             <div style={{ display: isSmall ? "none" : "block", fontSize: isSmall ? "1.25em" : "1.5em" }}>
               Tøm valg
             </div>
@@ -80,11 +86,12 @@ export function ApplicationFooter() {
             disabled={gameEnded}
             onClick={() => runPhaseOut()}
             title={`Kjør avvikling!`}
-            style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: isSmall ? "0.5rem" : "0.75rem", height: isSmall ? "48px" : "64px" }}
+            className={`main-button`}
+            // style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: isSmall ? "0.5rem" : "0.75rem", height: isSmall ? "48px" : "64px" }}
           >
             <FaRecycle style={{ placeSelf: "center", width: "32px", height: "32px", }} />
             <div style={{ fontSize: isSmall ? "1.25em" : "1.5em" }}>
-              Avvikle!
+              { isSmall ? `Avvikle` : `Avvikle!`}
             </div>
           </button>
 
