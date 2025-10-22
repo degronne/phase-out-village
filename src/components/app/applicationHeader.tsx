@@ -10,6 +10,7 @@ import { BiSolidBarChartAlt2 } from "react-icons/bi";
 import { ProgressBar, YearProgress } from "../ui/progressionBar";
 import { FcViewDetails } from "react-icons/fc";
 import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
+import { MainButton } from "../ui/mainButton";
 
 /**
  * ActionCard component renders a card with actions depending on the current game year.
@@ -75,45 +76,26 @@ function ActionCard() {
 
         <div style={{ height: "75%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div>
 
-        <button
-          onClick={() => navigate("/map", { state: { from: location } })}
-          title={`Kart`}
-          className={`main-button`}
-          style={{ backgroundColor: location.pathname.includes("/map") ? "cyan" : "#e0ffb2" }}
-        // style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: isSmall ? "0.5rem" : "0.75rem", height: isSmall ? "48px" : "64px" }}
-        >
-          <FaMap style={{ placeSelf: "center", width: "32px", height: "32px", }} />
-          <div style={{ display: isSmall ? "none" : "block", fontSize: "1.5em" }}>
-            Kart
-          </div>
-        </button>
+        <MainButton
+          icon={<FaMap />}
+          label={"Kart"}
+          // title="Kart"
+          to="/map"
+        />
 
-        <button
-          onClick={() => navigate("/plan", { state: { from: location } })}
-          title={`Plan`}
-          className={`main-button`}
-          style={{ backgroundColor: location.pathname.includes("/plan") ? "cyan" : "#e0ffb2" }}
-        // style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: isSmall ? "0.5rem" : "0.75rem", height: isSmall ? "48px" : "64px" }}
-        >
-          <BiSolidBarChartAlt2 style={{ placeSelf: "center", width: "32px", height: "32px", }} />
-          <div style={{ display: isSmall ? "none" : "block", fontSize: "1.5em" }}>
-            Plan
-          </div>
-        </button>
+        <MainButton
+          icon={<BiSolidBarChartAlt2 />}
+          label={"Plan"}
+          to="/plan"
+        />
 
         {gameEnded || (
-          <button
-            onClick={() => navigate("/tutorial", { state: { from: location } })}
-            title={`Hvordan spiller jeg?`}
-            className={`main-button`}
-            style={{ backgroundColor: location.pathname.includes("/tutorial") ? "cyan" : "#e0ffb2" }}
-          // style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: isSmall ? "0.5rem" : "0.75rem", height: isSmall ? "48px" : "64px" }}
-          >
-            <MdHelp style={{ placeSelf: "center", width: "32px", height: "32px", }} />
-            <div style={{ display: isSmall ? "none" : "block", fontSize: "1.5em" }}>
-              Hjelp
-            </div>
-          </button>
+          <MainButton
+            icon={<MdHelp />}
+            label={"Hjelp"}
+            title="Hjelp"
+            to="/tutorial"
+          />
         )}
 
       </div>
@@ -147,38 +129,23 @@ export function ApplicationHeader() {
           {isSmall ? null : (
             <div style={{ height: "100%", display: "flex", flexDirection: "row", alignItems: "center" }}>
 
-              {isSmall ? null : (
-                <a href="https://mdg.no/politikk/utfasing">
-                  <img
-                    style={{ maxWidth: "196px" }}
-                    src={
-                      "https://d1nizz91i54auc.cloudfront.net/_service/505811/display/img_version/8880781/t/1750686348/img_name/68683_505811_ba2eeb201a.png.webp"
-                    }
-                    alt={"MDG - det ER mulig"}
-                  />
-                </a>
-              )}
-
-              {isSmall ? null : (
-                <div style={{ height: "50%", width: "1px", backgroundColor: "white", marginRight: "1.5rem" }}></div>
-              )}
-
-              {isSmall ? null : (
-                <div>
-                  <a href="https://mdg.no/politikk/utfasing">
-                    Oljespillet
-                  </a>
-                </div>
-              )}
-              {/* <div>
               <a href="https://mdg.no/politikk/utfasing">
-                Oljespillet
+                <img
+                  style={{ maxWidth: "196px" }}
+                  src={
+                    "https://d1nizz91i54auc.cloudfront.net/_service/505811/display/img_version/8880781/t/1750686348/img_name/68683_505811_ba2eeb201a.png.webp"
+                  }
+                  alt={"MDG - det ER mulig"}
+                />
               </a>
-            </div> */}
 
-              {/* {isSmall ? 
-            <div style={{ height: "75%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div> : null
-            } */}
+              <div style={{ height: "50%", width: "1px", backgroundColor: "white", marginRight: "1.5rem" }}></div>
+              <div>
+                <a href="https://mdg.no/politikk/utfasing">
+                  Oljespillet
+                </a>
+              </div>
+
 
             </div>
           )}
@@ -192,17 +159,12 @@ export function ApplicationHeader() {
             <div style={{ height: "100%", display: "flex", flex: 1, justifyContent: "end", alignItems: "center", gap: "0.5rem" }}>
               <div style={{ height: "75%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div>
 
-              <button
+              <MainButton
+                icon={<FaRedo />}
+                label={"Restart"}
+                title="Start på nytt"
                 onClick={restart}
-                title={`Start på nytt`}
-                className={`main-button`}
-              // style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: isSmall ? "0.5rem" : "0.75rem", height: isSmall ? "48px" : "64px" }}
-              >
-                <FaRedo style={{ placeSelf: "center", width: "24px", height: "24px", }} />
-                <div style={{ display: isSmall ? "none" : "block", fontSize: "1.5em" }}>
-                  Restart
-                </div>
-              </button>
+              />
 
             </div>
           </div>

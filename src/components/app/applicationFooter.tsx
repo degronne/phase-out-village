@@ -6,6 +6,7 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { gameData } from "../../data/gameData";
 import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 import { RxReset } from "react-icons/rx";
+import { MainButton } from "../ui/mainButton";
 
 export function ApplicationFooter() {
 
@@ -22,7 +23,7 @@ export function ApplicationFooter() {
     proceed();
   }
 
-  function clearSelection(){
+  function clearSelection() {
     setPhaseOutDraft({});
   }
 
@@ -32,14 +33,12 @@ export function ApplicationFooter() {
       {gameEnded ? <div style={{ height: "64px" }}></div> : (
         <div style={{ display: "flex", flex: 1, alignItems: "center", gap: "0.5rem", }}>
 
-          <div style={{ display: "flex", flex: 1, gap: "0.5rem", }}>
+          <div style={{ display: "flex", flex: 1, alignSelf: "start", gap: "0.5rem", }}>
 
             <div
               style={{ display: "flex", flex: 1, flexDirection: "column", maxHeight: "64px", overflowY: "auto", borderRadius: "0.5rem", }}
             >
-              <div
-                style={{ padding: "0.0rem", }}
-              >
+              <div style={{ padding: "0.0rem", }}>
                 Valgte oljefelt ({Object.keys(phaseOutDraft).length}):
               </div>
               <div
@@ -53,47 +52,29 @@ export function ApplicationFooter() {
 
           <div style={{ height: "100%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div>
 
-          <button
+          <MainButton
+            icon={<MdEdit />}
+            label={"Velg felter for avvikling"}
+            title="Velg felter for avvikling"
             disabled={gameEnded}
             onClick={() => navigate("/phaseout", { state: { from: location } })}
-            title={`Velg felter for avvikling`}
-            className={`main-button`}
-            style={{ backgroundColor: location.pathname.includes("/phaseout") ? "cyan" : "#e0ffb2" }}
-            // style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: isSmall ? "0.5rem" : "0.75rem", height: isSmall ? "48px" : "64px" }}
-          >
-            <MdEdit style={{ placeSelf: "center", width: "32px", height: "32px", }} />
-            <div style={{ display: isSmall ? "none" : "block", fontSize: isSmall ? "1.25em" : "1.5em" }}>
-              { isSmall ? `Velg felt` : `Velg oljefelt å avvikle`}
-            </div>
-          </button>
+          />
 
-          {/* <div style={{ height: "100%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div> */}
-
-          <button
+          <MainButton
+            icon={<RxReset />}
+            label={"Tøm valg"}
+            title="Tilbakestill valgte oljefelt"
             disabled={gameEnded || (Object.keys(phaseOutDraft).length < 1)}
             onClick={() => clearSelection()}
-            title={`Tilbakestill valgte oljefelt`}
-            className={`main-button`}
-            // style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: isSmall ? "0.5rem" : "0.75rem", height: isSmall ? "48px" : "64px" }}
-          >
-            <RxReset style={{ placeSelf: "center", width: "32px", height: "32px", }} />
-            <div style={{ display: isSmall ? "none" : "block", fontSize: isSmall ? "1.25em" : "1.5em" }}>
-              Tøm valg
-            </div>
-          </button>
+          />
 
-          <button
+          <MainButton
+            icon={<FaRecycle />}
+            label={"Avvikle"}
+            title="Tilbakestill valgte oljefelt"
             disabled={gameEnded}
             onClick={() => runPhaseOut()}
-            title={`Kjør avvikling!`}
-            className={`main-button`}
-            // style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: isSmall ? "0.5rem" : "0.75rem", height: isSmall ? "48px" : "64px" }}
-          >
-            <FaRecycle style={{ placeSelf: "center", width: "32px", height: "32px", }} />
-            <div style={{ fontSize: isSmall ? "1.25em" : "1.5em" }}>
-              { isSmall ? `Avvikle` : `Avvikle!`}
-            </div>
-          </button>
+          />
 
         </div>
       )}
