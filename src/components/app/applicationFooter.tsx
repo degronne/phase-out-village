@@ -70,7 +70,7 @@ export function ApplicationFooter() {
           {/* <div style={{ height: "100%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div> */}
 
           <button
-            disabled={gameEnded}
+            disabled={gameEnded || (Object.keys(phaseOutDraft).length < 1)}
             onClick={() => clearSelection()}
             title={`Tilbakestill valgte oljefelt`}
             className={`main-button`}
