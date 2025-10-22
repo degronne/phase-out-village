@@ -145,11 +145,18 @@ export function ApplicationHeader() {
               <div style={{ height: "50%", width: "1px", backgroundColor: "white", marginRight: "1.5rem" }}></div>
             )}
 
-            <div>
+            {isSmall ? null : (
+              <div>
+                <a href="https://mdg.no/politikk/utfasing">
+                  Oljespillet
+                </a>
+              </div>
+            )}
+            {/* <div>
               <a href="https://mdg.no/politikk/utfasing">
                 Oljespillet
               </a>
-            </div>
+            </div> */}
 
             {/* {isSmall ? 
             <div style={{ height: "75%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div> : null
