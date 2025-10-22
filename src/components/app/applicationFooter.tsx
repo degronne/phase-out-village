@@ -70,8 +70,7 @@ export function ApplicationFooter() {
 
           <MainButton
             icon={<FaRecycle />}
-            label={"Avvikle"}
-            title="Tilbakestill valgte oljefelt"
+            label={"Avvikle!"}
             disabled={gameEnded}
             onClick={() => runPhaseOut()}
           />
