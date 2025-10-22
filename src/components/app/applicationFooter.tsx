@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { FaRecycle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ApplicationContext } from "../../applicationContext";
-import { MdEdit } from "react-icons/md";
+import { MdDelete, MdEdit } from "react-icons/md";
 import { gameData } from "../../data/gameData";
 import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 
@@ -19,6 +19,10 @@ export function ApplicationFooter() {
     setPhaseOut((phaseOut) => ({ ...phaseOut, ...draft }));
     setPhaseOutDraft({}); // Clear the draft after submit
     proceed();
+  }
+
+  function clearSelection(){
+    setPhaseOutDraft({});
   }
 
   return (
@@ -55,8 +59,20 @@ export function ApplicationFooter() {
             style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: isSmall ? "0.5rem" : "0.75rem", height: isSmall ? "48px" : "64px" }}
           >
             <MdEdit style={{ placeSelf: "center", width: "32px", height: "32px", }} />
-            <div style={{ fontSize: isSmall ? "1.25em" : "1.5em" }}>
+            <div style={{ display: isSmall ? "none" : "block", fontSize: isSmall ? "1.25em" : "1.5em" }}>
               { isSmall ? `Velg felt` : `Velg oljefelt å stenge`}
+            </div>
+          </button>
+
+          <button
+            disabled={gameEnded}
+            onClick={() => clearSelection()}
+            title={`Tilbakestill valgte oljefelt`}
+            style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: isSmall ? "0.5rem" : "0.75rem", height: isSmall ? "48px" : "64px" }}
+          >
+            <MdDelete style={{ placeSelf: "center", width: "32px", height: "32px", }} />
+            <div style={{ display: isSmall ? "none" : "block", fontSize: isSmall ? "1.25em" : "1.5em" }}>
+              Tøm valg
             </div>
           </button>
 

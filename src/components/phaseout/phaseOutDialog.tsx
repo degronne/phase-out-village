@@ -220,7 +220,11 @@ export function PhaseOutDialog({
         </div>
 
         <button
-          onClick={() => navigate(from)}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            navigate(from)}
+          }
           style={{ placeSelf: "end" }}
         >X
         </button>
@@ -249,7 +253,7 @@ export function PhaseOutDialog({
                     }}
                     checked={!!draft[k]}
                   />
-                  {k}
+                  {` `}{k}
                 </label>
               </li>
             );
