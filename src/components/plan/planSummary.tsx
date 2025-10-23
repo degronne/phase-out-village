@@ -69,9 +69,9 @@ export function PlanSummary() {
 
         <div style={{ width: "100%", display: "flex", gap: "1.5rem" }}>
 
-          <div style={{ width: "100%", display: "flex", flexDirection: "column", padding: "0.75rem", border: "1px solid #e0ffb2", borderRadius: "0.5rem" }}>
+          <div style={{ width: "100%", display: "flex", flexDirection: "column", padding: "1rem", border: "1px solid #e0ffb2", borderRadius: "0.5rem" }}>
             <div>
-              <div style={{ fontWeight: "bold", fontSize: "1.25em", marginBottom: "0.25rem" }}>Utslippsredusering</div>
+              <div style={{ fontWeight: "bold", fontSize: "1.25em", marginBottom: "0.5rem" }}>Utslippsredusering</div>
               <div style={{ marginBottom: "1.5rem" }}>
                 Uten inngrep vil oljefeltene produsere <strong style={{ color: "white" }}>{baselineEmRounded} millioner tonn CO₂</strong> innen 2040.
               </div>
@@ -94,9 +94,9 @@ export function PlanSummary() {
             </div>
           </div>
 
-          <div style={{ width: "100%", display: "flex", flexDirection: "column", padding: "0.75rem", border: "1px solid #e0ffb2", borderRadius: "0.5rem" }}>
+          <div style={{ width: "100%", display: "flex", flexDirection: "column", padding: "1rem", border: "1px solid #e0ffb2", borderRadius: "0.5rem" }}>
             <div>
-              <div style={{ fontWeight: "bold", fontSize: "1.25em", marginBottom: "0.25rem" }}>Produksjonsredusering</div>
+              <div style={{ fontWeight: "bold", fontSize: "1.25em", marginBottom: "0.5rem" }}>Produksjonsredusering</div>
               <div style={{ marginBottom: "1.5rem" }}>
                 Uten inngrep vil oljefeltene produsere <strong style={{ color: "white" }}>{baselinePrRounded} milliarder fat olje</strong> innen 2040.
               </div>
