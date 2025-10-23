@@ -7,7 +7,7 @@ import { FaPlay, FaInfoCircle, FaRedo, FaRecycle, FaMap } from "react-icons/fa";
 import { MdBarChart, MdHelp, MdInfo, MdOutlineBarChart } from "react-icons/md";
 import logo from "./MDG_Logo_2025.png"
 import { BiSolidBarChartAlt2 } from "react-icons/bi";
-import { ProgressBar, YearProgress } from "../ui/progressionBar";
+import { MainProgressBar, YearProgress } from "../ui/mainProgressionBar";
 import { FcViewDetails } from "react-icons/fc";
 import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 import { MainButton } from "../ui/mainButton";

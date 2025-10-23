@@ -76,13 +76,6 @@ export function ApplicationFooter() {
             onClick={() => runPhaseOut()}
           />
 
-          {/* <MainButton
-            icon={<FaRecycle />}
-            label={"Avvikle!"}
-            disabled={gameEnded}
-            onClick={() => runPhaseOut()}
-          /> */}
-
         </div>
       )}
 

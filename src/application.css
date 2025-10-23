@@ -121,6 +121,8 @@ td {
 
 #app header {
   display: grid;
+  padding-bottom: 1px;
+  border-bottom: 1px solid var(--lime);
   /* grid-template-columns: 1fr 1fr; */
 
   grid-template-columns: unset;

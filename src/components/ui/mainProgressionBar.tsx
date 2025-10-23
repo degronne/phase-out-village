@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { ApplicationContext } from "../../applicationContext";
 
-interface ProgressBarProps {
+interface MainProgressBarProps {
     value: number; // 0–100
     yearCurrent: number;
     yearEnd: number;
@@ -11,7 +11,7 @@ interface ProgressBarProps {
     showLabel?: boolean;
 }
 
-export const ProgressBar: React.FC<ProgressBarProps> = ({
+export const MainProgressBar: React.FC<MainProgressBarProps> = ({
     value,
     yearCurrent,
     yearEnd = 2040,
@@ -135,7 +135,7 @@ export function YearProgress() {
 
     return (
         <div style={{}}>
-            <ProgressBar value={percent} yearCurrent={parseInt(year)} yearEnd={2040} />
+            <MainProgressBar value={percent} yearCurrent={parseInt(year)} yearEnd={2040} />
         </div>
     );
 }
