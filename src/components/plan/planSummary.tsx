@@ -22,13 +22,17 @@ export function PlanSummary() {
   // Emission summary data
   const years = gameData.gameYears;
   const baselineEm = sumOverYears(totalProduction({}, years), "emission");
-  const resultEm = sumOverYears(totalProduction(phaseOut, years), "emission");
-  const reductionEm = Math.round(((baselineEm - resultEm) / baselineEm) * 100);
+  const baselineEmRounded = Math.round(baselineEm / 1_000_000); // In millions of tons 
+  const currentEm = sumOverYears(totalProduction(phaseOut, years), "emission");
+  const currentEmRounded = Math.round(currentEm / 1_000_000); // In millions of tons  
+  const reductionEm = Math.round(((currentEm - baselineEm) / baselineEm) * 100);
 
   // Production summary data
   const baselinePr = sumOverYears(totalProduction({}, gameData.gameYears), "totalProduction",);
-  const resultPr = sumOverYears(totalProduction(phaseOut, gameData.gameYears), "totalProduction",);
-  const reductionPr = Math.round(((baselinePr - resultPr) / baselinePr) * 100);
+  const baselinePrRounded = Math.round(((baselinePr * oilEquivalentToBarrel) / 1_000) * 10) / 10; 
+  const currentPr = sumOverYears(totalProduction(phaseOut, gameData.gameYears), "totalProduction",);
+  const currentPrRounded = Math.round(((currentPr * oilEquivalentToBarrel) / 1_000) * 10) / 10; 
+  const reductionPr = Math.round(((currentPr - baselinePr) / baselinePr) * 100);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "2rem", padding: "2rem", }}>
@@ -46,17 +50,16 @@ export function PlanSummary() {
       </h2>
 
       <div>
+        
         <div>
-          {Math.round(resultEm / 1_000_000)}
-          &nbsp;millioner&nbsp;tonn&nbsp;CO₂{" "}
-          <span title={baselineEm.toString()}> (-{reductionEm}%)</span>
+          <div>Utslipp</div>
+          <div>{`${currentEmRounded} / ${baselineEmRounded} millioner tonn CO₂ (${reductionEm}%)`}</div>
         </div>
-      <div>
-        {Math.round(((resultPr * oilEquivalentToBarrel) / 1_000) * 10) / 10}&nbsp;milliarder&nbsp;fat{" "}
-        <span title={baselinePr.toFixed(2)}>(-{reductionPr}%)</span>
-      </div>
-        {/* <EmissionSummaryCard />
-        <ProductionSummaryCard /> */}
+        <div>
+          <div>Produksjon</div>
+          <div>{`${currentPrRounded} / ${baselinePrRounded} milliarder fat olje (${reductionPr}%)`}</div>
+        </div>
+
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>

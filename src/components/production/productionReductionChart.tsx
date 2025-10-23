@@ -137,7 +137,7 @@ export function ProductionReductionChart({
         labels: gameData.gameYears,
         datasets: [
           {
-            label: "Gjenværende oljeproduksjon",
+            label: "Gjenværende oljeprod.",
             data: remainingOil,
             borderColor: "#4a90e2",
             backgroundColor: usePrefersDarkMode() ? "#2A5D8F" : "#4DA3FF",
@@ -151,7 +151,7 @@ export function ProductionReductionChart({
             stack: "PLAN",
           },
           {
-            label: "Redusjon olje",
+            label: "Reduksjon olje",
             data: reductionOil,
             borderColor: "orange",
             backgroundColor: usePrefersDarkMode()
@@ -160,7 +160,7 @@ export function ProductionReductionChart({
             stack: "PLAN",
           },
           {
-            label: "Redusjon gass",
+            label: "Reduksjon gass",
             data: reductionGas,
             borderColor: "orange",
             backgroundColor: usePrefersDarkMode()
