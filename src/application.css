@@ -296,16 +296,20 @@ dialog .button-row {
 }
 
 .info-card {
+  height: 64px;
   display: flex;
   flex-direction: row;
-  flex: 1;
+  /* flex: 1; */
   align-items: center;
   font-size: 1em;
   margin-right: 0rem;
   border: 1px solid #e0ffb26e;
-  padding-top: 0.25rem;
+  /* padding-top: 0.25rem;
   padding-bottom: 0.25rem;
   padding-left: 0.75rem;
-  padding-right: 0.75rem;
+  padding-right: 0.75rem; */
   border-radius: 0.5rem;
+  @media (width <= 600px) {
+    height: 48px;
+  }
 }
