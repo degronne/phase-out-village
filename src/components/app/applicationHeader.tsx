@@ -57,21 +57,11 @@ function ActionCard() {
         style={{ display: "flex", alignItems: "center", flex: 1, gap: "0.5rem", margin: 0 }}
       >
 
-        <div style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          fontSize: "1.0em",
-          marginRight: "0rem",
-          border: "1px solid #e0ffb26e",
-          paddingTop: "0.25rem",
-          paddingBottom: "0.25rem",
-          paddingLeft: "0.75rem",
-          paddingRight: "0.75rem",
-          borderRadius: "0.5rem"
-        }}>
-          {isSmall ? null : <div>Året er:</div>}
-          <div style={{ fontSize: "1.25em" }}>{year}</div>
+        <div className={`info-card`}>
+          <div>
+            {isSmall ? null : <div>Året er:</div>}
+            <div style={{ fontSize: "1.25em" }}>{year}</div>
+          </div>
         </div>
 
         <div style={{ height: "75%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div>
