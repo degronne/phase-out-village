@@ -16,6 +16,7 @@ interface MainButtonProps {
     fontSizeLarge?: string;               // Optional font size override for large screens
     iconSmall?: string;
     iconLarge?: string;
+    count?: number;                        // Optional badge number shown in the top-right corner
 }
 
 /**
@@ -62,6 +63,7 @@ export const MainButton: React.FC<MainButtonProps> = ({
     fontSizeLarge = "1.5em",
     iconSmall = "32px",
     iconLarge = "32px",
+    count,
 }) => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -126,6 +128,29 @@ export const MainButton: React.FC<MainButtonProps> = ({
             >
                 {label}
             </div>
+
+            {/* Optional count badge */}
+            {typeof count === "number" && (
+                <div
+                    style={{
+                        position: "absolute",
+                        top: "-4px",
+                        right: "-4px",
+                        backgroundColor: "green",
+                        color: "white",
+                        borderRadius: "9999px",
+                        padding: "4px 0px",
+                        fontSize: isSmall ? "0.75em" : "1em",
+                        fontWeight: "bold",
+                        lineHeight: 1,
+                        minWidth: isSmall ? "18px" : "22px",
+                        textAlign: "center",
+                    }}
+                >
+                    {count > 99 ? "99+" : count}
+                </div>
+            )}
+
         </button>
     );
 };
