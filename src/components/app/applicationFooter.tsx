@@ -57,7 +57,7 @@ export function ApplicationFooter() {
             label={"Velg felter for avvikling"}
             title="Velg felter for avvikling"
             disabled={gameEnded}
-            onClick={() => navigate("/phaseout", { state: { from: location } })}
+            to={`/phaseout`}
           />
 
           <MainButton
@@ -72,8 +72,16 @@ export function ApplicationFooter() {
             icon={<FaRecycle />}
             label={"Avvikle!"}
             disabled={gameEnded}
+            count={Object.keys(phaseOutDraft).length > 0 ? Object.keys(phaseOutDraft).length : undefined}
             onClick={() => runPhaseOut()}
           />
+
+          {/* <MainButton
+            icon={<FaRecycle />}
+            label={"Avvikle!"}
+            disabled={gameEnded}
+            onClick={() => runPhaseOut()}
+          /> */}
 
         </div>
       )}
