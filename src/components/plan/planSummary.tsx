@@ -10,6 +10,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { ProductionSummaryCard } from "../production/productionSummaryCard";
 import { gameData, oilEquivalentToBarrel, sumOverYears, totalProduction } from "../../data/gameData";
 import { PlanProgressionBar } from "../ui/planProgressionBar";
+import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
+import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
 
 /**
  * Displays a summary of the user's plan, including charts for
@@ -19,6 +21,8 @@ export function PlanSummary() {
   const { phaseOut } = useContext(ApplicationContext);
   const navigate = useNavigate();
   const location = useLocation();
+  const isSmall = useIsSmallScreen();
+  const isDarkMode = usePrefersDarkMode();
 
   // Emission summary data
   const years = gameData.gameYears;
@@ -43,7 +47,7 @@ export function PlanSummary() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "2rem", padding: "2rem", }}>
-      <div style={{ position: "absolute", placeSelf: "end", }}>
+      <div style={{ position: "absolute", placeSelf: "end", zIndex: "3" }}>
         <button
           onClick={() => navigate("/map", { state: { from: location } })}
           title="Tilbake"
@@ -56,9 +60,7 @@ export function PlanSummary() {
         Din plan
       </h2>
 
-      <div>
-
-        {/* <div>
+      {/* <div>
           <div>Utslipp</div>
           <div>{`${currentEmRounded} / ${baselineEmRounded} millioner tonn CO₂ (${reductionEm}%)`}</div>
         </div>
@@ -67,61 +69,61 @@ export function PlanSummary() {
           <div>{`${currentPrRounded} / ${baselinePrRounded} milliarder fat olje (${reductionPr}%)`}</div>
         </div> */}
 
-        <div style={{ width: "100%", display: "flex", gap: "1.5rem" }}>
+      <div style={{ width: "100%", display: "flex", flexDirection: isSmall ? "column" : "row", gap: "1.5rem", marginTop: "2rem", marginBottom: "2rem" }}>
 
-          <div style={{ width: "100%", display: "flex", flexDirection: "column", padding: "1rem", border: "1px solid #e0ffb2", borderRadius: "0.5rem" }}>
-            <div>
-              <div style={{ fontWeight: "bold", fontSize: "1.25em", marginBottom: "0.5rem" }}>Utslippsredusering</div>
-              <div style={{ marginBottom: "1.5rem" }}>
-                Uten inngrep vil oljefeltene produsere <strong style={{ color: "white" }}>{baselineEmRounded} millioner tonn CO₂</strong> innen 2040.
-              </div>
-              <div style={{ marginBottom: "0.5rem" }}>
-                Dine inngrep har så langt redusert utslipp med <strong style={{ color: "white"}}>{preventedEmRounded} millioner tonn CO₂ ({reductionEmPositive}%)</strong>!
-              </div>
-              {/* <div>{`${currentEmRounded} / ${baselineEmRounded} millioner tonn CO₂ (${reductionEm}%)`}</div> */}
-              <div style={{ marginBottom: "0.25rem" }}>
-                <PlanProgressionBar
-                  current={currentEm}
-                  baseline={baselineEm}
-                  mode="emission"
-                  includeDecimal={true}
-                  metricLabel={`millioner tonn CO₂`}
-                  size="medium"
-                  barColor="hsla(0, 83%, 34%, 1.00)"
-                  endColor="hsla(120, 99%, 32%, 1.00)"   // forest green
-                />
-              </div>
+        <div style={{ width: "100%", display: "flex", flexDirection: "column", padding: "1rem", border: "1px solid #e0ffb2", borderRadius: "0.5rem" }}>
+          <div>
+            <div style={{ fontWeight: "bold", fontSize: "1.25em", marginBottom: "0.5rem" }}>Utslippsredusering</div>
+            <div style={{ marginBottom: "1.5rem" }}>
+              Uten inngrep vil oljefeltene produsere <strong style={{ color: isDarkMode ? "white" : "black" }}>{baselineEmRounded} millioner tonn CO₂</strong> innen 2040.
+            </div>
+            <div style={{ marginBottom: "0.5rem" }}>
+              Dine inngrep har så langt redusert utslipp med <strong style={{ color: isDarkMode ? "white" : "black" }}>{preventedEmRounded} millioner tonn CO₂ ({reductionEmPositive}%)</strong>!
+            </div>
+            {/* <div>{`${currentEmRounded} / ${baselineEmRounded} millioner tonn CO₂ (${reductionEm}%)`}</div> */}
+            <div style={{ marginBottom: "0.25rem" }}>
+              <PlanProgressionBar
+                current={currentEm}
+                baseline={baselineEm}
+                mode="emission"
+                includeDecimal={true}
+                metricLabel={`millioner tonn CO₂`}
+                size="medium"
+                barColor="hsla(0, 83%, 34%, 1.00)"
+                endColor="hsla(120, 99%, 32%, 1.00)"   // forest green
+              />
             </div>
           </div>
+        </div>
 
-          <div style={{ width: "100%", display: "flex", flexDirection: "column", padding: "1rem", border: "1px solid #e0ffb2", borderRadius: "0.5rem" }}>
-            <div>
-              <div style={{ fontWeight: "bold", fontSize: "1.25em", marginBottom: "0.5rem" }}>Produksjonsredusering</div>
-              <div style={{ marginBottom: "1.5rem" }}>
-                Uten inngrep vil oljefeltene produsere <strong style={{ color: "white" }}>{baselinePrRounded} milliarder fat olje</strong> innen 2040.
-              </div>
-              <div style={{ marginBottom: "0.5rem" }}>
-                Dine inngrep har så langt redusert produksjonen med <strong style={{ color: "white"}}>{preventedPrRounded} milliarder fat olje ({reductionPrPositive}%)</strong>!
-              </div>
-              {/* <div>{`${currentPrRounded} / ${baselinePrRounded} milliarder fat olje (${reductionPr}%)`}</div> */}
-              <div style={{ marginBottom: "0.25rem" }}>
-                <PlanProgressionBar
-                  current={currentPrCalc}
-                  baseline={baselinePrCalc}
-                  mode="production"
-                  includeDecimal={true}
-                  metricLabel={`milliarder fat olje`}
-                  size="medium"
-                  barColor="hsl(0, 0%, 15%)"
-                  endColor="hsla(207, 100%, 47%, 1.00)"   // ocean blue
-                />
-              </div>
+        <div style={{ width: "100%", display: "flex", flexDirection: "column", padding: "1rem", border: "1px solid #e0ffb2", borderRadius: "0.5rem" }}>
+          <div>
+            <div style={{ fontWeight: "bold", fontSize: "1.25em", marginBottom: "0.5rem" }}>Produksjonsredusering</div>
+            <div style={{ marginBottom: "1.5rem" }}>
+              Uten inngrep vil oljefeltene produsere <strong style={{ color: isDarkMode ? "white" : "black" }}>{baselinePrRounded} milliarder fat olje</strong> innen 2040.
+            </div>
+            <div style={{ marginBottom: "0.5rem" }}>
+              Dine inngrep har så langt redusert produksjonen med <strong style={{ color: isDarkMode ? "white" : "black" }}>{preventedPrRounded} milliarder fat olje ({reductionPrPositive}%)</strong>!
+            </div>
+            {/* <div>{`${currentPrRounded} / ${baselinePrRounded} milliarder fat olje (${reductionPr}%)`}</div> */}
+            <div style={{ marginBottom: "0.25rem" }}>
+              <PlanProgressionBar
+                current={currentPrCalc}
+                baseline={baselinePrCalc}
+                mode="production"
+                includeDecimal={true}
+                metricLabel={`milliarder fat olje`}
+                size="medium"
+                barColor="hsl(0, 0%, 15%)"
+                endColor="hsla(207, 100%, 47%, 1.00)"   // ocean blue
+              />
             </div>
           </div>
-
         </div>
 
       </div>
+
+      {/* <div style={{ height: "1px", backgroundColor: "grey", opacity: "0.5" }}></div> */}
 
       <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
 

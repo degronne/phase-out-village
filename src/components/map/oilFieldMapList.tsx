@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ApplicationContext } from "../../applicationContext";
 import { gameData } from "../../data/gameData";
 import { slugify } from "../../data/slugify";
+import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
 
 /**
  * Component that renders a list of all oil fields with links to their map pages.
@@ -10,6 +11,7 @@ import { slugify } from "../../data/slugify";
  */
 export function OilFieldMapList() {
   const { phaseOut, phaseOutDraft } = useContext(ApplicationContext);
+  const isDarkMode = usePrefersDarkMode();
   return (
     <div>
       <h1>Oljefelter</h1>
@@ -18,7 +20,7 @@ export function OilFieldMapList() {
       </div>
       <ul>
         {gameData.allFields.map((o) => (
-          <li key={o} style={{ color: phaseOutDraft[o] ? "cyan" : phaseOut[o] ? "grey" : "inherit" }}>
+          <li key={o} style={{ color: phaseOutDraft[o] ? isDarkMode ? "cyan" : "blueviolet" : phaseOut[o] ? "grey" : "inherit" }}>
             <Link to={`/map/${slugify(o)}`}>{o}</Link> {/* Link to the map view for this oil field */}
             
             {/* Show the year this field is scheduled to be phased out in the user's plan */}
