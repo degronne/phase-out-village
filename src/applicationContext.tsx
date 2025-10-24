@@ -34,6 +34,7 @@ export const ApplicationContext = React.createContext<{
   endYear: number;
   /** Step in years between simulation periods */
   yearStep: number;
+  getEndOfTermYear(): number;
 }>({
   // Default context values
   year: "2025",
@@ -48,4 +49,5 @@ export const ApplicationContext = React.createContext<{
   startYear: 2025,
   endYear: 2040,
   yearStep: 4,
+  getEndOfTermYear: () => 2028,
 });

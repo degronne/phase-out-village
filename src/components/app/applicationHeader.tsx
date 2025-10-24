@@ -43,8 +43,11 @@ function ActionCard() {
           <MainButton
             icon={<FcViewDetails />}
             label={"Oppsummering"}
+            labelSmall={`Oppsummering`}
             // title="Kart"
             to="/summary"
+            hideLabelOnSmall={false}
+            hideIconOnSmall={false}
           />
 
         </div>
@@ -159,7 +162,7 @@ export function ApplicationHeader() {
                   title="Hjelp"
                   to="/tutorial"
                   hideLabelOnSmall={false}
-                hideIconOnSmall={false}
+                  hideIconOnSmall={false}
                 />
               )}
 

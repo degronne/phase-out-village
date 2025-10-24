@@ -80,7 +80,8 @@ export function Application() {
     setYear((y) => {
       const year = parseInt(y);
       // Move forward to the next multiple of 4, capped at 2040
-      const nextYear = Math.min(year + yearStep - (year % yearStep), endYear);
+      // const nextYear = Math.min(year + yearStep - (year % yearStep), endYear);
+      const nextYear = Math.min(getEndOfTermYear(), endYear);
       if (nextYear === endYear) navigate("/summary");
       return nextYear.toString() as Year; // Return as string type Year
     });
@@ -110,6 +111,26 @@ export function Application() {
     return Math.round((endYear - startYear) / yearStep) + 1;
   }
 
+/**
+ * Returns the final year of the current term.
+ *
+ * Each term normally lasts `yearStep` years (e.g., 4),
+ * but if the current year does not align with a multiple of `yearStep`,
+ * it adjusts so that the *end of term* lands on the next multiple of `yearStep`.
+ *
+ * Examples (yearStep = 4):
+ * - 2025 → 2028  (since 2028 is the next multiple of 4 after 2025)
+ * - 2028 → 2032
+ * - 2032 → 2036
+ * - 2036 → 2040
+ */
+function getEndOfTermYear(): number {
+  const y = parseInt(year);
+  const remainder = y % yearStep;
+  const nextStep = remainder === 0 ? yearStep : yearStep - remainder;
+  return Math.min(y + nextStep, endYear);
+}
+
   return (
     // Context provider: makes the app state and control functions available to children
     <ApplicationContext
@@ -126,6 +147,7 @@ export function Application() {
         startYear,
         endYear, 
         yearStep,
+        getEndOfTermYear,
       }}>
       <ApplicationHeader />
       <main>
