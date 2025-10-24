@@ -77,7 +77,7 @@ export function ApplicationFooter() {
           <MainButton
             icon={<FaRecycle />}
             label={"Avvikle!"}
-            labelSmall={"Steng"}
+            labelSmall={"Avvikle"}
             disabled={gameEnded}
             count={Object.keys(phaseOutDraft).length > 0 ? Object.keys(phaseOutDraft).length : undefined}
             onClick={() => runPhaseOut()}
