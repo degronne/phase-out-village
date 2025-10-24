@@ -25,6 +25,13 @@ function ActionCard() {
   const location = useLocation();
   const isSmall = useIsSmallScreen();
   const gameEnded = year === "2040";
+  let runde = 1;
+  switch(parseInt(year)){
+    case 2028: runde = 2; break;
+    case 2032: runde = 3; break;
+    case 2036: runde = 4; break;
+    case 2040: break;
+  }
 
   // // If the game has ended, show summary and restart buttons
   if (gameEnded)
@@ -60,8 +67,16 @@ function ActionCard() {
         <div className={`info-card`}>
           <div>
             {/* {isSmall ? null : <div>Året er:</div>} */}
-            <div style={{ fontSize: isSmall ? "1em" : "1.25em", paddingLeft: "0.75rem", paddingRight: "0.75rem" }}>{year} - {parseInt(year)+(parseInt(year) === 2025 ? 3 : 4)}</div>
+            <div style={{ fontSize: isSmall ? "1em" : "1.25em", paddingLeft: isSmall ? "0.5rem" : "0.75rem", paddingRight: isSmall ? "0.5rem" : "0.75rem" }}>
+              {isSmall ? year : `${year} - ${parseInt(year)+(parseInt(year) === 2025 ? 3 : 4)}`}
+              {/* {year} - {parseInt(year)+(parseInt(year) === 2025 ? 3 : 4)} */}
+              </div>
           </div>
+        </div>
+
+        <div className={`info-card`}>
+          <div style={{ fontSize: isSmall ? "1em" : "1.25em", paddingLeft: isSmall ? "0.5rem" : "0.75rem", paddingRight: isSmall ? "0.5rem" : "0.75rem" }}>Runde:</div>
+          <div style={{ fontSize: isSmall ? "1em" : "1.25em", paddingLeft: "0rem", paddingRight: isSmall ? "0.5rem" : "0.75rem" }}>{runde} / 4</div>
         </div>
 
         {/* <div style={{ height: "75%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div>
