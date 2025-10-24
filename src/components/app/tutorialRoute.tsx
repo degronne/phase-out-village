@@ -48,7 +48,6 @@ export function TutorialRoute() {
       }}>
         <TutorialDialog onClose={() => navigate(from)} />
       </div>
-      {/* <TutorialDialog onClose={() => navigate(from)} /> */}
     </Dialog>
   );
 }

@@ -8,12 +8,10 @@
   padding-right: 1.5rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  /* padding: 2.5rem 1.5rem 1.5rem 1.5rem; */
 
   @media (width <= 600px) {
     grid-template-columns: 1fr 1fr;
     gap: 1.5em;
-    /* padding: 1.5rem 1.5rem 1.5rem 1.5rem; */
     font-size: 90%;
   }
 
@@ -37,11 +35,7 @@
   }
 
   .dialog-information-container {
-    /* padding: 1rem; */
 
-    @media (width <= 600px) {
-      /* padding: 0.5rem; */
-    }
   }
 
   .phaseout-latest-oilfield {
@@ -91,8 +85,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* position: absolute; */
-  /* padding: 1rem 1.5rem; */
 }
 
 @media (max-width: 600px) {
@@ -115,13 +107,10 @@
 }
 
 .phaseout-sort-wrapper {
-  /* top: 1rem; */
-  /* right: 1rem; */
   z-index: 10;
 }
 
 .phaseout-sort-dropdown {
-  /* padding: 0.25rem 0.5rem; */
   border-radius: 0.5rem;
   font-size: 0.9rem;
   font-weight: 500;

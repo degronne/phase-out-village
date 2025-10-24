@@ -130,7 +130,7 @@ export function TutorialDialog({ onClose }: { onClose?: () => void }) {
           display: "flex",
           justifyContent: isSmall ? "end" : "space-between",
           alignItems: "center",
-          paddingTop: isSmall ? "1rem" : ""
+          paddingTop: isSmall ? "" : ""
         }}
       >
         <h2 style={{ display: isSmall ? "none" : "block" }}>{steps[index].title}</h2>
@@ -143,23 +143,6 @@ export function TutorialDialog({ onClose }: { onClose?: () => void }) {
           {steps[index].body}
         </div>
       </div>
-
-      {/* <div
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          paddingTop: isSmall ? "1rem" : ""
-        }}
-      >
-        <h2>{steps[index].title}</h2>
-        <button onClick={onClose} style={{ borderRadius: '1rem' }} title={`Lukk`}>✖</button>
-      </div>
-
-      <div style={{ display: "flex", flex: 1, flexDirection: "column", marginTop: "1rem", marginBottom: "1rem", overflowY: "auto" }}>
-        {steps[index].body}
-      </div> */}
 
       <div
         className="button-row"

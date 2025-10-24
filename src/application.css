@@ -34,41 +34,6 @@ dialog {
   }
 }
 
-/* .maximized-dialog-on-small {
-  @media (max-width: 600px) {
-    all: unset;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    width: 100vw;
-    height: 100vh;
-    border-radius: 0;
-    
-    margin: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: white;
-  }
-} */
-
-/* dialog {
-  all: unset;
-  display: flex;
-  flex-direction: column;  
-  box-sizing: border-box;
-  width: 100vw;
-  height: 100vh;
-  border-radius: 0;
-  padding: 0;
-  margin: 0;
-  position: fixed;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  background: white;
-} */
-
 dialog::backdrop {
   background-color: rgb(0 0 0 / 0.5);
 }
@@ -89,14 +54,6 @@ dialog::backdrop {
     width: 94vw;
     max-height: 88vh;
     padding: 0.75rem 0.75rem;
-  }
-} */
-
-/* @media (max-width: 600px) {
-  .tutorial-modal {
-    width: 100%;
-    padding: 0.75rem 0.75rem;
-    place-self: center;
   }
 } */
 
@@ -225,14 +182,9 @@ td {
 dialog .button-row {
   display: flex;
   width: 100%;
-  /* justify-content: space-around; */
   gap: 1rem;
-  /* margin-bottom: 1rem; */
   button {
     font-size: 1.25rem;
-  }
-  @media (width < 600px) {
-    /* margin-bottom: 0.5rem; */
   }
 }
 
@@ -366,15 +318,10 @@ dialog .button-row {
   height: 64px;
   display: flex;
   flex-direction: row;
-  /* flex: 1; */
   align-items: center;
   font-size: 1em;
   margin-right: 0rem;
   border: 1px solid #e0ffb26e;
-  /* padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem; */
   border-radius: 0.5rem;
   @media (width <= 600px) {
     height: 48px;
