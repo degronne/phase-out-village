@@ -17,7 +17,40 @@ ul {
 dialog {
   margin: auto;
   border-radius: 1rem;
+  @media (max-width: 600px) {
+  all: unset;
+  display: flex;
+  flex-direction: column;  
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  padding: 1rem;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* overflow: hidden; */
+  background: white;
+  }
 }
+
+/* dialog {
+  all: unset;
+  display: flex;
+  flex-direction: column;  
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  background: white;
+} */
 
 dialog::backdrop {
   background-color: rgb(0 0 0 / 0.5);
@@ -167,9 +200,14 @@ td {
 dialog .button-row {
   display: flex;
   width: 100%;
-  justify-content: space-around;
+  /* justify-content: space-around; */
+  gap: 1rem;
+  /* margin-bottom: 1rem; */
   button {
     font-size: 1.25rem;
+  }
+  @media (width < 600px) {
+    margin-bottom: 1rem;
   }
 }
 
@@ -221,7 +259,8 @@ dialog .button-row {
 
 .charts {
   display: grid;
-  @media (width < 1000px) {
+  gap: 1.5rem;
+  @media (width < 600px) {
     width: 90vw;
   }
 

@@ -39,18 +39,32 @@ function ActionCard() {
     return (
       <div style={{ display: "flex", flex: 1, flexDirection: "column", padding: "0.5rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <div style={{ fontSize: "2em" }}>Året er nå 2040.</div>
+          {/* <div style={{ fontSize: "2em" }}>Året er nå 2040.</div> */}
+        <div className={`info-card`}>
+          <div>
+            <div style={{ fontSize: isSmall ? "1em" : "1.25em", paddingLeft: isSmall ? "0.5rem" : "0.75rem", paddingRight: isSmall ? "0.5rem" : "0.75rem" }}>
+              {isSmall ? year : `${year} - ${parseInt(year)+(parseInt(year) === 2025 ? 3 : 4)}`}
+              </div>
+          </div>
+        </div>
 
-          <button
+          {/* <button
             onClick={() => navigate("/summary", { state: { from: location } })}
             title={`Oppsummering`}
             style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.75rem", height: "64px" }}
           >
             <FcViewDetails style={{ placeSelf: "center", width: "32px", height: "32px", }} />
-            <div style={{ fontSize: "1.5em" }}>
+            <div style={{ fontSize: isSmall ? "1em" : "1.5em" }}>
               Oppsummering
             </div>
-          </button>
+          </button> */}
+
+        <MainButton
+          icon={<FcViewDetails />}
+          label={"Oppsummering"}
+          // title="Kart"
+          to="/summary"
+        />
 
         </div>
 
