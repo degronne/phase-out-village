@@ -93,6 +93,7 @@ export const MainButton: React.FC<MainButtonProps> = ({
                 backgroundColor,
                 opacity: disabled ? 0.6 : 1,
                 cursor: disabled ? "not-allowed" : "pointer",
+                flexDirection: isSmall && !hideLabelOnSmall && !hideIconOnSmall ? "column" : "row"
             }}
             disabled={disabled}
         >
@@ -101,8 +102,8 @@ export const MainButton: React.FC<MainButtonProps> = ({
                 <div style={{ 
                     display: isSmall && hideIconOnSmall ? "none" : "block",
                     placeSelf: "center", 
-                    width: isSmall ? iconSmall : iconLarge, 
-                    height: isSmall ? iconSmall : iconLarge,
+                    width: isSmall ? (!hideLabelOnSmall && !hideIconOnSmall) ? "16px" : iconSmall : iconLarge, 
+                    height: isSmall ? (!hideLabelOnSmall && !hideIconOnSmall) ? "16px" : iconSmall : iconLarge,
                 }}>
                     {/* React.isValidElement checks if 'icon' is a valid React element.
                         This ensures that 'icon' is something like <MyIcon /> or <svg>...</svg>,

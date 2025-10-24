@@ -60,7 +60,7 @@ export function ApplicationFooter() {
             disabled={gameEnded}
             to={`/phaseout`}
             hideLabelOnSmall={false}
-            hideIconOnSmall={true}
+            hideIconOnSmall={false}
           />
 
           <MainButton
@@ -71,7 +71,7 @@ export function ApplicationFooter() {
             disabled={gameEnded || (Object.keys(phaseOutDraft).length < 1)}
             onClick={() => clearSelection()}
             hideLabelOnSmall={false}
-            hideIconOnSmall={true}
+            hideIconOnSmall={false}
           />
 
           <MainButton
@@ -82,7 +82,7 @@ export function ApplicationFooter() {
             count={Object.keys(phaseOutDraft).length > 0 ? Object.keys(phaseOutDraft).length : undefined}
             onClick={() => runPhaseOut()}
             hideLabelOnSmall={false}
-            hideIconOnSmall={true}
+            hideIconOnSmall={false}
           />
 
         </div>

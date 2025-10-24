@@ -139,7 +139,7 @@ export function ApplicationHeader() {
                 labelSmall={"Kart"}
                 to="/map"
                 hideLabelOnSmall={false}
-                hideIconOnSmall={true}
+                hideIconOnSmall={false}
               />
 
               <MainButton
@@ -148,7 +148,7 @@ export function ApplicationHeader() {
                 labelSmall={"Plan"}
                 to="/plan"
                 hideLabelOnSmall={false}
-                hideIconOnSmall={true}
+                hideIconOnSmall={false}
               />
 
               {gameEnded || (
@@ -159,7 +159,7 @@ export function ApplicationHeader() {
                   title="Hjelp"
                   to="/tutorial"
                   hideLabelOnSmall={false}
-                  hideIconOnSmall={true}
+                hideIconOnSmall={false}
                 />
               )}
 
@@ -172,7 +172,7 @@ export function ApplicationHeader() {
                 title="Start på nytt"
                 onClick={restart}
                 hideLabelOnSmall={false}
-                hideIconOnSmall={true}
+                hideIconOnSmall={false}
               />
 
             </div>
