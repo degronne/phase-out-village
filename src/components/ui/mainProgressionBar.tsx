@@ -29,6 +29,7 @@ export const MainProgressBar: React.FC<MainProgressBarProps> = ({
                 width: "100%",
                 height,
                 backgroundColor: "#e0e0e0",
+                // backgroundColor: "#ecececff",
                 overflow: "hidden",
                 boxShadow: "inset 0 2px 4px rgba(0,0,0,0.2)",
             }}
@@ -95,7 +96,13 @@ export function YearProgress() {
 
     return (
         <div style={{}}>
-            <MainProgressBar value={percent} yearCurrent={parseInt(year)} yearEnd={2040} />
+            <MainProgressBar 
+                value={percent} 
+                yearCurrent={parseInt(year)} 
+                yearEnd={endYear} 
+                // colorFrom={"#00ff15ff"}
+                // colorTo={"#00ff15ff"}
+            />
         </div>
     );
 }
