@@ -238,9 +238,10 @@ export function PhaseOutDialog({
 
       <div style={{
         width: "100%",
+        minWidth: isSmall ? "" : "612px",
         maxWidth: "1024px",
-        paddingLeft: "1rem",
         paddingTop: "1rem",
+        paddingLeft: "1rem",
         paddingRight: "1rem",
         backgroundColor: "#133600"
       }}>
@@ -425,6 +426,16 @@ export function PhaseOutDialog({
           borderTop: "1px solid #e0ffb2"
         }}>
 
+          <div className={"button-row"} style={{ width: "100%", flex: 1, marginTop: "0rem" }}>
+            <button onClick={() => setPhaseOutDraft({})} disabled={Object.keys(phaseOutDraft).length < 1}>Tøm</button>
+            <button onClick={handleMdgPlanClick}>
+              { isSmall ? `Velg MDGs felter` : `Velg felter fra MDGs plan`}
+              </button>
+            <button type="submit" disabled={year === "2040"} style={{ flex: 1 }}>
+              ♻ Avvikle { ' ' + Object.keys(phaseOutDraft).length + ' ' } { isSmall ? `felt` : `oljefelt`}
+            </button>
+          </div>
+
           {/* <div style={{ height: "128px"}}>
             <h4 style={{ marginBottom: "0.5rem" }}>Felter som avvikles innen {getEndOfTermYear()}:</h4>
             <div style={{
@@ -446,12 +457,12 @@ export function PhaseOutDialog({
             </div>
           </div> */}
 
-          <div className={"button-row"} style={{ marginTop: "0rem", }}>
+          {/* <div className={"button-row"} style={{ marginTop: "0rem", }}>
             <button type="submit" disabled={year === "2040"}>
               Fase ut valgte felter i {year}
             </button>
             <button onClick={handleMdgPlanClick}>Velg felter fra MDGs plan</button>
-          </div>
+          </div> */}
 
         </div>
 
