@@ -165,8 +165,10 @@ export function PhaseOutDialog({
     const bData = gameData.data[b]?.[year];
 
     return (
-      (aData?.[sortKey]?.value ?? -Infinity) -
-      (bData?.[sortKey]?.value ?? -Infinity)
+      // (aData?.[sortKey]?.value ?? -Infinity) -
+      // (bData?.[sortKey]?.value ?? -Infinity)
+      (bData?.[sortKey]?.value ?? -Infinity) -
+      (aData?.[sortKey]?.value ?? -Infinity)
     );
   });
 
@@ -189,6 +191,47 @@ export function PhaseOutDialog({
     year,
     "emission",
   );
+
+  function capitalizeFirst(str: string) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  function getSortKeyTranslation(str: string) {
+    let translation = str;
+    switch (str) {
+      case "alphabetical": translation = "Alfabetisk"; break;
+      case "totalProduction": translation = "Total produksjon"; break;
+      case "emission": translation = "Utslipp"; break;
+      case "emissionIntensity": translation = "Utslippsintensitet"; break;
+      default: break;
+    }
+    return translation;
+  }
+
+  function getMeasurementUnit(str: string) {
+    let measurement = "";
+    switch (str) {
+      case "alphabetical": measurement = ""; break;
+      case "totalProduction": measurement = "Sm³"; break;
+      case "emission": measurement = "tonn CO₂"; break;
+      case "emissionIntensity": measurement = "kg CO₂e/Sm³"; break;
+      default: break;
+    }
+    return measurement;
+  }
+
+  function formatValue(value: number, key: SortKey) {
+    switch (key) {
+      case "totalProduction":
+        return `${value.toLocaleString("no-NO")} Sm³`;
+      case "emission":
+        return `${value.toFixed(1)} tonn CO₂`;
+      case "emissionIntensity":
+        return `${value.toFixed(2)} kg CO₂e/Sm³`;
+      default:
+        return "";
+    }
+  }
 
   return (
     <form className="" onSubmit={handleSubmit} style={{ width: "100%", all: "unset" }}>
@@ -257,26 +300,94 @@ export function PhaseOutDialog({
           <h3 className="phaseout-header">
             Velg felter for avvikling {year}-{getEndOfTermYear()}
           </h3>
-          <ul>
+          <ul style={{ marginTop: "0.5rem" }}>
+            <li
+              style={{
+                display: "grid",
+                gridTemplateColumns: isSmall ? "1fr 156px" : "1fr 196px",
+                alignItems: "center",
+                marginBottom: "0.5rem",
+                fontWeight: "bold",
+                borderBottom: "1px solid #cccccc80",
+              }}
+            >
+              <label style={{ paddingLeft: "1rem", fontWeight: "bold", }}>
+                Navn
+              </label>
+              <div style={{ fontWeight: "bold" }}>
+                {getSortKeyTranslation(sortKey)}
+                {sortKey !== "alphabetical" && (
+                  <>
+                    <br />
+                    ({getMeasurementUnit(sortKey)})
+                  </>
+                )}
+              </div>
+            </li>
             {sortedFields.map((k) => {
               const isDisabled = k in phaseOut;
+              const dataForYear = gameData.data[k]?.[year];
+              const value =
+                sortKey === "alphabetical"
+                  ? ""
+                  : dataForYear?.[sortKey]?.value ?? "";
+
               return (
                 <li
                   key={k}
-                  className={isDisabled ? "grayed-out-oilfield-checklist" : ""}
+                  className={`phaseout-row ${isDisabled ? "grayed-out-oilfield-checklist" : ""}`}
+                  style={{ borderBottom: "1px solid #cccccc0e", }}
                 >
-                  <label>
-                    <input
-                      disabled={isDisabled}
-                      type="checkbox"
-                      onChange={(e) => {
-                        toggle(k, e.target.checked);
-                      }}
-                      checked={!!draft[k]}
-                    />
-                    {` `}{k}
+                  <label
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: isSmall ? "1fr 156px" : "1fr 196px",
+                      alignItems: "center",
+                      width: "100%",
+                      cursor: isDisabled ? "not-allowed" : "pointer",
+                      padding: "0.25rem 0.5rem",
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+                      <input
+                        disabled={isDisabled}
+                        type="checkbox"
+                        onChange={(e) => toggle(k, e.target.checked)}
+                        checked={!!draft[k]}
+                        onClick={(e) => e.stopPropagation()} // prevent double toggling
+                      />
+                      {k}
+                    </div>
+                    <div style={{ textAlign: "left", userSelect: "none", pointerEvents: "none" }}>
+                      {value !== "" ? value.toLocaleString("no-NO") : ""}
+                    </div>
                   </label>
                 </li>
+                // <li
+                //   key={k}
+                //   className={isDisabled ? "grayed-out-oilfield-checklist" : ""}
+                //   style={{
+                //     display: "grid",
+                //     gridTemplateColumns: isSmall ? "1fr 156px" : "1fr 196px",
+                //     alignItems: "center",
+                //     borderBottom: "1px solid #cccccc0e",
+                //   }}
+                // >
+                //   <label>
+                //     <input
+                //       disabled={isDisabled}
+                //       type="checkbox"
+                //       onChange={(e) => {
+                //         toggle(k, e.target.checked);
+                //       }}
+                //       checked={!!draft[k]}
+                //     />
+                //     {` `}{k}
+                //   </label>
+                //   <div style={{ userSelect: "none", pointerEvents: "none" }}>
+                //     {value !== "" ? value.toLocaleString("no-NO") : ""}
+                //   </div>
+                // </li>
               );
             })}
           </ul>
