@@ -18,7 +18,7 @@ import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
  * production reduction and emission over time based on the phase-out schedule.
  */
 export function PlanSummary() {
-  const { phaseOut } = useContext(ApplicationContext);
+  const { year, phaseOut } = useContext(ApplicationContext);
   const navigate = useNavigate();
   const location = useLocation();
   const isSmall = useIsSmallScreen();
@@ -76,7 +76,7 @@ export function PlanSummary() {
               Uten inngrep vil oljefeltene produsere <strong style={{ color: isDarkMode ? "white" : "black" }}>{baselineEmRounded} millioner tonn CO₂</strong> innen {gameData.allYears[gameData.allYears.length - 1]}.
             </div>
             <div style={{ marginBottom: "0.5rem" }}>
-              Din plan har så langt redusert utslipp med <strong style={{ color: isDarkMode ? "white" : "black" }}>{preventedEmRounded} millioner tonn CO₂ ({reductionEmPositive}%)</strong>!
+              Din plan har så langt redusert utslipp med <strong style={{ color: isDarkMode ? "white" : "black" }}>{preventedEmRounded} millioner tonn CO₂ ({reductionEmPositive}%)</strong>{parseInt(year) > 2025 ? '!' : '.'}
             </div>
             <div style={{ marginBottom: "0.25rem" }}>
               <PlanProgressionBar
@@ -100,7 +100,7 @@ export function PlanSummary() {
               Uten inngrep vil oljefeltene produsere <strong style={{ color: isDarkMode ? "white" : "black" }}>{baselinePrRounded} milliarder fat olje</strong> innen {gameData.allYears[gameData.allYears.length - 1]}.
             </div>
             <div style={{ marginBottom: "0.5rem" }}>
-              Din plan har så langt redusert produksjonen med <strong style={{ color: isDarkMode ? "white" : "black" }}>{preventedPrRounded} milliarder fat olje ({reductionPrPositive}%)</strong>!
+              Din plan har så langt redusert produksjonen med <strong style={{ color: isDarkMode ? "white" : "black" }}>{preventedPrRounded} milliarder fat olje ({reductionPrPositive}%)</strong>{parseInt(year) > 2025 ? '!' : '.'}
             </div>
             <div style={{ marginBottom: "0.25rem" }}>
               <PlanProgressionBar
