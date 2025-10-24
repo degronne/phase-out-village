@@ -60,16 +60,14 @@ export function PlanSummary() {
         Din plan
       </h2>
 
-      {/* <div>
-          <div>Utslipp</div>
-          <div>{`${currentEmRounded} / ${baselineEmRounded} millioner tonn CO₂ (${reductionEm}%)`}</div>
-        </div>
-        <div>
-          <div>Produksjon</div>
-          <div>{`${currentPrRounded} / ${baselinePrRounded} milliarder fat olje (${reductionPr}%)`}</div>
-        </div> */}
-
-      <div style={{ width: "100%", display: "flex", flexDirection: isSmall ? "column" : "row", gap: "1.5rem", marginTop: "2rem", marginBottom: "2rem" }}>
+      <div style={{ 
+        width: "100%", 
+        display: "flex", 
+        flexDirection: isSmall ? "column" : "row", 
+        gap: "1.5rem", 
+        marginTop: isSmall ? "1rem" : "1.5rem", 
+        marginBottom: isSmall ? "1rem" : "1.5rem",
+      }}>
 
         <div style={{ width: "100%", display: "flex", flexDirection: "column", padding: "1rem", border: "1px solid #e0ffb2", borderRadius: "0.5rem" }}>
           <div>
@@ -80,7 +78,6 @@ export function PlanSummary() {
             <div style={{ marginBottom: "0.5rem" }}>
               Dine inngrep har så langt redusert utslipp med <strong style={{ color: isDarkMode ? "white" : "black" }}>{preventedEmRounded} millioner tonn CO₂ ({reductionEmPositive}%)</strong>!
             </div>
-            {/* <div>{`${currentEmRounded} / ${baselineEmRounded} millioner tonn CO₂ (${reductionEm}%)`}</div> */}
             <div style={{ marginBottom: "0.25rem" }}>
               <PlanProgressionBar
                 current={currentEm}
@@ -96,7 +93,7 @@ export function PlanSummary() {
           </div>
         </div>
 
-        <div style={{ width: "100%", display: "flex", flexDirection: "column", padding: "1rem", border: "1px solid #e0ffb2", borderRadius: "0.5rem" }}>
+        <div style={{ width: "100%", flexDirection: "column", padding: "1rem", border: "1px solid #e0ffb2", borderRadius: "0.5rem" }}>
           <div>
             <div style={{ fontWeight: "bold", fontSize: "1.25em", marginBottom: "0.5rem" }}>Produksjonsredusering</div>
             <div style={{ marginBottom: "1.5rem" }}>
@@ -105,7 +102,6 @@ export function PlanSummary() {
             <div style={{ marginBottom: "0.5rem" }}>
               Dine inngrep har så langt redusert produksjonen med <strong style={{ color: isDarkMode ? "white" : "black" }}>{preventedPrRounded} milliarder fat olje ({reductionPrPositive}%)</strong>!
             </div>
-            {/* <div>{`${currentPrRounded} / ${baselinePrRounded} milliarder fat olje (${reductionPr}%)`}</div> */}
             <div style={{ marginBottom: "0.25rem" }}>
               <PlanProgressionBar
                 current={currentPrCalc}

@@ -225,7 +225,6 @@ export function PhaseOutDialog({
             e.stopPropagation();
             navigate(from)}
           }
-          style={{ placeSelf: "end" }}
         >X
         </button>
 

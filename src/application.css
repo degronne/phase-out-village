@@ -1,6 +1,7 @@
 * {
   margin: 0;
   font-family: bureau-sans, helvetica, sans-serif;
+  box-sizing: border-box;
 }
 
 a {

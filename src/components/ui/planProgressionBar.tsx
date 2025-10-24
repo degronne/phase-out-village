@@ -1,4 +1,5 @@
 import React from "react";
+import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 
 interface PlanProgressionBarProps {
     current: number; // Current value (e.g. current emissions or production)
@@ -37,6 +38,8 @@ export const PlanProgressionBar: React.FC<PlanProgressionBarProps> = ({
     metricLabel,
     barColor = "#000",
 }) => {
+
+    const isSmall = useIsSmallScreen();
 
     let heightPixels = "16px";
     switch (size) {
@@ -127,7 +130,7 @@ export const PlanProgressionBar: React.FC<PlanProgressionBarProps> = ({
             )}
 
             {/* Middle label */}
-            {showLabel && (
+            {showLabel && !isSmall && (
                 <div
                     style={{
                         position: "absolute",
