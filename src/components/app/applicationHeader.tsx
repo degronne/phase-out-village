@@ -43,7 +43,7 @@ function ActionCard() {
         <div className={`info-card`}>
           <div>
             <div style={{ fontSize: isSmall ? "1em" : "1.25em", paddingLeft: isSmall ? "0.5rem" : "0.75rem", paddingRight: isSmall ? "0.5rem" : "0.75rem" }}>
-              {isSmall ? year : `${year} - ${parseInt(year)+(parseInt(year) === 2025 ? 3 : 4)}`}
+              {isSmall ? year : parseInt(year) == endYear ? year : `${year} - ${parseInt(year)+(parseInt(year) === 2025 ? 3 : 4)}`}
               </div>
           </div>
         </div>
