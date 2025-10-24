@@ -5,6 +5,7 @@ import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 interface MainButtonProps {
     icon: React.ReactNode;                // The icon component (e.g. <FaMap />)
     label: string;                        // The text label
+    labelSmall?: string;
     to?: string;                          // Optional navigation path
     onClick?: () => void;                 // Optional custom click handler
     title?: string;                       // Tooltip text
@@ -12,6 +13,7 @@ interface MainButtonProps {
     activeColor?: string;                 // Background when active
     defaultColor?: string;                // Background when inactive
     hideLabelOnSmall?: boolean;           // Hide text on small screens (default: true)
+    hideIconOnSmall?: boolean;
     fontSizeSmall?: string;               // Optional font size override for small screens
     fontSizeLarge?: string;               // Optional font size override for large screens
     iconSmall?: string;
@@ -52,6 +54,7 @@ interface MainButtonProps {
 export const MainButton: React.FC<MainButtonProps> = ({
     icon,
     label,
+    labelSmall,
     to,
     onClick,
     title = label,
@@ -59,6 +62,7 @@ export const MainButton: React.FC<MainButtonProps> = ({
     activeColor = "cyan",
     defaultColor = "#e0ffb2",
     hideLabelOnSmall = true,
+    hideIconOnSmall = false,
     fontSizeSmall = "1.25em",
     fontSizeLarge = "1.5em",
     iconSmall = "32px",
@@ -94,7 +98,12 @@ export const MainButton: React.FC<MainButtonProps> = ({
         >
             {/* Icon */}
             {icon && (
-                <div style={{ placeSelf: "center", width: isSmall ? iconSmall : iconLarge, height: isSmall ? iconSmall : iconLarge }}>
+                <div style={{ 
+                    display: isSmall && hideIconOnSmall ? "none" : "block",
+                    placeSelf: "center", 
+                    width: isSmall ? iconSmall : iconLarge, 
+                    height: isSmall ? iconSmall : iconLarge,
+                }}>
                     {/* React.isValidElement checks if 'icon' is a valid React element.
                         This ensures that 'icon' is something like <MyIcon /> or <svg>...</svg>,
                         not just a string, number, or undefined.
@@ -126,7 +135,7 @@ export const MainButton: React.FC<MainButtonProps> = ({
                     fontSize: isSmall ? fontSizeSmall : fontSizeLarge,
                 }}
             >
-                {label}
+                {labelSmall ?? label}
             </div>
 
             {/* Optional count badge */}

@@ -55,25 +55,34 @@ export function ApplicationFooter() {
           <MainButton
             icon={<MdEdit />}
             label={"Velg felter for avvikling"}
+            labelSmall={"Velg"}
             title="Velg felter for avvikling"
             disabled={gameEnded}
             to={`/phaseout`}
+            hideLabelOnSmall={false}
+            hideIconOnSmall={true}
           />
 
           <MainButton
             icon={<RxReset />}
             label={"Tøm valg"}
+            labelSmall={"Tøm"}
             title="Tilbakestill valgte oljefelt"
             disabled={gameEnded || (Object.keys(phaseOutDraft).length < 1)}
             onClick={() => clearSelection()}
+            hideLabelOnSmall={false}
+            hideIconOnSmall={true}
           />
 
           <MainButton
             icon={<FaRecycle />}
             label={"Avvikle!"}
+            labelSmall={"Steng"}
             disabled={gameEnded}
             count={Object.keys(phaseOutDraft).length > 0 ? Object.keys(phaseOutDraft).length : undefined}
             onClick={() => runPhaseOut()}
+            hideLabelOnSmall={false}
+            hideIconOnSmall={true}
           />
 
         </div>

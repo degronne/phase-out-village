@@ -136,22 +136,30 @@ export function ApplicationHeader() {
               <MainButton
                 icon={<FaMap />}
                 label={"Kart"}
-                // title="Kart"
+                labelSmall={"Kart"}
                 to="/map"
+                hideLabelOnSmall={false}
+                hideIconOnSmall={true}
               />
 
               <MainButton
                 icon={<BiSolidBarChartAlt2 />}
                 label={"Plan"}
+                labelSmall={"Plan"}
                 to="/plan"
+                hideLabelOnSmall={false}
+                hideIconOnSmall={true}
               />
 
               {gameEnded || (
                 <MainButton
                   icon={<MdHelp />}
                   label={"Hjelp"}
+                  labelSmall={"Hjelp"}
                   title="Hjelp"
                   to="/tutorial"
+                  hideLabelOnSmall={false}
+                  hideIconOnSmall={true}
                 />
               )}
 
@@ -160,8 +168,11 @@ export function ApplicationHeader() {
               <MainButton
                 icon={<FaRedo />}
                 label={"Restart"}
+                labelSmall={"Ny"}
                 title="Start på nytt"
                 onClick={restart}
+                hideLabelOnSmall={false}
+                hideIconOnSmall={true}
               />
 
             </div>
