@@ -50,6 +50,7 @@ export function GameOverDialog() {
             <EmissionStackedBarChart phaseOut={phaseOut} />
           </div>
         </div>
+        <div style={{ height: "1px", backgroundColor: "grey", opacity: "0.5", marginTop: "0.5rem", marginBottom: "0.5rem" }}></div>
         <h3 style={{ marginBottom: "0.5rem" }}>MDG sin plan</h3>
         <div className={"charts"}>
           <div>
