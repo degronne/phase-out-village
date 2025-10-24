@@ -20,18 +20,19 @@ import { MainButton } from "../ui/mainButton";
  * Uses React Router's `useNavigate` and `useLocation` to navigate between routes.
  */
 function ActionCard() {
-  const { year, restart } = useContext(ApplicationContext);
+  const { year, endYear, restart, getCurrentRound, getTotalRounds } = useContext(ApplicationContext);
   const navigate = useNavigate();
   const location = useLocation();
   const isSmall = useIsSmallScreen();
-  const gameEnded = year === "2040";
-  let runde = 1;
-  switch(parseInt(year)){
-    case 2028: runde = 2; break;
-    case 2032: runde = 3; break;
-    case 2036: runde = 4; break;
-    case 2040: break;
-  }
+  // const gameEnded = year === "2040";
+  const gameEnded = year === endYear.toString();
+  // let runde = 1;
+  // switch(parseInt(year)){
+  //   case 2028: runde = 2; break;
+  //   case 2032: runde = 3; break;
+  //   case 2036: runde = 4; break;
+  //   case 2040: break;
+  // }
 
   // // If the game has ended, show summary and restart buttons
   if (gameEnded)
@@ -76,7 +77,7 @@ function ActionCard() {
 
         <div className={`info-card`}>
           <div style={{ fontSize: isSmall ? "1em" : "1.25em", paddingLeft: isSmall ? "0.5rem" : "0.75rem", paddingRight: isSmall ? "0.5rem" : "0.75rem" }}>Runde:</div>
-          <div style={{ fontSize: isSmall ? "1em" : "1.25em", paddingLeft: "0rem", paddingRight: isSmall ? "0.5rem" : "0.75rem" }}>{runde} / 4</div>
+          <div style={{ fontSize: isSmall ? "1em" : "1.25em", paddingLeft: "0rem", paddingRight: isSmall ? "0.5rem" : "0.75rem" }}>{getCurrentRound()} / {getTotalRounds()}</div>
         </div>
 
         {/* <div style={{ height: "75%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div>

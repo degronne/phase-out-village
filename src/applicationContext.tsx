@@ -24,6 +24,11 @@ export const ApplicationContext = React.createContext<{
   /** Draft phase-out selections for the current period (not yet committed) */
   phaseOutDraft: PhaseOutSchedule;
   setPhaseOutDraft: Dispatch<SetStateAction<PhaseOutSchedule>>;
+  getCurrentRound(): number;
+  getTotalRounds(): number;
+  startYear: number;
+  endYear: number;
+  yearStep: number;
 }>({
   // Default context values
   year: "2025",
@@ -33,4 +38,9 @@ export const ApplicationContext = React.createContext<{
   setPhaseOut: () => {},
   phaseOutDraft: {},
   setPhaseOutDraft: () => {},
+  getCurrentRound: () => 1,
+  getTotalRounds: () => 5,
+  startYear: 2025,
+  endYear: 2040,
+  yearStep: 4,
 });

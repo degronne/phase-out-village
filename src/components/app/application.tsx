@@ -49,8 +49,14 @@ function ApplicationRoutes() {
  * - <ApplicationFooter /> → bottom navigation/footer
  */
 export function Application() {
+
+  // Constants for start year and end year, and steps
+  const startYear = 2025;
+  const endYear = 2040;
+  const yearStep = 4;
+
   // Persist the current year across sessions (initially "2025")
-  const [year, setYear] = useSessionState<Year>("year", "2025");
+  const [year, setYear] = useSessionState<Year>("year", startYear.toString() as Year);
   // Persist the current phase-out schedule (initially empty)
   const [phaseOut, setPhaseOut] = useSessionState<PhaseOutSchedule>(
     "phaseOutSchedule",
@@ -74,8 +80,8 @@ export function Application() {
     setYear((y) => {
       const year = parseInt(y);
       // Move forward to the next multiple of 4, capped at 2040
-      const nextYear = Math.min(year + 4 - (year % 4), 2040);
-      if (nextYear === 2040) navigate("/summary");
+      const nextYear = Math.min(year + yearStep - (year % yearStep), endYear);
+      if (nextYear === endYear) navigate("/summary");
       return nextYear.toString() as Year; // Return as string type Year
     });
   }
@@ -87,17 +93,40 @@ export function Application() {
    * - User is navigated back to the root ("/")
    */
   function restart() {
-    setYear("2025");
+    setYear(startYear.toString() as Year);
     setPhaseOut({});
     setPhaseOutDraft({});
+
     navigate("/");
+  }
+
+  /** Returns the current simulation round number based on the year (1–5). */
+  function getCurrentRound(): number {
+    return Math.round((parseInt(year) - startYear) / yearStep) + 1;
+  }
+
+  /** Returns the total number of rounds (fixed at 5). */
+  function getTotalRounds(): number {
+    return Math.round((endYear - startYear) / yearStep) + 1;
   }
 
   return (
     // Context provider: makes the app state and control functions available to children
     <ApplicationContext
-      value={{ year, proceed, restart, phaseOut, setPhaseOut, phaseOutDraft, setPhaseOutDraft }}
-    >
+      value={{ 
+        year, 
+        proceed, 
+        restart, 
+        phaseOut, 
+        setPhaseOut, 
+        phaseOutDraft, 
+        setPhaseOutDraft, 
+        getCurrentRound, 
+        getTotalRounds,
+        startYear,
+        endYear, 
+        yearStep,
+      }}>
       <ApplicationHeader />
       <main>
         <ApplicationRoutes />

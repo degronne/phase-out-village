@@ -64,7 +64,7 @@ export function PlanSummary() {
         width: "100%", 
         display: "flex", 
         flexDirection: isSmall ? "column" : "row", 
-        gap: "1.5rem", 
+        gap: isSmall ? "1.5rem" : "2rem", 
         marginTop: isSmall ? "1rem" : "1.5rem", 
         marginBottom: isSmall ? "1rem" : "1.5rem",
       }}>
@@ -76,7 +76,7 @@ export function PlanSummary() {
               Uten inngrep vil oljefeltene produsere <strong style={{ color: isDarkMode ? "white" : "black" }}>{baselineEmRounded} millioner tonn CO₂</strong> innen {gameData.allYears[gameData.allYears.length - 1]}.
             </div>
             <div style={{ marginBottom: "0.5rem" }}>
-              Dine inngrep har så langt redusert utslipp med <strong style={{ color: isDarkMode ? "white" : "black" }}>{preventedEmRounded} millioner tonn CO₂ ({reductionEmPositive}%)</strong>!
+              Din plan har så langt redusert utslipp med <strong style={{ color: isDarkMode ? "white" : "black" }}>{preventedEmRounded} millioner tonn CO₂ ({reductionEmPositive}%)</strong>!
             </div>
             <div style={{ marginBottom: "0.25rem" }}>
               <PlanProgressionBar
@@ -100,7 +100,7 @@ export function PlanSummary() {
               Uten inngrep vil oljefeltene produsere <strong style={{ color: isDarkMode ? "white" : "black" }}>{baselinePrRounded} milliarder fat olje</strong> innen {gameData.allYears[gameData.allYears.length - 1]}.
             </div>
             <div style={{ marginBottom: "0.5rem" }}>
-              Dine inngrep har så langt redusert produksjonen med <strong style={{ color: isDarkMode ? "white" : "black" }}>{preventedPrRounded} milliarder fat olje ({reductionPrPositive}%)</strong>!
+              Din plan har så langt redusert produksjonen med <strong style={{ color: isDarkMode ? "white" : "black" }}>{preventedPrRounded} milliarder fat olje ({reductionPrPositive}%)</strong>!
             </div>
             <div style={{ marginBottom: "0.25rem" }}>
               <PlanProgressionBar
