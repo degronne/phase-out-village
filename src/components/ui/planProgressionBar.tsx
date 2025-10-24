@@ -1,6 +1,8 @@
 import React from "react";
 import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 
+type RightLabelType = "baseline" | "prevented"
+
 interface PlanProgressionBarProps {
     current: number; // Current value (e.g. current emissions or production)
     baseline: number; // Baseline value representing 100%
@@ -13,6 +15,8 @@ interface PlanProgressionBarProps {
     includeDecimal?: boolean;
     metricLabel?: string;
     barColor?: string; // The static color of the filled bar
+    showMiddlePercentage?:boolean;
+    rightLabelType?:RightLabelType;
 }
 
 /**
@@ -37,6 +41,8 @@ export const PlanProgressionBar: React.FC<PlanProgressionBarProps> = ({
     includeDecimal = false,
     metricLabel,
     barColor = "#000",
+    showMiddlePercentage = false,
+    rightLabelType = "baseline",
 }) => {
 
     const isSmall = useIsSmallScreen();
@@ -55,7 +61,12 @@ export const PlanProgressionBar: React.FC<PlanProgressionBarProps> = ({
     const baselineRoundedWithDecimal = Math.round(baseline / (mode == "emission" ? 1_000_000 : 1_000) * 10) / 10;
     const currentRounded = Math.round(current / (mode == "emission" ? 1_000_000 : 1_000));
     const currentRoundedWithDecimal = Math.round(current / (mode == "emission" ? 1_000_000 : 1_000) * 10) / 10;
-    const reductionPr = Math.round(((current - baseline) / baseline) * 100);
+    const reductionPercent = Math.round(((current - baseline) / baseline) * 100);
+    const preventedRounded = Math.round((baseline - current) / (mode == "emission" ? 1_000_000 : 1_000));
+    const preventedRoundedWithDecimal = Math.round((baseline - current) / (mode == "emission" ? 1_000_000 : 1_000) * 10) / 10;
+
+    const rightLabelValueRounded = rightLabelType == 'baseline' ? baselineRounded : preventedRounded;
+    const rightLabelValueRoundedWithDecimal = rightLabelType == 'baseline' ? baselineRoundedWithDecimal : preventedRoundedWithDecimal; 
 
     // Opacity increases as progress decreases (so more color shows as we reduce)
     const opacity = 1 - progress;
@@ -65,17 +76,17 @@ export const PlanProgressionBar: React.FC<PlanProgressionBarProps> = ({
     const percent = progress * 100;
 
     // Fade in between 5–15%
-    if (percent < 5) {
+    if (percent < 10) {
         labelOpacity = 0;
-    } else if (percent < 15) {
-        labelOpacity = (percent - 5) / 10; // 0 → 1 between 5–15
+    } else if (percent < 20) {
+        labelOpacity = (percent - 10) / 10; // 0 → 1 between 5–15
     }
 
     // Fade out between 85–95%
-    else if (percent > 95) {
+    else if (percent > 90) {
         labelOpacity = 0;
-    } else if (percent > 85) {
-        labelOpacity = 1 - ((percent - 85) / 10); // 1 → 0 between 85–95
+    } else if (percent > 80) {
+        labelOpacity = 1 - ((percent - 80) / 10); // 1 → 0 between 85–95
     }
 
     labelOpacity = Math.max(0, Math.min(labelOpacity, 1));
@@ -130,7 +141,7 @@ export const PlanProgressionBar: React.FC<PlanProgressionBarProps> = ({
             )}
 
             {/* Middle label */}
-            {showLabel && !isSmall && (
+            {showLabel && !isSmall && showMiddlePercentage && (
                 <div
                     style={{
                         position: "absolute",
@@ -152,7 +163,7 @@ export const PlanProgressionBar: React.FC<PlanProgressionBarProps> = ({
                         transition: "left 0.5s ease, opacity 0.5s ease",
                     }}
                 >
-                    {`${progress * 100 >= 100 ? '' : reductionPr}%`}
+                    {`${progress * 100 >= 100 ? '' : reductionPercent}%`}
                 </div>
             )}
 
@@ -177,7 +188,8 @@ export const PlanProgressionBar: React.FC<PlanProgressionBarProps> = ({
                         zIndex: "2",
                     }}
                 >
-                    {`${includeDecimal ? baselineRoundedWithDecimal : baselineRounded}`}
+                    {/* {`${includeDecimal ? baselineRoundedWithDecimal : baselineRounded}`} */}
+                    {`${includeDecimal ? rightLabelValueRoundedWithDecimal : rightLabelValueRounded}`}
                 </div>
             )}
 

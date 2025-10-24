@@ -87,7 +87,9 @@ export function PlanSummary() {
                 metricLabel={`millioner tonn CO₂`}
                 size="medium"
                 barColor="hsla(0, 83%, 34%, 1.00)"
-                endColor="hsla(120, 99%, 32%, 1.00)"   // forest green
+                endColor="hsla(120, 99%, 32%, 1.00)"
+                showMiddlePercentage={true}
+                rightLabelType="prevented"
               />
             </div>
           </div>
@@ -111,7 +113,9 @@ export function PlanSummary() {
                 metricLabel={`milliarder fat olje`}
                 size="medium"
                 barColor="hsl(0, 0%, 15%)"
-                endColor="hsla(207, 100%, 47%, 1.00)"   // ocean blue
+                endColor="hsla(207, 100%, 47%, 1.00)"
+                showMiddlePercentage={true}
+                rightLabelType="prevented"
               />
             </div>
           </div>
