@@ -70,67 +70,17 @@ export const MainProgressBar: React.FC<MainProgressBarProps> = ({
 };
 
 /**
- * Calculates the progress percentage between 2025 and 2040
- * based on custom milestone years:
+ * Calculates the progress percentage of the simulation dynamically.
  *
- * | Year | Percent |
- * |------|----------|
- * | 2025 | 0%       |
- * | 2028 | 25%      |
- * | 2032 | 50%      |
- * | 2036 | 75%      |
- * | 2040 | 100%     |
+ * Maps the current year to a percentage between 0 and 100
+ * based on the start year, end year, and year step.
  *
- * The function interpolates linearly between milestones
- * for intermediate years, and clamps the value to 0–100%.
- *
- * @param {number} year - The current year (e.g. 2027).
- * @returns {number} - The calculated progress percentage (0–100).
- *
- * @example
- * calculateYearPercent(2025); // 0
- * calculateYearPercent(2028); // 25
- * calculateYearPercent(2030); // 37.5
- * calculateYearPercent(2036); // 75
- * calculateYearPercent(2040); // 100
+ * @param currentYear - The current in-game year (e.g., 2025)
+ * @param startYear - The starting year of the simulation (e.g., 2025)
+ * @param endYear - The final year of the simulation (e.g., 2040)
+ * @param yearStep - The step between simulation periods (e.g., 4)
+ * @returns A number between 0 and 100 representing the progress
  */
-// function calculateYearPercent(year: number): number {
-//   // Define milestone points with corresponding percentages.
-//   // These represent exact known year-to-progress mappings.
-
-//   // OBS: Hardcoded to 2025-2040.
-//   const milestones = [
-//     { year: 2025, percent: 0 },
-//     { year: 2028, percent: 25 },
-//     { year: 2032, percent: 50 },
-//     { year: 2036, percent: 75 },
-//     { year: 2040, percent: 100 },
-//   ];
-
-//   // If the year is before the start, clamp to 0%.
-//   if (year <= milestones[0].year) return 0;
-
-//   // If the year is beyond the last milestone, clamp to 100%.
-//   if (year >= milestones[milestones.length - 1].year) return 100;
-
-//   // Find the two milestone years the given year falls between.
-//   for (let i = 0; i < milestones.length - 1; i++) {
-//     const start = milestones[i];
-//     const end = milestones[i + 1];
-
-//     if (year >= start.year && year <= end.year) {
-//       // Calculate the fraction of progress between the two years.
-//       const fraction = (year - start.year) / (end.year - start.year);
-
-//       // Linearly interpolate between the milestone percentages.
-//       return start.percent + fraction * (end.percent - start.percent);
-//     }
-//   }
-
-//   // Fallback return (should never be reached).
-//   return 0;
-// }
-
 function calculateYearPercentDynamic(currentYear: number, startYear: number, endYear: number, yearStep: number, ): number {
   const totalRounds = Math.round((endYear - startYear) / yearStep) + 1;
   const currentRound = Math.round((currentYear - startYear) / yearStep) + 1;
@@ -141,7 +91,6 @@ function calculateYearPercentDynamic(currentYear: number, startYear: number, end
 
 export function YearProgress() {
     const { year, startYear, endYear, yearStep } = useContext(ApplicationContext);
-    // const percent = calculateYearPercent(parseInt(year));
     const percent = calculateYearPercentDynamic(parseInt(year), startYear, endYear, yearStep);
 
     return (
