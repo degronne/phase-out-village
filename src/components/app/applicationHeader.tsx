@@ -24,15 +24,7 @@ function ActionCard() {
   const navigate = useNavigate();
   const location = useLocation();
   const isSmall = useIsSmallScreen();
-  // const gameEnded = year === "2040";
   const gameEnded = year === endYear.toString();
-  // let runde = 1;
-  // switch(parseInt(year)){
-  //   case 2028: runde = 2; break;
-  //   case 2032: runde = 3; break;
-  //   case 2036: runde = 4; break;
-  //   case 2040: break;
-  // }
 
   // // If the game has ended, show summary and restart buttons
   if (gameEnded)
@@ -40,31 +32,20 @@ function ActionCard() {
       <div style={{ display: "flex", flex: 1, flexDirection: "column", padding: "0.5rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           {/* <div style={{ fontSize: "2em" }}>Året er nå 2040.</div> */}
-        <div className={`info-card`}>
-          <div>
-            <div style={{ fontSize: isSmall ? "1em" : "1.25em", paddingLeft: isSmall ? "0.5rem" : "0.75rem", paddingRight: isSmall ? "0.5rem" : "0.75rem" }}>
-              {isSmall ? year : parseInt(year) == endYear ? year : `${year} - ${parseInt(year)+(parseInt(year) === 2025 ? 3 : 4)}`}
+          <div className={`info-card`}>
+            <div>
+              <div style={{ fontSize: isSmall ? "1em" : "1.25em", paddingLeft: isSmall ? "0.5rem" : "0.75rem", paddingRight: isSmall ? "0.5rem" : "0.75rem" }}>
+                {isSmall ? year : parseInt(year) == endYear ? year : `${year} - ${parseInt(year) + (parseInt(year) === 2025 ? 3 : 4)}`}
               </div>
-          </div>
-        </div>
-
-          {/* <button
-            onClick={() => navigate("/summary", { state: { from: location } })}
-            title={`Oppsummering`}
-            style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.75rem", height: "64px" }}
-          >
-            <FcViewDetails style={{ placeSelf: "center", width: "32px", height: "32px", }} />
-            <div style={{ fontSize: isSmall ? "1em" : "1.5em" }}>
-              Oppsummering
             </div>
-          </button> */}
+          </div>
 
-        <MainButton
-          icon={<FcViewDetails />}
-          label={"Oppsummering"}
-          // title="Kart"
-          to="/summary"
-        />
+          <MainButton
+            icon={<FcViewDetails />}
+            label={"Oppsummering"}
+            // title="Kart"
+            to="/summary"
+          />
 
         </div>
 
@@ -81,11 +62,9 @@ function ActionCard() {
 
         <div className={`info-card`}>
           <div>
-            {/* {isSmall ? null : <div>Året er:</div>} */}
             <div style={{ fontSize: isSmall ? "1em" : "1.25em", paddingLeft: isSmall ? "0.5rem" : "0.75rem", paddingRight: isSmall ? "0.5rem" : "0.75rem" }}>
-              {isSmall ? year : `${year} - ${parseInt(year)+(parseInt(year) === 2025 ? 3 : 4)}`}
-              {/* {year} - {parseInt(year)+(parseInt(year) === 2025 ? 3 : 4)} */}
-              </div>
+              {isSmall ? year : `${year} - ${parseInt(year) + (parseInt(year) === 2025 ? 3 : 4)}`}
+            </div>
           </div>
         </div>
 
@@ -93,30 +72,6 @@ function ActionCard() {
           <div style={{ fontSize: isSmall ? "1em" : "1.25em", paddingLeft: isSmall ? "0.5rem" : "0.75rem", paddingRight: isSmall ? "0.5rem" : "0.75rem" }}>Runde:</div>
           <div style={{ fontSize: isSmall ? "1em" : "1.25em", paddingLeft: "0rem", paddingRight: isSmall ? "0.5rem" : "0.75rem" }}>{getCurrentRound()} / {getTotalRounds()}</div>
         </div>
-
-        {/* <div style={{ height: "75%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div>
-
-        <MainButton
-          icon={<FaMap />}
-          label={"Kart"}
-          // title="Kart"
-          to="/map"
-        />
-
-        <MainButton
-          icon={<BiSolidBarChartAlt2 />}
-          label={"Plan"}
-          to="/plan"
-        />
-
-        {gameEnded || (
-          <MainButton
-            icon={<MdHelp />}
-            label={"Hjelp"}
-            title="Hjelp"
-            to="/tutorial"
-          />
-        )} */}
 
       </div>
 
@@ -178,27 +133,27 @@ export function ApplicationHeader() {
 
             <div style={{ height: "100%", display: "flex", flex: 1, justifyContent: "end", alignItems: "center", gap: "0.5rem" }}>
 
-        <MainButton
-          icon={<FaMap />}
-          label={"Kart"}
-          // title="Kart"
-          to="/map"
-        />
+              <MainButton
+                icon={<FaMap />}
+                label={"Kart"}
+                // title="Kart"
+                to="/map"
+              />
 
-        <MainButton
-          icon={<BiSolidBarChartAlt2 />}
-          label={"Plan"}
-          to="/plan"
-        />
+              <MainButton
+                icon={<BiSolidBarChartAlt2 />}
+                label={"Plan"}
+                to="/plan"
+              />
 
-        {gameEnded || (
-          <MainButton
-            icon={<MdHelp />}
-            label={"Hjelp"}
-            title="Hjelp"
-            to="/tutorial"
-          />
-        )}
+              {gameEnded || (
+                <MainButton
+                  icon={<MdHelp />}
+                  label={"Hjelp"}
+                  title="Hjelp"
+                  to="/tutorial"
+                />
+              )}
 
               <div style={{ height: "75%", width: "0.125rem", backgroundColor: "grey", opacity: "0.25", marginLeft: "0.5rem", marginRight: "0.5rem" }}></div>
 
