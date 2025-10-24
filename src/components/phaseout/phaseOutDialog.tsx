@@ -150,27 +150,52 @@ export function PhaseOutDialog({
     }
   }
 
-  // Sort oil fields based on sort key and whether already phased out
-  const sortedFields = Object.keys(gameData.data).sort((a, b) => {
-    const aIsDisabled = a in phaseOut;
-    const bIsDisabled = b in phaseOut;
+  // // Sort oil fields based on sort key and whether already phased out
+  // const sortedFields = Object.keys(gameData.data)
+  //   .sort((a, b) => {
+  //     const aIsDisabled = a in phaseOut;
+  //     const bIsDisabled = b in phaseOut;
 
-    if (aIsDisabled && !bIsDisabled) return 1;
-    if (!aIsDisabled && bIsDisabled) return -1;
-    if (sortKey === "alphabetical") {
-      return a.localeCompare(b);
-    }
+  //     if (aIsDisabled && !bIsDisabled) return 1;
+  //     if (!aIsDisabled && bIsDisabled) return -1;
+  //     if (sortKey === "alphabetical") {
+  //       return a.localeCompare(b);
+  //     }
 
-    const aData = gameData.data[a]?.[year];
-    const bData = gameData.data[b]?.[year];
+  //     const aData = gameData.data[a]?.[year];
+  //     const bData = gameData.data[b]?.[year];
 
-    return (
-      // (aData?.[sortKey]?.value ?? -Infinity) -
-      // (bData?.[sortKey]?.value ?? -Infinity)
-      (bData?.[sortKey]?.value ?? -Infinity) -
-      (aData?.[sortKey]?.value ?? -Infinity)
-    );
-  });
+  //     return (
+  //       // (aData?.[sortKey]?.value ?? -Infinity) -
+  //       // (bData?.[sortKey]?.value ?? -Infinity)
+  //       (bData?.[sortKey]?.value ?? -Infinity) -
+  //       (aData?.[sortKey]?.value ?? -Infinity)
+  //     );
+  //   });
+
+  // const sortedFields = Object.keys(gameData.data)
+  //   .filter((k) => !(k in phaseOut))  // only enabled keys
+  //   .sort((a, b) => {
+  //     const aData = gameData.data[a]?.[year];
+  //     const bData = gameData.data[b]?.[year];
+
+  //     if (sortKey === "alphabetical") return a.localeCompare(b);
+
+  //     return (bData?.[sortKey]?.value ?? -Infinity) - (aData?.[sortKey]?.value ?? -Infinity); // descending
+  //   });
+
+  const sortedFields = useMemo(() => {
+    return Object.keys(gameData.data)
+      .filter((k) => !(k in phaseOut))
+      .sort((a, b) => {
+        const aData = gameData.data[a]?.[year];
+        const bData = gameData.data[b]?.[year];
+
+        if (sortKey === "alphabetical") return a.localeCompare(b);
+
+        return (bData?.[sortKey]?.value ?? -Infinity) - (aData?.[sortKey]?.value ?? -Infinity);
+      });
+  }, [gameData.data, phaseOut, sortKey, year]);
 
   // Calculate total production/emission reductions for draft fields
   const totalOilProduction = sumFieldValues(
@@ -326,47 +351,48 @@ export function PhaseOutDialog({
                 )}
               </div>
             </li>
-            {sortedFields.map((k) => {
-              const isDisabled = k in phaseOut;
-              const dataForYear = gameData.data[k]?.[year];
-              const value =
-                sortKey === "alphabetical"
-                  ? ""
-                  : dataForYear?.[sortKey]?.value ?? "";
+            {sortedFields
+              .map((k) => {
+                const isDisabled = k in phaseOut;
+                const dataForYear = gameData.data[k]?.[year];
+                const value =
+                  sortKey === "alphabetical"
+                    ? ""
+                    : dataForYear?.[sortKey]?.value ?? "";
 
-              return (
-                <li
-                  key={k}
-                  className={`phaseout-row ${isDisabled ? "grayed-out-oilfield-checklist" : ""}`}
-                  style={{ borderBottom: "1px solid #cccccc0e", }}
-                >
-                  <label
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: isSmall ? "1fr 156px" : "1fr 196px",
-                      alignItems: "center",
-                      width: "100%",
-                      cursor: isDisabled ? "not-allowed" : "pointer",
-                      padding: "0.25rem 0.5rem",
-                    }}
+                return (
+                  <li
+                    key={k}
+                    className={`phaseout-row ${isDisabled ? "grayed-out-oilfield-checklist" : ""}`}
+                    style={{ borderBottom: "1px solid #cccccc0e", }}
                   >
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
-                      <input
-                        disabled={isDisabled}
-                        type="checkbox"
-                        onChange={(e) => toggle(k, e.target.checked)}
-                        checked={!!draft[k]}
-                        onClick={(e) => e.stopPropagation()} // prevent double toggling
-                      />
-                      {k}
-                    </div>
-                    <div style={{ textAlign: "left", userSelect: "none", pointerEvents: "none" }}>
-                      {value !== "" ? value.toLocaleString("no-NO") : ""}
-                    </div>
-                  </label>
-                </li>
-              );
-            })}
+                    <label
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: isSmall ? "1fr 156px" : "1fr 196px",
+                        alignItems: "center",
+                        width: "100%",
+                        cursor: isDisabled ? "not-allowed" : "pointer",
+                        padding: "0.25rem 0.5rem",
+                      }}
+                    >
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+                        <input
+                          disabled={isDisabled}
+                          type="checkbox"
+                          onChange={(e) => toggle(k, e.target.checked)}
+                          checked={!!draft[k]}
+                          onClick={(e) => e.stopPropagation()} // prevent double toggling
+                        />
+                        {k}
+                      </div>
+                      <div style={{ textAlign: "left", userSelect: "none", pointerEvents: "none" }}>
+                        {value !== "" ? value.toLocaleString("no-NO") : ""}
+                      </div>
+                    </label>
+                  </li>
+                );
+              })}
           </ul>
         </div>
 
@@ -429,10 +455,10 @@ export function PhaseOutDialog({
           <div className={"button-row"} style={{ width: "100%", flex: 1, marginTop: "0rem" }}>
             <button onClick={() => setPhaseOutDraft({})} disabled={Object.keys(phaseOutDraft).length < 1}>Tøm</button>
             <button onClick={handleMdgPlanClick}>
-              { isSmall ? `Velg MDGs felter` : `Velg felter fra MDGs plan`}
-              </button>
+              {isSmall ? `Velg MDGs felter` : `Velg felter fra MDGs plan`}
+            </button>
             <button type="submit" disabled={year === "2040"} style={{ flex: 1 }}>
-              ♻ Avvikle { ' ' + Object.keys(phaseOutDraft).length + ' ' } { isSmall ? `felt` : `oljefelt`}
+              ♻ Avvikle {' ' + Object.keys(phaseOutDraft).length + ' '} {isSmall ? `felt` : `oljefelt`}
             </button>
           </div>
 
