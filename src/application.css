@@ -213,7 +213,7 @@ dialog .button-row {
     overflow-y: scroll;
     padding-bottom: 1em;
     h1 {
-      width: 100%;
+      /* width: 100%; */
       text-align: left;
       margin-left: 1rem;
       margin-top: 0.5rem;
