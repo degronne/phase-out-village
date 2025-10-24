@@ -136,7 +136,7 @@ export const MainButton: React.FC<MainButtonProps> = ({
                     fontSize: isSmall ? fontSizeSmall : fontSizeLarge,
                 }}
             >
-                {labelSmall ?? label}
+                {(isSmall && labelSmall) ? labelSmall : label}
             </div>
 
             {/* Optional count badge */}
