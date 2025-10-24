@@ -14,6 +14,7 @@ import {
   PhaseOutSchedule,
 } from "../../data/gameData";
 import { InfoTag } from "../ui/InfoTag";
+import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 
 /** Keys that can be used to sort oil fields in PhaseOutDialog. */
 type SortKey =
@@ -71,6 +72,7 @@ export function PhaseOutDialog({
   const setDraft = setPhaseOutDraft;
   const [, setSelectedOrder] = useState<OilfieldName[]>([]);
   const navigate = useNavigate();
+  const isSmall = useIsSmallScreen();
 
   const [sortKey, setSortKey] = useState<SortKey>("alphabetical");
 
@@ -188,6 +190,19 @@ export function PhaseOutDialog({
   return (
     <form className="phaseout-dialog" onSubmit={handleSubmit}>
 
+      <div className={``} style={{ display: isSmall ? "block" : "none", position: isSmall ? "fixed" : "sticky", top: "0.5rem", right: "0.5rem", zIndex: "3" }}>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            navigate(from)
+          }}
+          title="Tilbake"
+        >
+          X
+        </button>
+      </div>
+
       {/* <button
         onClick={() => navigate(from)}
         style={{ width: "fit-content", placeSelf: "end" }}
@@ -196,13 +211,6 @@ export function PhaseOutDialog({
 
       {/* Dialog header with close button and sort dropdown */}
       <div className="phaseout-dialog-header">
-        {/* <button
-          type="button"
-          className="close-phaseout-button"
-          onClick={() => navigate(from)}
-        >
-          ✖
-        </button> */}
         <div className="phaseout-sort-wrapper">
           <label className="phaseout-sort-dropdown">
             Sorter etter:{" "}
@@ -219,14 +227,27 @@ export function PhaseOutDialog({
           </label>
         </div>
 
-        <button
+        {/* <button
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             navigate(from)}
           }
         >X
+        </button> */}
+
+      <div style={{ display: isSmall ? "none" : "block", position: isSmall ? "fixed" : "sticky", top: "0.25rem", right: "0.25rem", zIndex: "3" }}>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            navigate(from)
+          }}
+          title="Tilbake"
+        >
+          X
         </button>
+      </div>
 
       </div>
 

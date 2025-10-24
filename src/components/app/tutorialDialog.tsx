@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 
 /**
  * Steps for the tutorial dialog. Each step has:
@@ -118,15 +119,38 @@ const steps = [
 export function TutorialDialog({ onClose }: { onClose?: () => void }) {
   const [index, setIndex] = useState(0);
   const last = index === steps.length - 1;
+  const isSmall = useIsSmallScreen();
 
   return (
-    <div style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "space-between" }}>
+    <div style={{ height: "100%", width: "100%", maxWidth: "100%", display: "flex", flex: 1, flexDirection: "column", justifyContent: "space-between", }}>
 
       <div
         style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: isSmall ? "end" : "space-between",
+          alignItems: "center",
+          paddingTop: isSmall ? "1rem" : ""
+        }}
+      >
+        <h2 style={{ display: isSmall ? "none" : "block" }}>{steps[index].title}</h2>
+        <button onClick={onClose} style={{ borderRadius: '1rem' }} title={`Lukk`}>✖</button>
+      </div>
+
+      <div>
+        <h2 style={{ display: isSmall ? "block" : "none", paddingLeft: "1rem"}}>{steps[index].title}</h2>
+        <div style={{ display: "flex", flex: 1, flexDirection: "column", marginTop: "1rem", marginBottom: "1rem", overflowY: "auto" }}>
+          {steps[index].body}
+        </div>
+      </div>
+
+      {/* <div
+        style={{
+          width: "100%",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          paddingTop: isSmall ? "1rem" : ""
         }}
       >
         <h2>{steps[index].title}</h2>
@@ -135,7 +159,7 @@ export function TutorialDialog({ onClose }: { onClose?: () => void }) {
 
       <div style={{ display: "flex", flex: 1, flexDirection: "column", marginTop: "1rem", marginBottom: "1rem", overflowY: "auto" }}>
         {steps[index].body}
-      </div>
+      </div> */}
 
       <div
         className="button-row"
@@ -145,6 +169,8 @@ export function TutorialDialog({ onClose }: { onClose?: () => void }) {
           justifyContent: "center",
           overflowY: "auto",
           gap: "1rem",
+          paddingTop: isSmall ? "" : "1rem",
+          paddingBottom: isSmall ? "1rem" : ""
         }}
       >
         <button
@@ -154,7 +180,7 @@ export function TutorialDialog({ onClose }: { onClose?: () => void }) {
           Tilbake
         </button>
         <span style={{ minWidth: 70, textAlign: "center" }}>
-          Steg {index + 1} / {steps.length}
+          Steg: {index + 1} / {steps.length}
         </span>
         {last ? (
           <button onClick={onClose}>Ferdig</button>

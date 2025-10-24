@@ -119,8 +119,6 @@ export function PlanSummary() {
 
       </div>
 
-      {/* <div style={{ height: "1px", backgroundColor: "grey", opacity: "0.5" }}></div> */}
-
       <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
 
         <div className={"charts"} style={{ gap: "2rem", }}>
@@ -148,14 +146,6 @@ export function PlanSummary() {
 
       </div>
 
-      {/* <div className={"charts"}>
-        <div>
-          <ProductionReductionChart phaseOut={phaseOut} />
-        </div>
-        <div>
-          <EmissionStackedBarChart phaseOut={phaseOut} />
-        </div>
-      </div> */}
     </div>
   );
 }

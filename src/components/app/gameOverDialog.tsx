@@ -31,8 +31,8 @@ export function GameOverDialog() {
 
   return (
     <Dialog open={true} onClose={() => navigate(from)}>
-      <div className={"game-over"}>
-        <div style={{ display: isSmall ? "block" : "none", position: "fixed", top: "0.25rem", right: "0.25rem", zIndex: "3" }}>
+      <div className={"game-over"} style={{ paddingLeft: "1rem", paddingRight: "1rem", paddingTop: "0.5rem", paddingBottom: "0.5rem" }}>
+        <div style={{ display: isSmall ? "block" : "none", position: "fixed", top: "0.5rem", right: "0.5rem", zIndex: "3" }}>
           <button
             onClick={() => navigate("/map", { state: { from: location } })}
             title="Tilbake"

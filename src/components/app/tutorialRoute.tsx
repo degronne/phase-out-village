@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Dialog } from "../ui/dialog";
 import { TutorialDialog } from "./tutorialDialog";
+import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 
 /**
  * TutorialRoute component renders a TutorialDialog inside a Dialog modal.
@@ -12,6 +13,7 @@ import { TutorialDialog } from "./tutorialDialog";
 export function TutorialRoute() {
   const navigate = useNavigate();
   const location = useLocation();
+  const isSmall = useIsSmallScreen();
   // Extract the "from" route from the location state.
   // This is the page from which the tutorial was opened.
   const rawFrom = (location.state as any)?.from;
@@ -31,9 +33,22 @@ export function TutorialRoute() {
     <Dialog
       open={true}
       onClose={() => navigate(from)}
-      className={`tutorial-modal`}
+      className={`${isSmall ? '' : 'tutorial-modal' }`}
     >
-      <TutorialDialog onClose={() => navigate(from)} />
+      <div style={{ 
+        width: "100%", 
+        maxWidth: "100%", 
+        height: "100%", 
+        maxHeight: "100%", 
+        display: "flex", 
+        flex: 1, 
+        alignItems: "center", 
+        placeSelf: "center", 
+        padding: isSmall ? "1rem" : ''
+      }}>
+        <TutorialDialog onClose={() => navigate(from)} />
+      </div>
+      {/* <TutorialDialog onClose={() => navigate(from)} /> */}
     </Dialog>
   );
 }
