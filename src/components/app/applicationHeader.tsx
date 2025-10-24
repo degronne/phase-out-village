@@ -104,7 +104,7 @@ export function ApplicationHeader() {
           {isSmall ? null : (
             <div style={{ height: "100%", display: "flex", flexDirection: "row", alignItems: "center" }}>
 
-              <a href="https://mdg.no/politikk/utfasing">
+              <a href="https://mdg.no/politikk/utfasing" target="_blank">
                 <img
                   style={{ maxWidth: "196px" }}
                   src={
@@ -116,7 +116,7 @@ export function ApplicationHeader() {
 
               <div style={{ height: "50%", width: "1px", backgroundColor: "white", marginRight: "1.5rem" }}></div>
               <div>
-                <a href="https://mdg.no/politikk/utfasing">
+                <a href="https://mdg.no/politikk/utfasing" target="_blank">
                   Oljespillet
                 </a>
               </div>
