@@ -43,7 +43,7 @@ function ActionCard() {
           <MainButton
             icon={<FcViewDetails />}
             label={"Oppsummering"}
-            labelSmall={`Oppsummering`}
+            labelSmall={`Resultat`}
             // title="Kart"
             to="/summary"
             hideLabelOnSmall={false}
