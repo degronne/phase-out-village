@@ -75,7 +75,7 @@ function ActionCard() {
           </div>
         </div>
 
-        <div className={`info-card`}>
+        <div className={`info-card`} style={{ display: isSmall ? "none" : "block" }}>
           <div style={{ fontSize: isSmall ? "1em" : "1.25em", paddingLeft: isSmall ? "0.5rem" : "0.75rem", paddingRight: isSmall ? "0.5rem" : "0.75rem" }}>Runde:</div>
           <div style={{ fontSize: isSmall ? "1em" : "1.25em", paddingLeft: "0rem", paddingRight: isSmall ? "0.5rem" : "0.75rem" }}>{getCurrentRound()} / {getTotalRounds()}</div>
         </div>
