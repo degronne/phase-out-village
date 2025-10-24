@@ -264,7 +264,7 @@ export function PhaseOutDialog({
           </button>
         </div>
 
-        <div className="phaseout-dialog-header">
+        <div className="phaseout-dialog-header" style={{ paddingLeft: "1rem" }}>
           <div className="phaseout-sort-wrapper">
             <label className="phaseout-sort-dropdown">
               Sorter etter:{" "}
@@ -296,11 +296,11 @@ export function PhaseOutDialog({
 
         </div>
 
-        <div className="phaseout-checkboxes" style={{ marginTop: "1.5rem" }}>
-          <h3 className="phaseout-header">
+        <div className="phaseout-checkboxes" style={{ marginTop: "1.5rem", paddingLeft: "1rem" }}>
+          <h3 className="phaseout-header" style={{ marginBottom: "1.5rem" }}>
             Velg felter for avvikling {year}-{getEndOfTermYear()}
           </h3>
-          <ul style={{ marginTop: "0.5rem" }}>
+          <ul style={{ marginTop: "0.5rem", marginLeft: 0, padding: 0 }}>
             <li
               style={{
                 display: "grid",
@@ -309,12 +309,13 @@ export function PhaseOutDialog({
                 marginBottom: "0.5rem",
                 fontWeight: "bold",
                 borderBottom: "1px solid #cccccc80",
+                padding: "0.25rem 0.5rem",
               }}
             >
-              <label style={{ paddingLeft: "1rem", fontWeight: "bold", }}>
+              <label style={{ paddingLeft: "0rem", fontWeight: "bold", }}>
                 Navn
               </label>
-              <div style={{ fontWeight: "bold" }}>
+              <div style={{ fontWeight: "bold", }}>
                 {getSortKeyTranslation(sortKey)}
                 {sortKey !== "alphabetical" && (
                   <>
@@ -363,31 +364,6 @@ export function PhaseOutDialog({
                     </div>
                   </label>
                 </li>
-                // <li
-                //   key={k}
-                //   className={isDisabled ? "grayed-out-oilfield-checklist" : ""}
-                //   style={{
-                //     display: "grid",
-                //     gridTemplateColumns: isSmall ? "1fr 156px" : "1fr 196px",
-                //     alignItems: "center",
-                //     borderBottom: "1px solid #cccccc0e",
-                //   }}
-                // >
-                //   <label>
-                //     <input
-                //       disabled={isDisabled}
-                //       type="checkbox"
-                //       onChange={(e) => {
-                //         toggle(k, e.target.checked);
-                //       }}
-                //       checked={!!draft[k]}
-                //     />
-                //     {` `}{k}
-                //   </label>
-                //   <div style={{ userSelect: "none", pointerEvents: "none" }}>
-                //     {value !== "" ? value.toLocaleString("no-NO") : ""}
-                //   </div>
-                // </li>
               );
             })}
           </ul>
