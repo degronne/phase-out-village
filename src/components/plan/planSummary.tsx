@@ -73,7 +73,7 @@ export function PlanSummary() {
           <div>
             <div style={{ fontWeight: "bold", fontSize: "1.25em", marginBottom: "0.5rem" }}>Utslippsredusering</div>
             <div style={{ marginBottom: "1.5rem" }}>
-              Uten inngrep vil oljefeltene produsere <strong style={{ color: isDarkMode ? "white" : "black" }}>{baselineEmRounded} millioner tonn CO₂</strong> innen 2040.
+              Uten inngrep vil oljefeltene produsere <strong style={{ color: isDarkMode ? "white" : "black" }}>{baselineEmRounded} millioner tonn CO₂</strong> innen {gameData.allYears[gameData.allYears.length - 1]}.
             </div>
             <div style={{ marginBottom: "0.5rem" }}>
               Dine inngrep har så langt redusert utslipp med <strong style={{ color: isDarkMode ? "white" : "black" }}>{preventedEmRounded} millioner tonn CO₂ ({reductionEmPositive}%)</strong>!
@@ -97,7 +97,7 @@ export function PlanSummary() {
           <div>
             <div style={{ fontWeight: "bold", fontSize: "1.25em", marginBottom: "0.5rem" }}>Produksjonsredusering</div>
             <div style={{ marginBottom: "1.5rem" }}>
-              Uten inngrep vil oljefeltene produsere <strong style={{ color: isDarkMode ? "white" : "black" }}>{baselinePrRounded} milliarder fat olje</strong> innen 2040.
+              Uten inngrep vil oljefeltene produsere <strong style={{ color: isDarkMode ? "white" : "black" }}>{baselinePrRounded} milliarder fat olje</strong> innen {gameData.allYears[gameData.allYears.length - 1]}.
             </div>
             <div style={{ marginBottom: "0.5rem" }}>
               Dine inngrep har så langt redusert produksjonen med <strong style={{ color: isDarkMode ? "white" : "black" }}>{preventedPrRounded} milliarder fat olje ({reductionPrPositive}%)</strong>!
