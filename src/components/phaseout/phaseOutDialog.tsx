@@ -15,6 +15,7 @@ import {
 } from "../../data/gameData";
 import { InfoTag } from "../ui/InfoTag";
 import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
+import { usePrefersDarkMode } from "../../hooks/usePrefersDarkMode";
 
 /** Keys that can be used to sort oil fields in PhaseOutDialog. */
 type SortKey =
@@ -73,6 +74,7 @@ export function PhaseOutDialog({
   const [, setSelectedOrder] = useState<OilfieldName[]>([]);
   const navigate = useNavigate();
   const isSmall = useIsSmallScreen();
+  const isDarkMode = usePrefersDarkMode();
 
   const [sortKey, setSortKey] = useState<SortKey>("alphabetical");
 
@@ -268,7 +270,9 @@ export function PhaseOutDialog({
         paddingTop: "1rem",
         paddingLeft: "1rem",
         paddingRight: "1rem",
-        backgroundColor: "#133600"
+        backgroundColor: isDarkMode ? "#133600" : "#e0ffb2",
+        color: isDarkMode ? 'inherit' : 'black',
+        // color: "#e0ffb2",
       }}>
 
         <div className={``} style={{
@@ -448,8 +452,10 @@ export function PhaseOutDialog({
           right: 0,
           padding: "1rem",
           marginTop: "0.5rem",
-          backgroundColor: "#133600",
-          borderTop: "1px solid #e0ffb2"
+          // backgroundColor: "#133600",
+          borderTop: "1px solid #e0ffb2",
+          backgroundColor: isDarkMode ? "#133600" : "#e0ffb2",
+          color: isDarkMode ? 'inherit' : 'black',
         }}>
 
           <div className={"button-row"} style={{ width: "100%", flex: 1, marginTop: "0rem" }}>
