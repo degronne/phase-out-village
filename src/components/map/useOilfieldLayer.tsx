@@ -13,15 +13,23 @@ import { GeoJSON } from "ol/format";
 import { ApplicationContext } from "../../applicationContext";
 import { gameData } from "../../data/gameData";
 
+/** Vector source containing all oilfield features loaded from GeoJSON. */
 const oilfieldSource = new VectorSource({
   url: `${import.meta.env.BASE_URL}geojson/oilfields.geojson`,
   format: new GeoJSON(),
 });
 
+/** Vector source containing all oilfield features loaded from GeoJSON. */
 function oilfieldName(f: FeatureLike) {
   return f.getProperties()["fldName"];
 }
 
+/**
+ * Creates a simple diagonal stripe pattern for filling polygons.
+ * Used for indicating phased-out oilfields.
+ * @param color Color of the stripe
+ * @returns CanvasPattern
+ */
 function simpleStripePattern(color: string) {
   const canvas = document.createElement("canvas");
   canvas.width = 8;
@@ -38,6 +46,12 @@ function simpleStripePattern(color: string) {
   return ctx.createPattern(canvas, "repeat");
 }
 
+/**
+ * Returns a style with prominent field name text displayed on the map.
+ * Font size adjusts dynamically based on resolution.
+ * @param f FeatureLike
+ * @param resolution Map resolution
+ */
 function showFieldNameStyle(f: FeatureLike, resolution: number) {
   const zoom = Math.round(Math.log2(15643.03392804097 / resolution));
   const fontSize = Math.max(12, Math.min(20, 8 + zoom));
@@ -56,6 +70,12 @@ function showFieldNameStyle(f: FeatureLike, resolution: number) {
   });
 }
 
+/**
+ * Returns a style with smaller, optional text for the field name.
+ * Used for unselected or background oilfields.
+ * @param f FeatureLike
+ * @param resolution Map resolution
+ */
 function showFieldNameIfAvailableStyle(f: FeatureLike, resolution: number) {
   const zoom = Math.round(Math.log2(15643.03392804097 / resolution));
   const fontSize = Math.max(10, Math.min(16, 6 + zoom));
@@ -73,6 +93,23 @@ function showFieldNameIfAvailableStyle(f: FeatureLike, resolution: number) {
   });
 }
 
+/**
+ * Custom React hook for managing an OpenLayers vector layer of oilfields.
+ *
+ * Handles:
+ * - Highlighting selected oilfields.
+ * - Zooming to a selected oilfield based on URL slug.
+ * - Applying different styles for phased-out vs active fields.
+ * - Displaying feature labels.
+ *
+ * @param {Map} map The OpenLayers Map instance.
+ * @param {string | undefined} slug Optional slug representing the selected oilfield.
+ * @returns VectorLayer OpenLayers object for oilfields.
+ *
+ * @example
+ * const { oilfieldLayer } = useOilfieldLayer(map, slug);
+ * // Add layer to map or use as part of a map component
+ */
 export function useOilfieldLayer(map: Map, slug: string | undefined) {
   const [selectedFieldNames, setSelectedFieldNames] = useState<Set<string>>(
     new Set(),
@@ -80,6 +117,10 @@ export function useOilfieldLayer(map: Map, slug: string | undefined) {
   const { phaseOut } = useContext(ApplicationContext);
   const navigate = useNavigate();
 
+  /**
+   * Handles map clicks on oilfield features.
+   * Navigates to the slugified URL of the clicked oilfield.
+   */
   const handleClick = useMemo(
     () => (e: MapBrowserEvent) => {
       const features = map.getFeaturesAtPixel(e.pixel, {
@@ -94,6 +135,10 @@ export function useOilfieldLayer(map: Map, slug: string | undefined) {
     [map, navigate],
   );
 
+  /**
+   * Selects and zooms to oilfields based on the provided slug.
+   * If no slug is provided, shows all oilfields.
+   */
   const selectOilField = useMemo(
     () => () => {
       const view = map.getView()!;
@@ -112,6 +157,7 @@ export function useOilfieldLayer(map: Map, slug: string | undefined) {
         return;
       }
 
+      // Determine all features corresponding to the selected aggregate field
       const selectedFields = new Set(
         Object.entries(aggregateOilFields)
           .filter(([_, v]) => v === field)
@@ -122,6 +168,7 @@ export function useOilfieldLayer(map: Map, slug: string | undefined) {
         .filter((f) => selectedFields.has(oilfieldName(f)));
 
       if (selectedFeatures.length) {
+        // Compute combined extent of selected features and zoom to fit
         const extent = createEmpty();
         for (const feature of selectedFeatures) {
           extend(extent, feature.getGeometry()!.getExtent());
@@ -143,6 +190,7 @@ export function useOilfieldLayer(map: Map, slug: string | undefined) {
     [map, slug],
   );
 
+  // Register click handler and fit map when features are loaded
   useEffect(() => {
     // Define the handler with a stable reference for cleanup
     function handleFeaturesLoadEnd() {
@@ -152,28 +200,48 @@ export function useOilfieldLayer(map: Map, slug: string | undefined) {
     oilfieldSource.once("featuresloadend", handleFeaturesLoadEnd);
     map.on("click", handleClick);
 
+    // Cleanup event listeners on unmount
     return () => {
       map.un("click", handleClick);
       oilfieldSource.un("featuresloadend", handleFeaturesLoadEnd);
     };
   }, [map, oilfieldSource, handleClick, selectOilField]);
 
+  /**
+   * Determines if a feature is currently selected.
+   * @param f FeatureLike
+   */
   function isSelected(f: FeatureLike) {
     return selectedFieldNames.has(oilfieldName(f));
   }
 
+  // Re-select oilfield whenever slug changes
   useEffect(() => selectOilField(), [selectOilField]);
+
+  /**
+   * Styles for selected features.
+   * Blue or striped blue if phased out.
+   */
   const selectedStyle = (f: FeatureLike) => {
     return phaseOut[aggregateOilFields[oilfieldName(f)]]
       ? new Style({ fill: new Fill({ color: simpleStripePattern("blue") }) })
       : new Style({ fill: new Fill({ color: "blue" }) });
   };
+
+  /**
+   * Styles for unselected features.
+   * Red or gray if phased out.
+   */
   const unselectedStyle = (f: FeatureLike) => {
     return phaseOut[aggregateOilFields[oilfieldName(f)]]
       ? new Style({ fill: new Fill({ color: "gray" }) })
       : new Style({ fill: new Fill({ color: "red" }) });
   };
 
+  /**
+   * Combined style function for all oilfields.
+   * Returns array of styles: fill + optional text.
+   */
   const oilfieldStyle = useMemo<
     (f: FeatureLike, resolution: number) => Style[]
   >(() => {
@@ -184,6 +252,7 @@ export function useOilfieldLayer(map: Map, slug: string | undefined) {
     };
   }, [selectedFieldNames, selectedStyle, unselectedStyle]);
 
+  // Create the vector layer with source and styling
   const oilfieldLayer = useMemo(
     () => new VectorLayer({ source: oilfieldSource, style: oilfieldStyle }),
     [oilfieldStyle],

@@ -1,15 +1,26 @@
 import React, { useState } from "react";
+import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 
+/**
+ * Steps for the tutorial dialog. Each step has:
+ * - title: heading of the tutorial step
+ * - body: JSX content for the step
+ */
 const steps = [
   {
     title: "Målet",
     body: (
       <>
-        <p>
-          Lag en plan for å fase ut olje- og gassfelter fram mot 2040. Du velger
-          hvilke felt som avvikles i hver 4-årsperiode, og ser effekten på
-          utslipp og produksjon.
-        </p>
+        <ul>
+          <li>
+            Lag en plan for å <b>fase ut olje- og gassfelter</b> fram mot 2040.
+          </li>
+          <li>
+            Du velger
+            hvilke felt som avvikles i hver 4-årsperiode, og ser effekten på
+            utslipp og produksjon.
+          </li>
+        </ul>
       </>
     ),
   },
@@ -17,10 +28,15 @@ const steps = [
     title: "Kart og feltliste",
     body: (
       <>
-        <p>
-          Gå til Kart for å utforske feltene. Klikk på et felt i kartet eller i
-          listen for å se detaljer om produksjon, utslipp og intensitet.
-        </p>
+        <ul>
+          <li>
+            Gå til <strong>«Kart»</strong> for å utforske feltene.
+          </li>
+          <li>
+            Klikk på et felt i kartet eller i
+            listen for å se detaljer om produksjon, utslipp og intensitet.
+          </li>
+        </ul>
       </>
     ),
   },
@@ -28,20 +44,16 @@ const steps = [
     title: "Måleenheter",
     body: (
       <>
-        <p>Litt om begrepene du ser:</p>
         <ul>
           <li>
-            GSm3: Standard kubikkmeter gass eller olje ved standard trykk og
-            temperatur. Brukes for å sammenligne volum.
+            <a href={`https://no.wikipedia.org/wiki/Standardkubikkmeter`} target="_blank">MSm³</a> (standardkubikkmeter) for volum av gass/olje.
           </li>
           <li>
-            «tusen tonn CO2e»: Utslipp målt i tusen tonn CO2-ekvivalenter
-            (CO2e). «e» betyr at også andre klimagasser er omregnet til CO2.
+            <a href={`https://no.wikipedia.org/wiki/CO2-ekvivalent`} target="_blank">CO2e</a> (CO2-ekvivalent) per
+            tusen tonn for måling av utslipp.
           </li>
           <li>
-            Utslippsintensitet (kg CO2e/BOE): Hvor mange kilo CO2-ekvivalenter
-            som slippes ut per produsert enhet energi. BOE = «barrel of oil
-            equivalent» (energiinnhold tilsvarende ett fat olje).
+            CO2e / <a href="https://en.wikipedia.org/wiki/Barrel_of_oil_equivalent" target="_blank">BOE</a> (barrel of oil equivalent) i kg for måling av utslippsintensitet.
           </li>
         </ul>
       </>
@@ -51,19 +63,14 @@ const steps = [
     title: "Velg felter for avvikling",
     body: (
       <>
-        <p>
-          Trykk «Velg felter for avvikling» i toppfeltet. I dialogen kan du:
-        </p>
         <ul>
           <li>
-            Sortere felter etter alfabet, produksjon, utslipp eller intensitet
+            Trykk <strong>«Velg felter å stenge»</strong> nede til høyre.
           </li>
-          <li>Huke av felter som skal avvikles i inneværende periode</li>
           <li>
-            Se summer for redusert produksjon og utslipp innen periodens slutt
+            Trykk <strong>«Avvikle»</strong> for å gå til neste periode.
           </li>
         </ul>
-        <p>Trykk «Fase ut valgte felter» for å gå til neste periode.</p>
       </>
     ),
   },
@@ -71,10 +78,15 @@ const steps = [
     title: "Se konsekvensene",
     body: (
       <>
-        <p>
-          Under Emissioner og Produksjon ser du grafer som oppdateres med din
-          plan. «Din plan» viser hvilke felt du allerede har avviklet.
-        </p>
+        <ul>
+          <li>
+            Under <b>Emissioner og Produksjon</b> ser du grafer som oppdateres med din
+            plan.
+          </li>
+          <li>
+            <strong>«Plan»</strong> viser hvilke felt du allerede har avviklet.
+          </li>
+        </ul>
       </>
     ),
   },
@@ -82,41 +94,66 @@ const steps = [
     title: "Fullfør og start på nytt",
     body: (
       <>
-        <p>
-          Når du når 2040 vises en oppsummering. Du kan når som helst starte på
-          nytt fra toppmenyen.
-        </p>
+        <ul>
+          <li>
+            Når du når <b>2040</b> vises en oppsummering.
+          </li>
+          <li>
+            Du kan når som helst starte på nytt fra toppmenyen.
+          </li>
+        </ul>
       </>
     ),
   },
 ];
 
+/**
+ * TutorialDialog component renders a modal dialog showing tutorial steps.
+ *
+ * Props:
+ * - onClose: optional callback when the tutorial is finished or closed.
+ *
+ * Handles navigation through steps with "Tilbake" and "Neste" buttons.
+ * Disables navigation buttons at start/end.
+ */
 export function TutorialDialog({ onClose }: { onClose?: () => void }) {
   const [index, setIndex] = useState(0);
   const last = index === steps.length - 1;
+  const isSmall = useIsSmallScreen();
 
   return (
-    <div>
+    <div style={{ height: "100%", width: "100%", maxWidth: "100%", display: "flex", flex: 1, flexDirection: "column", justifyContent: "space-between", }}>
+
       <div
         style={{
+          width: "100%",
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: isSmall ? "end" : "space-between",
           alignItems: "center",
+          paddingTop: isSmall ? "" : ""
         }}
       >
-        <h2>{steps[index].title}</h2>
-        <button onClick={onClose}>✖</button>
+        <h2 style={{ display: isSmall ? "none" : "block" }}>{steps[index].title}</h2>
+        <button onClick={onClose} style={{ borderRadius: '1rem' }} title={`Lukk`}>✖</button>
       </div>
-      <div style={{ marginTop: "0.5rem", marginBottom: "1rem" }}>
-        {steps[index].body}
+
+      <div>
+        <h2 style={{ display: isSmall ? "block" : "none", paddingLeft: "1rem"}}>{steps[index].title}</h2>
+        <div style={{ display: "flex", flex: 1, flexDirection: "column", marginTop: "1rem", marginBottom: "1rem", overflowY: "auto" }}>
+          {steps[index].body}
+        </div>
       </div>
+
       <div
         className="button-row"
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          overflowY: "auto",
           gap: "1rem",
+          paddingTop: isSmall ? "" : "1rem",
+          paddingBottom: isSmall ? "1rem" : ""
         }}
       >
         <button
@@ -126,7 +163,7 @@ export function TutorialDialog({ onClose }: { onClose?: () => void }) {
           Tilbake
         </button>
         <span style={{ minWidth: 70, textAlign: "center" }}>
-          Steg {index + 1} / {steps.length}
+          Steg: {index + 1} / {steps.length}
         </span>
         {last ? (
           <button onClick={onClose}>Ferdig</button>
@@ -139,6 +176,7 @@ export function TutorialDialog({ onClose }: { onClose?: () => void }) {
           </button>
         )}
       </div>
+
     </div>
   );
 }

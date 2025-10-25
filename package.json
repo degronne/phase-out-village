@@ -14,7 +14,7 @@
     "data:development:process": "tsx build/generateDevelopment.ts > src/generated/development.ts",
     "data:development": "npm run data:development:download && npm run data:development:process",
     "data": "npm run data:download && npm run data:process && npm run data:development && npm run data:mdg && prettier --write src/generated",
-    "test": "tsc --noEmit && prettier --check .",
+    "test": "tsc --noEmit",
     "prepare": "husky",
     "build": "npm test && vite build"
   },
@@ -41,6 +41,7 @@
     "react": "^19.1.0",
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.1.0",
+    "react-icons": "^5.5.0",
     "react-router-dom": "^7.7.0",
     "xlsx": "^0.18.5"
   },

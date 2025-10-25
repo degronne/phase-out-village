@@ -8,10 +8,19 @@ import {
   totalProduction,
 } from "../../data/gameData";
 
+/**
+ * Creates a diagonal striped pattern to use as a chart background.
+ * Useful for visualizing reductions or differences in stacked charts.
+ *
+ * @param color - The color of the stripes.
+ * @param background - The background color behind the stripes.
+ * @returns A CanvasPattern object if canvas context is available, otherwise the input color string.
+ */
 function createStipedPattern(
   color: string,
   background: string,
 ): CanvasPattern | string {
+  // Create an offscreen canvas for pattern drawing
   const stripes = document.createElement("canvas");
   stripes.width = 10;
   stripes.height = 10;
@@ -19,9 +28,11 @@ function createStipedPattern(
 
   if (!ctx) return color;
 
+  // Fill background
   ctx.fillStyle = background;
   ctx.fillRect(0, 0, stripes.width, stripes.height);
 
+  // Draw diagonal stripe
   ctx.strokeStyle = color;
   ctx.lineWidth = 2;
   ctx.beginPath();
@@ -32,6 +43,13 @@ function createStipedPattern(
   return ctx.createPattern(stripes, "repeat") as CanvasPattern;
 }
 
+/**
+ * Displays a stacked bar chart showing total production and reduction per year for all fields.
+ * - Shows remaining oil and gas production from the user's plan.
+ * - Shows reduction compared to baseline production.
+ *
+ * @param phaseOut - The phase-out schedule to calculate user plan reductions.
+ */
 export function ProductionReductionChart({
   phaseOut,
 }: {
@@ -39,11 +57,13 @@ export function ProductionReductionChart({
 }) {
   const textColor = usePrefersDarkMode() ? "#fff" : "#000";
 
-  const userPlan = totalProduction(phaseOut);
-  const baseline = totalProduction();
+  const userPlan = totalProduction(phaseOut); // User's plan production
+  const baseline = totalProduction(); // Baseline production without any reductions
 
+  // Extract numerical series for oil and gas from user plan
   const remainingOil = numberSeries(userPlan, "productionOil");
 
+  // Calculate reductions compared to baseline
   const reductionOil = numberSeries(baseline, "productionOil").map((base, i) =>
     Math.max((base ?? 0) - (remainingOil[i] ?? 0), 0),
   );
@@ -117,7 +137,7 @@ export function ProductionReductionChart({
         labels: gameData.gameYears,
         datasets: [
           {
-            label: "Gjenværende oljeproduksjon",
+            label: "Gjenværende oljeprod.",
             data: remainingOil,
             borderColor: "#4a90e2",
             backgroundColor: usePrefersDarkMode() ? "#2A5D8F" : "#4DA3FF",
@@ -131,7 +151,7 @@ export function ProductionReductionChart({
             stack: "PLAN",
           },
           {
-            label: "Redusjon olje",
+            label: "Reduksjon olje",
             data: reductionOil,
             borderColor: "orange",
             backgroundColor: usePrefersDarkMode()
@@ -140,7 +160,7 @@ export function ProductionReductionChart({
             stack: "PLAN",
           },
           {
-            label: "Redusjon gass",
+            label: "Reduksjon gass",
             data: reductionGas,
             borderColor: "orange",
             backgroundColor: usePrefersDarkMode()

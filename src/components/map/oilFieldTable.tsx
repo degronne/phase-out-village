@@ -4,7 +4,16 @@ import * as XLSX from "xlsx";
 import { oilFieldToExcel } from "../dataView/exportToExcel";
 import { gameData } from "../../data/gameData";
 
+/**
+ * Component that renders a table with yearly data for a specific oil field.
+ * Includes columns for oil production, gas production, emissions, and emission intensity.
+ * Provides a button to export the table as an Excel file.
+ */
 export function OilFieldTable({ field }: { field: string }) {
+  /**
+   * Handle click on "Export to Excel" button.
+   * Creates a workbook with one sheet containing the data for the selected oil field.
+   */
   function handleExportClick() {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(

@@ -9,13 +9,22 @@ import {
   yearsInRange,
 } from "../../data/gameData";
 
+/**
+ * Bar chart showing combined oil/condensate production and gas exports for a specific oil field,
+ * including reductions compared to baseline production.
+ *
+ * @param props.field - The name of the oil field to display production data for.
+ */
 export function CombinedProductionForFieldChart({ field }: { field: string }) {
   const { phaseOut } = useContext(ApplicationContext);
 
+  // Determine text color based on dark mode preference
   const textColor = usePrefersDarkMode() ? "#fff" : "#000";
 
+   // Get raw dataset for the field
   const dataset = gameData.data[field];
 
+  // Convert production data to timeseries and map to chart format {x: year, y: value}
   const productionOil = toTimeseries(
     truncatedDataset(dataset, phaseOut[field]),
     "productionOil",
@@ -26,6 +35,7 @@ export function CombinedProductionForFieldChart({ field }: { field: string }) {
     "productionGas",
   ).map(([year, value]) => ({ x: year, y: value }));
 
+  // Baseline production without any phase-out reductions
   const baselineOil = toTimeseries(dataset, "productionOil").map(
     ([year, value]) => ({ x: year, y: value }),
   );
@@ -34,6 +44,7 @@ export function CombinedProductionForFieldChart({ field }: { field: string }) {
     ([year, value]) => ({ x: year, y: value }),
   );
 
+  // Calculate reductions compared to baseline
   const reductionOil = productionOil.map((year, i) => ({
     x: year.x,
     y: baselineOil[i].y - (year.y ?? 0),
@@ -44,6 +55,10 @@ export function CombinedProductionForFieldChart({ field }: { field: string }) {
     y: baselineGas[i].y - (year.y ?? 0),
   }));
 
+  /**
+   * Determine the first year to display based on available production data
+   * Returns the earliest year among oil or gas production
+   */
   function calcYears() {
     if (productionOil[0].x <= productionGas[0].x) {
       return parseInt(productionGas[0].x);
@@ -54,6 +69,16 @@ export function CombinedProductionForFieldChart({ field }: { field: string }) {
 
   const years = yearsInRange(calcYears(), 2040);
 
+  // Erlend: Hm... First of all, I think there is a typo in the function name createStipedPattern.
+  // Secondly, I think this function is being defined in several files?
+
+  /**
+   * Create a striped canvas pattern for representing reductions in the chart
+   *
+   * @param color - Color of the stripes
+   * @param background - Background color underneath stripes
+   * @returns CanvasPattern | string
+   */
   function createStipedPattern(
     color: string,
     background: string,

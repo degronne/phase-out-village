@@ -29,6 +29,12 @@ ChartJS.register(
   annotationPlugin,
 );
 
+/**
+ * Scatter chart showing emission intensity versus production for all fields in a given year.
+ *
+ * @param props.year - The year to display data for.
+ * @param props.phaseOut - Object describing which fields are phased out and when.
+ */
 export function EmissionIntensityChart({
   phaseOut,
   year,
@@ -77,9 +83,9 @@ export function EmissionIntensityChart({
             bodySpacing: 2,
             callbacks: {
               label: (context) => {
-                const emission = context.parsed.y.toFixed(1);
+                const emission = context.parsed.y?.toFixed(1) ?? '-';
                 const production = Math.round(
-                  context.parsed.x,
+                  context.parsed.x ?? 0,
                 ).toLocaleString();
                 const fieldName = context.dataset.label as string;
                 const isPhasedOut = fieldName in phaseOut;

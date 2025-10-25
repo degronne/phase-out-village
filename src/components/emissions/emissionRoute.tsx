@@ -6,6 +6,7 @@ import { EmissionStackedBarRoute } from "./emissionStackedBarRoute";
 import { EmissionSummaryPage } from "./emissionSummaryPage";
 import { ApplicationContext } from "../../applicationContext";
 
+/** Defines the routes for emissions visualization pages. */
 export function EmissionRoute() {
   const { phaseOut } = useContext(ApplicationContext);
   return (

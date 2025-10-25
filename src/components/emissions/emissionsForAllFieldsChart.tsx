@@ -6,6 +6,11 @@ import {
   xyDataSeries,
 } from "../../data/gameData";
 
+/**
+ * Line chart showing total annual emissions for all fields.
+ *
+ * @param props.phaseOut - Object describing phased-out fields.
+ */
 export function EmissionForAllFieldsChart({
   phaseOut,
 }: {

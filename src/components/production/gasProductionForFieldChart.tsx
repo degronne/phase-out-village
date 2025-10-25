@@ -4,6 +4,11 @@ import { Line } from "react-chartjs-2";
 import { isEstimated } from "../charts/isEstimated";
 import { gameData, toTimeseries, truncatedDataset } from "../../data/gameData";
 
+/**
+ * Line chart displaying annual gas production for a specific oil field.
+ *
+ * @param props.field - The name of the oil field to display gas production data for.
+ */
 export function GasProductionForFieldChart({ field }: { field: string }) {
   const { phaseOut } = useContext(ApplicationContext);
   const dataset = gameData.data[field];

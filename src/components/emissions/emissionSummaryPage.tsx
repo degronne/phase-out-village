@@ -11,11 +11,11 @@ export function EmissionSummaryPage({
 }) {
   const { year } = useContext(ApplicationContext);
   return (
-    <div className={"charts"}>
-      <div>
+    <div className={"charts"} style={{ gap: "2rem",}}>
+      <div style={{ border: "1px solid rgba(255,255,255,0.0)", borderRadius: "0.5rem", padding: "1rem"}}>
         <EmissionStackedBarChart phaseOut={phaseOut} />
       </div>
-      <div>
+      <div style={{ border: "1px solid rgba(255,255,255,0.0)", borderRadius: "0.5rem", padding: "1rem"}}>
         <EmissionIntensityChart year={year} phaseOut={phaseOut} />
       </div>
     </div>

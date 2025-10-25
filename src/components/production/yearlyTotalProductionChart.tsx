@@ -23,14 +23,27 @@ ChartJS.register(
   Legend,
 );
 
+/**
+ * Renders a stacked bar chart showing yearly total oil and gas production.
+ * - Uses phase-out plan from context
+ * - Colors are adapted for dark/light mode
+ */
 export function YearlyTotalProductionChart() {
   const { phaseOut } = useContext(ApplicationContext);
+
+  // Calculate total production (oil and gas) per year based on the phase-out schedule
   const production = totalProduction(phaseOut);
+
+  // Extract the years from the production object to use as x-axis labels
   const years = Object.keys(production) as Year[];
+
   const textColor = usePrefersDarkMode() ? "#fff" : "#000";
+
+  // Extract gas production values for each year to use as dataset for the chart
   const gasValues = Object.values(production).map(
     ({ productionGas }) => productionGas?.value,
   );
+  // Extract oil/fluids production values for each year to use as dataset for the chart
   const oilValues = Object.values(production).map(
     ({ productionOil }) => productionOil?.value,
   );
@@ -49,6 +62,7 @@ export function YearlyTotalProductionChart() {
           tooltip: { mode: "index", intersect: false },
           legend: { position: "top", labels: { color: textColor } },
         },
+         // Interaction mode for tooltips and highlighting
         interaction: { mode: "index", intersect: false },
         scales: {
           x: {
@@ -72,19 +86,19 @@ export function YearlyTotalProductionChart() {
         },
       }}
       data={{
-        labels: years,
+        labels: years, // x-axis labels (years)
         datasets: [
           {
             label: "Olje/væskeproduksjon",
             data: oilValues,
             backgroundColor: usePrefersDarkMode() ? "#2A5D8F" : "#4DA3FF",
-            stack: "production",
+            stack: "production", // Stack all production datasets together
           },
           {
             label: "Gasseksport",
             data: gasValues,
             backgroundColor: usePrefersDarkMode() ? "#D64545" : "#FF3333",
-            stack: "production",
+            stack: "production", // Stack all production datasets together
           },
         ],
       }}
