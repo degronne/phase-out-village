@@ -30,7 +30,7 @@ export function ApplicationFooter() {
   return (
     <footer>
 
-      {gameEnded ? <div style={{ height: "64px" }}></div> : (
+      {gameEnded ? <div style={{ height: "0px" }}></div> : (
         <div style={{ display: "flex", flex: 1, alignItems: "center", gap: "0.5rem", }}>
 
           <div style={{ display: "flex", flex: 1, alignSelf: "start", gap: "0.5rem", }}>
