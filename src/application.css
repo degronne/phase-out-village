@@ -4,6 +4,12 @@
   box-sizing: border-box;
 }
 
+:root {
+  --skog: #133600;
+  --lime: #e0ffb2;
+  --gran: #347103;
+}
+
 a {
   color: unset;
 }
@@ -12,6 +18,13 @@ ul {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+}
+
+:root,
+dialog {
+  color-scheme: light dark;
+  background-color: var(--lime);
+  color: var(--skog);
 }
 
 dialog {
@@ -62,16 +75,6 @@ dialog::backdrop {
 
 &:disabled {
   color: revert;
-}
-
-:root,
-dialog {
-  --skog: #133600;
-  --lime: #e0ffb2;
-  --gran: #347103;
-  color-scheme: light dark;
-  background-color: var(--lime);
-  color: var(--skog);
 }
 
 button {
