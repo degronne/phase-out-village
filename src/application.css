@@ -24,6 +24,7 @@ dialog {
   margin: auto;
   padding: 0;
   border-radius: 1rem;
+  clip-path: inset(0 round 1rem);
   @media (max-width: 600px) {
     all: unset;
     display: flex;
@@ -42,9 +43,9 @@ dialog {
   }
 }
 
-/* dialog::backdrop {
+dialog::backdrop {
   background-color: rgb(0 0 0 / 0.5);
-} */
+}
 
 .tutorial-modal {
   width: min(789px, 92vw);
