@@ -10,7 +10,7 @@ import {
 import { calculateFieldData } from "./calculateFieldData";
 import { fromEntries } from "./fromEntries";
 
-// Erlend: Is "generated" derived from Excel files? (can try to confirm it later)
+// Is "generated" derived from Excel files? (can try to confirm it later)
 
 /**
  * Conversion factor between oil equivalent and barrels.

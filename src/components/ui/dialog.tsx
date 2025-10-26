@@ -48,7 +48,7 @@ export function Dialog({
           e.clientY <= rect.bottom;
         if (!clickedInDialog) dialog.close(); // Close if the click was outside.
       }
-      // Erlend: Possible alternative way?
+      // Possible alternative way?
       // Close only if the click target is *outside* the dialog element
       // if (!dialog.contains(e.target as Node)) {
       //   dialog.close();

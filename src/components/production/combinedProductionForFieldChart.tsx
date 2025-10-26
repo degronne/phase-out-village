@@ -69,7 +69,7 @@ export function CombinedProductionForFieldChart({ field }: { field: string }) {
 
   const years = yearsInRange(calcYears(), 2040);
 
-  // Erlend: Hm... First of all, I think there is a typo in the function name createStipedPattern.
+  // I think there is a typo in the function name createStipedPattern.
   // Secondly, I think this function is being defined in several files?
 
   /**
