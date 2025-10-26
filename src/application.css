@@ -38,12 +38,13 @@ dialog {
     top: 0;
     left: 0;
     background: white;
+    overflow-y: auto;
   }
 }
 
-dialog::backdrop {
+/* dialog::backdrop {
   background-color: rgb(0 0 0 / 0.5);
-}
+} */
 
 .tutorial-modal {
   width: min(789px, 92vw);
