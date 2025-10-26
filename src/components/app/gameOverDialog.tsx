@@ -32,7 +32,8 @@ export function GameOverDialog() {
   return (
     <Dialog open={true} onClose={() => navigate(from)}>
       <div className={"game-over"} style={{ paddingLeft: "1rem", paddingRight: "1rem", paddingTop: "0.5rem", paddingBottom: "0.5rem" }}>
-        <div style={{ display: isSmall ? "block" : "none", position: "fixed", top: "0.5rem", right: "0.5rem", zIndex: "3" }}>
+
+        <div style={{ display: isSmall ? "block" : "none", position: "fixed", top: "1rem", right: "1rem", zIndex: "3" }}>
           <button
             onClick={() => navigate("/map", { state: { from: location } })}
             title="Tilbake"
@@ -40,7 +41,9 @@ export function GameOverDialog() {
             X
           </button>
         </div>
+
         <h2 style={{ marginBottom: "0.5rem" }}>Hvordan gikk det?</h2>
+
         <h3 style={{ marginBottom: "0.5rem" }}>Din plan</h3>
         <div className={"charts"}>
           <div>
@@ -50,9 +53,11 @@ export function GameOverDialog() {
             <EmissionStackedBarChart phaseOut={phaseOut} />
           </div>
         </div>
+
         <div style={{ height: "1px", backgroundColor: "grey", opacity: "0.5", marginTop: "0.5rem", marginBottom: "0.5rem" }}></div>
+
         <h3 style={{ marginBottom: "0.5rem" }}>MDG sin plan</h3>
-        <div className={"charts"}>
+        <div className={"charts"} style={{ backgroundColor: ''}}>
           <div>
             <ProductionReductionChart phaseOut={mdgPlan} />
           </div>
@@ -60,8 +65,10 @@ export function GameOverDialog() {
             <EmissionStackedBarChart phaseOut={mdgPlan} />
           </div>
         </div>
+
         <div style={{ display: isSmall ? "block" : "none", height: "1px", backgroundColor: "grey", opacity: "0.5", marginTop: "1rem", marginBottom: "0.5rem" }}></div>
-        <div className="button-row" style={{ marginBottom: "0.5rem", marginTop: "1rem"}}>
+
+        <div className="button-row" style={{ marginBottom: "0.5rem", marginTop: "1rem" }}>
           <div>
             <button onClick={() => navigate("/map")} style={{ fontSize: "1.25em" }}>🔍 Se over din plan</button>
           </div>
@@ -69,6 +76,7 @@ export function GameOverDialog() {
             <button onClick={restart} style={{ fontSize: "1.25em" }}>↺ Prøv på nytt</button>
           </div>
         </div>
+
       </div>
     </Dialog>
   );

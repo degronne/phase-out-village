@@ -46,7 +46,7 @@ export type Slugify<S extends string> =
 */
 export function slugify<T extends string>(name: T): Slugify<T> {
   // Convert to lowercase and replace any sequence of whitespace with a single dash
-  // Erlend: Could it be useful to trim first?
+  // Could it be useful to trim first?
   // return name.trim().toLowerCase().replace(/\s+/g, "-") as Slugify<T>;
   return name.toLowerCase().replace(/\s+/g, "-") as Slugify<T>;
 }

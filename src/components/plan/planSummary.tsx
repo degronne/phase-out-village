@@ -112,7 +112,7 @@ export function PlanSummary() {
                 includeDecimal={true}
                 metricLabel={`milliarder fat olje`}
                 size="medium"
-                barColor="hsl(0, 0%, 15%)"
+                barColor="hsla(0, 0%, 23%, 1.00)"
                 endColor="hsla(207, 100%, 47%, 1.00)"
                 showMiddlePercentage={true}
                 rightLabelType="prevented"

@@ -4,6 +4,12 @@
   box-sizing: border-box;
 }
 
+:root {
+  --skog: #133600;
+  --lime: #e0ffb2;
+  --gran: #347103;
+}
+
 a {
   color: unset;
 }
@@ -18,13 +24,12 @@ dialog {
   margin: auto;
   padding: 0;
   border-radius: 1rem;
+  clip-path: inset(0 round 1rem);
   @media (max-width: 600px) {
     all: unset;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    /* width: 100vw;
-    height: 100vh; */
     width: 100%;
     height: 100%;
     border-radius: 0;
@@ -34,6 +39,7 @@ dialog {
     top: 0;
     left: 0;
     background: white;
+    overflow-y: auto;
   }
 }
 
@@ -66,9 +72,6 @@ dialog::backdrop {
 
 :root,
 dialog {
-  --skog: #133600;
-  --lime: #e0ffb2;
-  --gran: #347103;
   color-scheme: light dark;
   background-color: var(--lime);
   color: var(--skog);

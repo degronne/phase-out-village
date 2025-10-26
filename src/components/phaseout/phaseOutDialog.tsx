@@ -3,7 +3,7 @@ import { DataField, Year } from "../../data/types";
 import React, { FormEvent, useContext, useMemo, useState } from "react";
 import { ApplicationContext } from "../../applicationContext";
 import { EmissionIntensityBarChart } from "../charts/emissionIntensityBarChart";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./phaseOut.css";
 import { mdgPlan } from "../../generated/dataMdg";
 import { fromEntries } from "../../data/fromEntries";
@@ -73,6 +73,7 @@ export function PhaseOutDialog({
   const setDraft = setPhaseOutDraft;
   const [, setSelectedOrder] = useState<OilfieldName[]>([]);
   const navigate = useNavigate();
+  const location = useLocation();
   const isSmall = useIsSmallScreen();
   const isDarkMode = usePrefersDarkMode();
 
@@ -100,7 +101,8 @@ export function PhaseOutDialog({
     setPhaseOut((phaseOut) => ({ ...phaseOut, ...draft }));
     setPhaseOutDraft({}); // Clear the draft after submit
     proceed();
-    close();
+    // navigate("/plan", { state: { from: location } }); // Bugs out phaseOutDraft selection, so don't use
+    close(); // Can't be used in tandem with navigate, so it's either or
   }
 
   const periodEnd = (parseInt(year) + 3).toString();
